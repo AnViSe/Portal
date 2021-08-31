@@ -1,0 +1,8 @@
+.layout-fixed .main-sidebar-custom .sidebar {
+  height: calc(100% - ((3.5rem + 3.5rem) + 1px));
+}
+
+.layout-fixed .main-sidebar-custom .sidebar-custom {
+  height: 3.5rem;
+  padding: 0.5rem 0.5rem;
+}
