@@ -14,6 +14,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'allauth',
+    'allauth.account',
+
     'rest_framework',
     'rest_framework_datatables',
     'django_filters',
