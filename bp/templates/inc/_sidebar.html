@@ -1,0 +1,21 @@
+<aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+    {% block logo %}
+    {% include 'inc/_sidebar_logo.html' %}
+    {% endblock %}
+    <div class="sidebar">
+        {% block user %}
+        {% include 'inc/_sidebar_user.html' %}
+        {% endblock %}
+
+        {% block search %}
+        {% include 'inc/_sidebar_search.html' %}
+        {% endblock %}
+
+        {% block menu %}
+        {% include 'inc/_sidebar_menu.html' %}
+        {% endblock %}
+    </div>
+    {% block custom %}
+    {% include 'inc/_sidebar_custom.html' %}
+    {% endblock %}
+</aside>
