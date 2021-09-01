@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 
 urlpatterns = [
     path('', include('home.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/logout/', LogoutView.as_view(), name="account_logout"),
     path('accounts/', include('allauth.urls')),
     # path('api/v1/', include('config.urls_api_v1')),
     # path('refs/', include('references.urls')),
