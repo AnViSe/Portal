@@ -16,6 +16,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'widget_tweaks',
 
     'welcome',
     'home',
@@ -78,6 +79,7 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
 
 try:
     from .local_settings import *

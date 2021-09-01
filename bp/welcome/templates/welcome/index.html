@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -65,8 +65,8 @@
 <body>
 <div class="flex-center position-ref full-height">
     <div class="top-right links">
-        <a href="{% url 'account_login' %}">Вход</a>
-        <a href="{% url 'account_signup' %}">Регистрация</a>
+        <a href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+        <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
     </div>
     <div class="content">
         <div class="title m-b-md">

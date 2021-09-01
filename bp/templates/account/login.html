@@ -1,23 +1,73 @@
 {% extends "account/base.html" %}
-
-{% load i18n %}
-{% load account %}
-
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% load widget_tweaks i18n %}
 
 {% block content %}
-<h1>{% trans "Sign In" %}</h1>
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+<div class="login-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="{% url 'home' %}" class="h1">Бизнес-портал</a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Вам необходимо авторизоваться</p>
+            <form class="login" id="login_form" method="post" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
 
+                {% for field in form.visible_fields %}
+                {% if field.name == 'remember' %}
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            {{ field }}
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                    </div>
+                </div>
+                {% else %}
+                <div class="input-group mb-3">
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            {% if field.name == 'login' %}
+                            <span class="fas fa-user"></span>
+                            {% elif field.name == 'password' %}
+                            <span class="fas fa-lock"></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url 'account_reset_password' %}">Забыл пароль</a>
+                </div>
+                <div class="col-6">
+                    <a href="{% url 'account_signup' %}" class="text-center">Регистрация</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
