@@ -27,6 +27,7 @@ INSTALLED_APPS = [
 
     'welcome',
     'home',
+    'accounts',
     'references',
     'accounts',
 ]
