@@ -2,10 +2,16 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Account Inactive" %}{% endblock %}
-
 {% block content %}
-<h1>{% trans "Account Inactive" %}</h1>
-
-<p>{% trans "This account is inactive." %}</p>
+<div class="login-box">
+    <div class="card card-outline card-danger">
+        <div class="card-header text-center">
+            <a href="{% url 'home' %}" class="h1">Бизнес-портал</a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Пользователь не активен</p>
+            <p>Учетная запись данного пользователя отключена.</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
