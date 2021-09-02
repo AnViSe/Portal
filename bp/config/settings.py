@@ -20,6 +20,7 @@ INSTALLED_APPS = [
 
     'welcome',
     'home',
+    'accounts',
 ]
 
 MIDDLEWARE = [
