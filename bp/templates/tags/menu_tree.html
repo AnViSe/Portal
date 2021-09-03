@@ -1,0 +1,17 @@
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+        data-accordion="false">
+        {% for menu in menus %}
+        <li class="nav-item">
+            <a href="{% url menu.url %}" class="nav-link">
+                <i class="nav-icon {% if menu.icon %}{{ menu.icon }}{% else %}fas fa-circle{% endif %}"></i>
+                <p>{{ menu.title }}
+                    {% if menu.badge %}
+                    <span class="right badge badge-danger">{{ menu.badge }}</span>
+                    {% endif %}
+                </p>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>

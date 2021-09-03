@@ -18,8 +18,13 @@ INSTALLED_APPS = [
     'rest_framework_datatables',
     'django_filters',
 
+    'allauth',
+    'allauth.account',
+    'widget_tweaks',
+
     'welcome',
     'home',
+    'accounts',
     'references',
 ]
 
@@ -91,6 +96,59 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables.pagination.DatatablesPageNumberPagination',
     'PAGE_SIZE': 50,
 }
+
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+# ACCOUNT_AUTHENTICATION_METHOD (= "username" | "email" | "username_email")
+# : укажите используемый метод входа (имя пользователя, адрес электронной почты или один из двух)
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+# : крайний срок для подтверждения по электронной почте (дни)
+
+# ACCOUNT_EMAIL_VERIFICATION (= "необязательно")
+# : метод проверки электронной почты при регистрации: choose one of "mandatory", "optional", or "none"
+
+# ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN (= 180)
+# : время охлаждения после отправки сообщения (в секундах)
+
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT (= 5)
+# : количество неудачных попыток входа
+
+# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT (= 300)
+# : продолжительность запрещенных попыток входа пользователя с момента последней неудачной попытки входа
+
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+# : измените на True, пользователи будут автоматически входить в систему после подтверждения своего адреса электронной почты.
+
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
+# : автоматически выходить из системы после изменения или установки пароля
+
+# ACCOUNT_LOGIN_ON_PASSWORD_RESET (= False)
+# : измените на True, пользователь автоматически войдет в систему после сброса пароля
+
+# ACCOUNT_SESSION_REMEMBER (= Нет)
+# : управление жизненным циклом сеанса, варианты: False, True
+
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
+# : нужно ли пользователю дважды вводить адрес электронной почты при регистрации
+
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+# : требуется ли пользователю дважды вводить пароль при регистрации
+
+ACCOUNT_USERNAME_BLACKLIST = ['admin, Admin']
+# : список имен пользователей, которые пользователи не могут использовать
+
+# ACCOUNT_UNIQUE_EMAIL (= True)
+# : повысить уникальность адресов электронной почты
+
+ACCOUNT_USERNAME_MIN_LENGTH = 3
+# целое число с минимальной длиной, допустимой для имени пользователя
+
+ACCOUNT_LOGOUT_REDIRECT_URL = "home"
+# Установить ссылку перехода после выхода из системы
+
 
 
 try:
