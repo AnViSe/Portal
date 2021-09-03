@@ -12,6 +12,10 @@ class BaseRefModel(models.Model):
     status = models.SmallIntegerField(verbose_name='Статус',
                                       default=1)
 
+    # @property
+    # def actions(self):
+    #     return '<button>Action</button>'
+
     class Meta:
         app_label = 'references'
         abstract = True

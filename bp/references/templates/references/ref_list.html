@@ -1,0 +1,50 @@
+{% extends 'references/index.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{{ block.super }}
+{% include 'inc/_stylesheet_dt.html' %}
+{% endblock %}
+
+{% block content %}
+<table id="ref-table" width="100%" class="table table-hover table-sm no-footer"
+       data-server-side="true" data-ajax="{% url url_list %}?format=datatables">
+    <thead>
+    <tr>
+        {% for field in field_list %}
+        <th data-data="{{ field.name }}">{{ field.title }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+</table>
+{% endblock %}1
+
+{% block scripts %}
+{{ block.super }}
+{% include 'inc/_scripts_dt.html' %}
+<script type="text/javascript">
+function prepareDataTableServerSide(){
+    $('#ref-table').DataTable({
+        columnDefs: [{
+            targets: -1,
+            data: null,
+            defaultContent: 'gdgfd'
+        }],
+        dom: "<'card-header'<'row'<'col-sm-6 col-md-8'B><'col-sm-6 col-md-4'f>>><'card-body table-responsive p-1'tr><'card-footer clearfix'<'row'<'col-md'l><'col-md'i><'col-md'p>>>",
+        language: {
+            url: "{% static 'plugins/datatables/Russian.json' %}"
+        },
+        lengthMenu: [
+            [ 15, 25, 50, 100, -1 ],
+            [ '15', '25', '50', '100', 'Все' ]
+        ],
+    });
+}
+function edit_row(url) {
+    alert(url);
+}
+$(document).ready(function(){
+    prepareDataTableServerSide();
+});
+</script>
+{% endblock scripts %}
