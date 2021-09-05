@@ -1,0 +1,39 @@
+{% for menu in menus %}
+    {% if menu.childs > 0 %}
+        {% if menu.route %}
+            <li class="nav-item {% if menu.route in cur_url %}menu-is-opening menu-open{% endif %}">
+                <a href="#" class="nav-link {% if menu.route in cur_url %}active{% endif %}">
+        {% else %}
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+        {% endif %}
+                <i class="nav-icon {% if menu.icon %}{{ menu.icon }}{% else %}far fa-circle{% endif %}"></i>
+                <p>{{ menu.name }}
+                    <i class="fas fa-angle-left right"></i>
+                    {% if menu.badge %}
+                    <span class="right badge badge-danger">{{ menu.badge }}</span>
+                    {% endif %}
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    {% include 'tags/item_tree.html' with menus=None %}
+                    <li class="nav-item">
+                    <a href="../layout/fixed-sidebar.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Fixed Sidebar</p>
+                    </a>
+                    </li>
+                </ul>
+    {% else %}
+    <li class="nav-item">
+        <a href="{% if menu.route %}{% url menu.route %}{% else %}#{% endif %}" class="nav-link {% if menu.route in cur_url %}active{% endif %}">
+            <i class="nav-icon {% if menu.icon %}{{ menu.icon }}{% else %}far fa-circle{% endif %}"></i>
+            <p>{{ menu.name }}
+                {% if menu.badge %}
+                <span class="right badge badge-danger">{{ menu.badge }}</span>
+                {% endif %}
+            </p>
+        </a>
+    {% endif %}
+    </li>
+{% endfor %}

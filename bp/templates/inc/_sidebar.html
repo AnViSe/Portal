@@ -12,7 +12,7 @@
         {% include 'inc/_sidebar_search.html' %}
         {% endblock %}
 
-        {% show_menu_tree user %}
+        {% show_menu_tree user request.path %}
     </div>
     {% block custom %}
     {% include 'inc/_sidebar_custom.html' %}

@@ -1,17 +1,42 @@
 <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-        data-accordion="false">
-        {% for menu in menus %}
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        {% include 'tags/item_tree.html' %}
         <li class="nav-item">
-            <a href="{% url menu.url %}" class="nav-link">
-                <i class="nav-icon {% if menu.icon %}{{ menu.icon }}{% else %}fas fa-circle{% endif %}"></i>
-                <p>{{ menu.title }}
-                    {% if menu.badge %}
-                    <span class="right badge badge-danger">{{ menu.badge }}</span>
-                    {% endif %}
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Layout Options
+                    <i class="fas fa-angle-left right"></i>
+                    <span class="badge badge-info right">125</span>
                 </p>
             </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="../layout/fixed-sidebar.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Fixed Sidebar</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../layout/fixed-sidebar-custom.html"
+                       class="nav-link active">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p class="">Fixed Sidebar<small> + Custom Area</small></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../layout/fixed-topnav.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Fixed Navbar</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../layout/fixed-footer.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Fixed Footer</p>
+                    </a>
+                </li>
+            </ul>
         </li>
-        {% endfor %}
     </ul>
 </nav>
