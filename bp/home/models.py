@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 
 
 class Menu(models.Model):
@@ -10,6 +11,9 @@ class Menu(models.Model):
     route = models.CharField(max_length=100,
                              blank=True, null=True,
                              verbose_name='Имя маршрута')
+    perm = models.CharField(max_length=100,
+                            blank=True, null=True,
+                            verbose_name='Разрешение')
     icon = models.CharField(max_length=30,
                             blank=True, null=True,
                             default='fas fa-circle',
@@ -25,6 +29,18 @@ class Menu(models.Model):
     def __str__(self):
         return self.name
 
+    def get_user_menu(user=None):
+        perms = user.get_all_permissions()
+        menus = []
+        for menu in Menu.objects.filter(status=1).order_by('sort').annotate(childs=Count('menu')):
+            if menu.perm:
+                if menu.perm in perms:
+                    menus.append(menu)
+            else:
+                menus.append(menu)
+
+        return menus
+
     class Meta:
-        verbose_name = 'Пункт меню'
-        verbose_name_plural = 'Пункты меню'
+        verbose_name = 'пункт меню'
+        verbose_name_plural = 'пункты меню'
