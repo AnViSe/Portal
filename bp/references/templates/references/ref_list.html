@@ -3,7 +3,7 @@
 
 {% block stylesheet %}
 {{ block.super }}
-{% include 'inc/_stylesheet_dt.html' %}
+{% include 'inc/_stylesheet_dt1.html' %}
 {% endblock %}
 
 {% block content %}
@@ -21,13 +21,14 @@
 
 {% block scripts %}
 {{ block.super }}
-{% include 'inc/_scripts_dt.html' %}
+{% include 'inc/_scripts_dt1.html' %}
 <script type="text/javascript">
 function prepareDataTableServerSide(){
     $('#ref-table').DataTable({
         columnDefs: [{
             targets: -1,
             data: null,
+            sortable: false,
             defaultContent: 'gdgfd'
         }],
         dom: "<'card-header'<'row'<'col-sm-6 col-md-8'B><'col-sm-6 col-md-4'f>>><'card-body table-responsive p-1'tr><'card-footer clearfix'<'row'<'col-md'l><'col-md'i><'col-md'p>>>",
