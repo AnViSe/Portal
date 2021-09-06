@@ -1,0 +1,42 @@
+<!--
+@foreach($menus as $menu)
+    @if ($menu->has_child)
+        @can($menu->perm)
+            @if ($menu->route)
+            <li class="nav-item has-treeview {{ Str::startsWith(Route::currentRouteName(),$menu->route) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ Str::startsWith(Route::currentRouteName(),$menu->route) ? 'active' : '' }}">
+            @else
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+            @endif
+                    <i class="nav-icon {{ $menu->icon }}"></i>
+                    <p>{{ $menu->title }}
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    @include('admin.main.includes.treeitem', ['menus' => $menu->childs])
+                </ul>
+        @endcan
+    @else
+        @if ($menu->header)
+            <li class="nav-header">{{ $menu->title }}
+        @else
+            @can($menu->perm)
+            <li class="nav-item">
+                <a href="{{ Route::has($menu->route) ? route($menu->route) : '#' }}" class="nav-link {{ Str::startsWith(Route::currentRouteName(), $menu->route_short) ? 'active' : '' }}">
+                    @if ($menu->icon)
+                    <i class="nav-icon {{ $menu->icon }}"></i>
+                    @endif
+                    <p>{{ $menu->title }}
+                        @if ($menu->badge)
+                            <span class="right badge badge-light">{{ $menu->badge }}</span>
+                        @endif
+                    </p>
+                </a>
+            @endcan
+        @endif
+    @endif
+            </li>
+@endforeach
+-->
