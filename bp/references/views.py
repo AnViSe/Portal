@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 from django.views import generic
 from rest_framework import viewsets
@@ -19,8 +20,9 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 class EmployeeList(RefTableMixin, generic.ListView):
     model = Employee
-    # Employee._meta.get_fields(False, False)
     template_name = 'references/ref_list.html'
+    # PermissionRequiredMixin, <== Добавить в класс первым
+    # permission_required = 'references.view_employee'
     url_list = 'employee-list'
     field_list = [
         {'name': 'id', 'title': 'Код'},

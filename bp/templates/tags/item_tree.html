@@ -1,5 +1,5 @@
 {% for menu in menus %}
-    {% if menu.childs > 0 %}
+    {% if menu.has_child %}
         {% if menu.route %}
             <li class="nav-item {% if menu.route in cur_url %}menu-is-opening menu-open{% endif %}">
                 <a href="#" class="nav-link {% if menu.route in cur_url %}active{% endif %}">
@@ -16,13 +16,7 @@
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    {% include 'tags/item_tree.html' with menus=None %}
-                    <li class="nav-item">
-                    <a href="../layout/fixed-sidebar.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Fixed Sidebar</p>
-                    </a>
-                    </li>
+                    {% include 'tags/item_tree.html' with menus=menu.childs %}
                 </ul>
     {% else %}
     <li class="nav-item">

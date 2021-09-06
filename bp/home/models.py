@@ -4,7 +4,7 @@ from django.db.models import Count
 
 class Menu(models.Model):
     parent = models.ForeignKey('self', on_delete=models.SET_NULL,
-                               blank=True, null=True,
+                               blank=True, null=True, related_name='child',
                                verbose_name='Родитель')
     name = models.CharField(max_length=100,
                             verbose_name='Заголовок')
@@ -16,11 +16,13 @@ class Menu(models.Model):
                             verbose_name='Разрешение')
     icon = models.CharField(max_length=30,
                             blank=True, null=True,
-                            default='fas fa-circle',
+                            default='far fa-circle',
                             verbose_name='Иконка')
     badge = models.CharField(max_length=20,
                              blank=True, null=True,
                              verbose_name='Метка')
+    header = models.BooleanField(default=False,
+                                 verbose_name='Заголовок')
     sort = models.SmallIntegerField(default=999, db_index=True,
                                     verbose_name='Сортировка')
     status = models.SmallIntegerField(default=1, db_index=True,
@@ -29,16 +31,60 @@ class Menu(models.Model):
     def __str__(self):
         return self.name
 
-    def get_user_menu(user=None):
-        perms = user.get_all_permissions()
-        menus = []
-        for menu in Menu.objects.filter(status=1).order_by('sort').annotate(childs=Count('menu')):
-            if menu.perm:
-                if menu.perm in perms:
-                    menus.append(menu)
-            else:
-                menus.append(menu)
+    def _build_tree(items, parent):
+        result = []
+        for item in items:
+            if item['parent_id'] == parent:
+                children = Menu._build_tree(items, item['id'])
+                if children:
+                    item['childs'] = children
+                    item['has_child'] = True
+                else:
+                    item['childs'] = []
+                    item['has_child'] = False
+                result.append(item)
+        return result
 
+    # def get_menu_list(self, menus, parent):
+    #     menu_list = Menu.objects.filter(parent=parent)
+    #     menu_list.filter(status=1).order_by('sort')
+    #     return menu_list
+
+    # def get_menu_user(user=None):
+    #     menus = Menu.objects.filter(status=1).order_by('sort')
+    #     for menu in Menu.get_menu_list(menus, None):
+    #     pass
+
+    def get_user_menu(user=None):
+        menus = []
+        if user:
+            perms = user.get_all_permissions()
+        else:
+            perms = []
+        print(perms)
+
+        all_items = Menu.objects.filter(status=1).order_by('sort').values()
+
+        for item in all_items:
+            if item['perm']:
+                if item['perm'] in perms:
+                    menus.append(item)
+            else:
+                menus.append(item)
+        # menus = [entry for entry in all_items]
+
+        menus = Menu._build_tree(menus, None)
+        # for menu in menus:
+        #     menu['has_child'] = True
+        #     print(menu)
+        # for menu in Menu.objects.filter(status=1).order_by('sort').values():
+            # print(menu.icon)
+            # if menu.perm:
+            #     if menu.perm in perms:
+            #         menus.append(menu)
+            # else:
+            # menus.append(menu)
+        # print(menus)
         return menus
 
     class Meta:
