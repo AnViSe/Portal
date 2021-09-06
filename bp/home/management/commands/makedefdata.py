@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from references.models import Country
 from ...models import Menu
 
 
@@ -13,8 +14,14 @@ class Command(BaseCommand):
         Menu.objects.create(name='Сотрудники', parent=parent_menu,
                             route='employees', icon='far fa-address-book')
 
-        count_menu = Menu.objects.all().count()
-        self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {count_menu}"))
+        _count = Menu.objects.all().count()
+        self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))
+
+        Country.objects.create(code=112, name='Беларусь', alpha2='BY', alpha3='BLR')
+        Country.objects.create(code=643, name='Россия', alpha2='RU', alpha3='RUS')
+
+        _count = Country.objects.all().count()
+        self.stdout.write(self.style.SUCCESS(f"Стран: {_count}"))
 
     def add_arguments(self, parser):
         pass

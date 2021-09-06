@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import Count
 
+from extensions.service import build_tree_menu
+
 
 class Menu(models.Model):
     parent = models.ForeignKey('self', on_delete=models.SET_NULL,
@@ -31,37 +33,12 @@ class Menu(models.Model):
     def __str__(self):
         return self.name
 
-    def _build_tree(items, parent):
-        result = []
-        for item in items:
-            if item['parent_id'] == parent:
-                children = Menu._build_tree(items, item['id'])
-                if children:
-                    item['childs'] = children
-                    item['has_child'] = True
-                else:
-                    item['childs'] = []
-                    item['has_child'] = False
-                result.append(item)
-        return result
-
-    # def get_menu_list(self, menus, parent):
-    #     menu_list = Menu.objects.filter(parent=parent)
-    #     menu_list.filter(status=1).order_by('sort')
-    #     return menu_list
-
-    # def get_menu_user(user=None):
-    #     menus = Menu.objects.filter(status=1).order_by('sort')
-    #     for menu in Menu.get_menu_list(menus, None):
-    #     pass
-
     def get_user_menu(user=None):
         menus = []
         if user:
             perms = user.get_all_permissions()
         else:
             perms = []
-        print(perms)
 
         all_items = Menu.objects.filter(status=1).order_by('sort').values()
 
@@ -71,20 +48,8 @@ class Menu(models.Model):
                     menus.append(item)
             else:
                 menus.append(item)
-        # menus = [entry for entry in all_items]
 
-        menus = Menu._build_tree(menus, None)
-        # for menu in menus:
-        #     menu['has_child'] = True
-        #     print(menu)
-        # for menu in Menu.objects.filter(status=1).order_by('sort').values():
-            # print(menu.icon)
-            # if menu.perm:
-            #     if menu.perm in perms:
-            #         menus.append(menu)
-            # else:
-            # menus.append(menu)
-        # print(menus)
+        menus = build_tree_menu(menus, None)
         return menus
 
     class Meta:

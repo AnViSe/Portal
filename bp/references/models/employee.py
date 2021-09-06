@@ -1,7 +1,7 @@
 from django.db import models
 
 from .base import BaseRefModel
-from extensions.service import *
+from extensions.service import get_fml, get_lfm
 
 
 class Employee(BaseRefModel):
@@ -11,6 +11,7 @@ class Employee(BaseRefModel):
     middlename = models.CharField(verbose_name='Отчество', max_length=100, null=True, blank=True)
     name_lfm = models.CharField(verbose_name='Фамилия И.О.', max_length=150, editable=False)
     name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
+    # persnum = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
 
     def __str__(self):
         return self.name_lfm
