@@ -27,3 +27,9 @@ urlpatterns = [
     path('api/v1/', include('config.urls_api_v1')),
     path('refs/', include('references.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

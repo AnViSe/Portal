@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'widget_tweaks',
 
+    'debug_toolbar',
+
     'welcome',
     'home',
     'accounts',
@@ -36,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
