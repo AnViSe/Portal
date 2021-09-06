@@ -1,6 +1,7 @@
 class RefTableMixin(object):
     url_list = ''
     field_list = []
+    template_name = 'references/ref_list.html'
 
     def get_url(self, model=None):
         if model:

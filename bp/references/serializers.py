@@ -21,7 +21,9 @@ class CountrySerializer(serializers.ModelSerializer):
 
 class RegionSerializer(serializers.ModelSerializer):
     """Список областей"""
+    country = serializers.StringRelatedField()
+    # country = serializers.CharField(source='country.name', default='', read_only=True)
 
     class Meta:
         model = Region
-        fields = '__all__'
+        fields = ['id', 'code', 'name', 'country', 'status']

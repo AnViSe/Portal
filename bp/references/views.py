@@ -20,7 +20,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 class EmployeeList(RefTableMixin, generic.ListView):
     model = Employee
-    template_name = 'references/ref_list.html'
+    # template_name = 'references/ref_list.html'
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_employee'
     url_list = 'employee-list'
@@ -49,7 +49,7 @@ class CountryViewSet(viewsets.ModelViewSet):
 
 class CountryList(RefTableMixin, generic.ListView):
     model = Country
-    template_name = 'references/ref_list.html'
+    # template_name = 'references/ref_list.html'
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_country'
     url_list = 'country-list'
@@ -71,13 +71,13 @@ class CountryList(RefTableMixin, generic.ListView):
 
 
 class RegionViewSet(viewsets.ModelViewSet):
-    queryset = Region.objects.all()
+    queryset = Region.objects.select_related('country').all()
     serializer_class = RegionSerializer
 
 
 class RegionList(RefTableMixin, generic.ListView):
     model = Region
-    template_name = 'references/ref_list.html'
+    # template_name = 'references/ref_list.html'
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_region'
     url_list = 'region-list'
@@ -85,6 +85,7 @@ class RegionList(RefTableMixin, generic.ListView):
         {'name': 'id', 'title': 'Код'},
         {'name': 'code', 'title': 'Код1'},
         {'name': 'name', 'title': 'Наименование'},
+        {'name': 'country', 'title': 'Страна'},
         {"name": None, "title": "Actions"},
     ]
 
