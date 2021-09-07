@@ -8,7 +8,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = '__all__'
+        exclude = ('dt_cr', 'dt_up')
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -16,14 +16,16 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
-        fields = '__all__'
+        exclude = ('dt_cr', 'dt_up')
 
 
 class RegionSerializer(serializers.ModelSerializer):
     """Список областей"""
-    country = serializers.StringRelatedField()
+    country = serializers.StringRelatedField(source='country.name', read_only=True)
+    # country = CountrySerializer(read_only=True)
     # country = serializers.CharField(source='country.name', default='', read_only=True)
 
     class Meta:
         model = Region
-        fields = ['id', 'code', 'name', 'country', 'status']
+        # fields = ['id', 'code', 'name', 'country', 'status']
+        exclude = ('dt_cr', 'dt_up')

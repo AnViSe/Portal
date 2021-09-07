@@ -31,7 +31,7 @@ class EmployeeList(RefTableMixin, generic.ListView):
         {'name': 'middlename', 'title': 'Отчество'},
         {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
         # {"name": 'actions', "title": "Actions"},
-        {"name": None, "title": "Actions"},
+        {"name": None, "title": "Операции"},
     ]
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -59,7 +59,7 @@ class CountryList(RefTableMixin, generic.ListView):
         {'name': 'name', 'title': 'Наименование'},
         {'name': 'alpha2', 'title': 'ISO2'},
         {'name': 'alpha3', 'title': 'ISO3'},
-        {"name": None, "title": "Actions"},
+        {"name": None, "title": "Операции"},
     ]
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -86,7 +86,7 @@ class RegionList(RefTableMixin, generic.ListView):
         {'name': 'code', 'title': 'Код1'},
         {'name': 'name', 'title': 'Наименование'},
         {'name': 'country', 'title': 'Страна'},
-        {"name": None, "title": "Actions"},
+        {"name": None, "title": "Операции"},
     ]
 
     def get_context_data(self, *, object_list=None, **kwargs):

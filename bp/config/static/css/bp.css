@@ -10,3 +10,10 @@
 .content-header {
   padding: 5px .5rem;
 }
+
+.btn-group-xs > .btn, .btn-xs {
+  padding: .25rem .4rem;
+  font-size: .875rem;
+  line-height: 1;
+  border-radius: .2rem;
+}
