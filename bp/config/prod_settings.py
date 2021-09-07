@@ -13,7 +13,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+    '_default': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'ORCL',
+        'USER': 'WWW',
+        'PASSWORD': 'www_dba',
+        'HOST': '172.16.188.140',
+        'PORT': '1521',
+    },
 }
 
 # Password validation
