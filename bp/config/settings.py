@@ -61,7 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'Europe/Minsk'
 
@@ -151,7 +151,6 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 # Установить ссылку перехода после выхода из системы
-
 
 
 try:
