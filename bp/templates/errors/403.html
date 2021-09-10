@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>403: Доступ запрещен</title>
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+</head>
+<body>
+<section class="content pt-5">
+    <div class="error-page">
+        <h2 class="headline text-danger"> 403</h2>
+        <div class="error-content">
+            <h3><i class="far fa-hand-paper text-danger"></i> Однако! Вам сюда нельзя!</h3>
+            <p>
+                У Вас нет прав для доступа к запрошенной странице.
+            </p>
+            <p>
+                Проверьте адрес или <a href="{% url 'home' %}">вернитесь на сайт</a>.
+            </p>
+        </div>
+    </div>
+</section>
+{% include 'inc/_scripts.html' %}
+</body>
+</html>
+
+

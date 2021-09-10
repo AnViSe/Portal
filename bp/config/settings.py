@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'widget_tweaks',
+    'mptt',
+    'maintenancemode',
 
     'debug_toolbar',
 
@@ -39,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'maintenancemode.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -151,6 +154,9 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 # Установить ссылку перехода после выхода из системы
+
+
+MAINTENANCE_503_TEMPLATE = 'errors/503.html'
 
 
 try:

@@ -20,8 +20,8 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('home.urls')),
     path('admin/', admin.site.urls),
+    path('', include('home.urls')),
     path('accounts/logout/', LogoutView.as_view(), name="account_logout"),
     path('accounts/', include('allauth.urls')),
     path('api/v1/', include('config.urls_api_v1')),
@@ -33,3 +33,7 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler403 = 'home.views.handler403'
+handler404 = 'home.views.handler404'
+handler500 = 'home.views.handler500'
