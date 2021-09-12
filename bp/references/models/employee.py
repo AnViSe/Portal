@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from .base import BaseRefModel
 from extensions.service import get_fml, get_lfm
@@ -11,6 +12,7 @@ class Employee(BaseRefModel):
     middlename = models.CharField(verbose_name='Отчество', max_length=100, null=True, blank=True)
     name_lfm = models.CharField(verbose_name='Фамилия И.О.', max_length=150, editable=False)
     name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
+
     # persnum = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
 
     def __str__(self):
@@ -20,6 +22,10 @@ class Employee(BaseRefModel):
         self.name_lfm = get_lfm(self.lastname, self.firstname, self.middlename)
         self.name_fml = get_fml(self.lastname, self.firstname, self.middlename)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        # return reverse('view_employee', kwargs={"pk": self.pk})
+        return reverse('employees')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'

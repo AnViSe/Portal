@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import viewsets
 
+from references.forms import EmployeeForm
 from references.models import Employee, Country, Region
 from references.serializers import EmployeeSerializer, CountrySerializer, RegionSerializer
 
@@ -30,7 +32,6 @@ class EmployeeList(RefTableMixin, generic.ListView):
         {'name': 'firstname', 'title': 'Имя'},
         {'name': 'middlename', 'title': 'Отчество'},
         {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
-        # {"name": 'actions', "title": "Actions"},
         {"name": None, "title": "Операции"},
     ]
 
@@ -40,6 +41,30 @@ class EmployeeList(RefTableMixin, generic.ListView):
         # context['field_list'] = self.get_columns(model=self.model)
         context['field_list'] = self.get_columns()
         return context
+
+
+class EmployeeView(generic.DetailView):
+    model = Employee
+    # form_class = EmployeeForm
+    template_name = 'references/ref_view.html'
+
+
+class EmployeeCreate(PermissionRequiredMixin, generic.CreateView):
+    permission_required = 'references.add_employee'
+    form_class = EmployeeForm
+    template_name = 'references/ref_add.html'
+    success_url = reverse_lazy('employees')
+
+
+class EmployeeEdit(generic.UpdateView):
+    model = Employee
+    form_class = EmployeeForm
+    template_name = 'references/ref_edit.html'
+    success_url = reverse_lazy('employees')
+
+
+class EmployeeDelete(generic.DeleteView):
+    model = Employee
 
 
 class CountryViewSet(viewsets.ModelViewSet):

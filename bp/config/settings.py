@@ -107,6 +107,14 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+# Кеширование
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache'),
+    }
+}
+
 # ACCOUNT_AUTHENTICATION_METHOD (= "username" | "email" | "username_email")
 # : укажите используемый метод входа (имя пользователя, адрес электронной почты или один из двух)
 
