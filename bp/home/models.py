@@ -1,5 +1,7 @@
+from django.core.cache import cache
 from django.db import models
-from django.db.models import Count
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
 
 from extensions.service import build_tree_menu
 
@@ -36,11 +38,20 @@ class Menu(models.Model):
     def get_user_menu(user=None):
         menus = []
         if user:
-            perms = user.get_all_permissions()
+            cached_perms = cache.get(f"user_perms_{user.id}")
+            if cached_perms is None:
+                perms = user.get_all_permissions()
+                cache.set(f"user_perms_{user.id}", perms)
+            else:
+                perms = cached_perms
         else:
             perms = []
-
-        all_items = Menu.objects.filter(status=1).order_by('sort').values()
+        cached_menus = cache.get('menu_items')
+        if cached_menus is None:
+            all_items = Menu.objects.filter(status=1).order_by('sort').values()
+            cache.set('menu_items', all_items)
+        else:
+            all_items = cached_menus
 
         for item in all_items:
             if item['perm']:
@@ -55,3 +66,13 @@ class Menu(models.Model):
     class Meta:
         verbose_name = 'пункт меню'
         verbose_name_plural = 'пункты меню'
+
+
+@receiver(post_save, sender=Menu)
+def menu_save(sender, instance, **kwargs):
+    cache.delete('menu_items')
+
+
+@receiver(pre_delete, sender=Menu)
+def menu_delete(sender, instance, **kwargs):
+    cache.delete('menu_items')
