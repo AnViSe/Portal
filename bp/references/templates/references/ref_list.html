@@ -1,9 +1,11 @@
 {% extends 'references/index.html' %}
-{% load static %}
+{% load static cache %}
 
 {% block stylesheet %}
 {{ block.super }}
-{% include 'inc/_stylesheet_dt1.html' %}
+    {% cache 6000 stylesheet_dt  %}
+        {% include 'inc/_stylesheet_dt1.html' %}
+    {% endcache %}
 {% endblock %}
 
 {% block content %}
@@ -21,7 +23,9 @@
 
 {% block scripts %}
 {{ block.super }}
-{% include 'inc/_scripts_dt1.html' %}
+    {% cache 6000 scripts_dt  %}
+        {% include 'inc/_scripts_dt1.html' %}
+    {% endcache %}
 <script type="text/javascript">
 $(document).ready(function(){
 <!--    prepareDataTableServerSideActionsTop();-->

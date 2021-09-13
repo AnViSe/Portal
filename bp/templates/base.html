@@ -1,4 +1,4 @@
-{% load static %}
+{% load static cache %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Бизнес-портал</title>
     {% block stylesheet %}
-    {% include 'inc/_stylesheet.html' %}
+        {% cache 6000 stylesheet %}
+            {% include 'inc/_stylesheet.html' %}
+        {% endcache %}
     {% endblock %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
     {% block navbar %}
-    {% include 'inc/_navbar.html' %}
+        {% cache 6000 navbar %}
+            {% include 'inc/_navbar.html' %}
+        {% endcache %}
     {% endblock %}
 
     {% block sidebar %}
@@ -89,15 +93,21 @@
     </div>
 
     {% block footer %}
-    {% include 'inc/_footer.html' %}
+        {% cache 6000 footer %}
+            {% include 'inc/_footer.html' %}
+        {% endcache %}
     {% endblock %}
 
     {% block control %}
-    {% include 'inc/_sidebar_control.html' %}
+        {% cache 6000 control %}
+            {% include 'inc/_sidebar_control.html' %}
+        {% endcache %}
     {% endblock %}
 </div>
 {% block scripts %}
-{% include 'inc/_scripts.html' %}
+    {% cache 6000 scripts %}
+        {% include 'inc/_scripts.html' %}
+    {% endcache %}
 {% endblock %}
 </body>
 </html>

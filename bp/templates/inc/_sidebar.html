@@ -1,21 +1,29 @@
-{% load menu_tree %}
+{% load menu_tree cache %}
 
 <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
     {% block logo %}
-    {% include 'inc/_sidebar_logo.html' %}
+        {% cache 6000 logo %}
+            {% include 'inc/_sidebar_logo.html' %}
+        {% endcache %}
     {% endblock %}
     <div class="sidebar">
         {% block user %}
-        {% include 'inc/_sidebar_user.html' %}
+            {% cache 300 user request.user.username %}
+                {% include 'inc/_sidebar_user.html' %}
+            {% endcache %}
         {% endblock %}
 
         {% block search %}
-        {% include 'inc/_sidebar_search.html' %}
+            {% cache 6000 search %}
+                {% include 'inc/_sidebar_search.html' %}
+            {% endcache %}
         {% endblock %}
 
         {% show_menu_tree user request.path %}
     </div>
     {% block custom %}
-    {% include 'inc/_sidebar_custom.html' %}
+        {% cache 6000 custom request.user.username %}
+            {% include 'inc/_sidebar_custom.html' %}
+        {% endcache %}
     {% endblock %}
 </aside>
