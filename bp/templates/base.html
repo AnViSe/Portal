@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Бизнес-портал</title>
     {% block stylesheet %}
-        {% cache 6000 stylesheet %}
-            {% include 'inc/_stylesheet.html' %}
-        {% endcache %}
+        {% include 'inc/_stylesheet.html' %}
     {% endblock %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -93,9 +91,7 @@
     </div>
 
     {% block footer %}
-        {% cache 6000 footer %}
-            {% include 'inc/_footer.html' %}
-        {% endcache %}
+        {% include 'inc/_footer.html' %}
     {% endblock %}
 
     {% block control %}
@@ -105,9 +101,7 @@
     {% endblock %}
 </div>
 {% block scripts %}
-    {% cache 6000 scripts %}
-        {% include 'inc/_scripts.html' %}
-    {% endcache %}
+    {% include 'inc/_scripts.html' %}
 {% endblock %}
 </body>
 </html>

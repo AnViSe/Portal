@@ -1,0 +1,17 @@
+{% extends 'references/index.html' %}
+
+{% block content %}
+<div class="card-header">
+    <h3 class="card-title">Заголовок</h3>
+</div>
+<div class="card-body">
+    <form method="post">
+        {{ object.lastname }}
+        {{ object.firstname }}
+        {{ object.middlename }}
+    </form>
+</div>
+<div class="card-footer">
+    Подвал
+</div>
+{% endblock %}

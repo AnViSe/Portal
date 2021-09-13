@@ -2,28 +2,20 @@
 
 <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
     {% block logo %}
-        {% cache 6000 logo %}
-            {% include 'inc/_sidebar_logo.html' %}
-        {% endcache %}
+        {% include 'inc/_sidebar_logo.html' %}
     {% endblock %}
     <div class="sidebar">
         {% block user %}
-            {% cache 300 user request.user.username %}
-                {% include 'inc/_sidebar_user.html' %}
-            {% endcache %}
+            {% include 'inc/_sidebar_user.html' %}
         {% endblock %}
 
         {% block search %}
-            {% cache 6000 search %}
-                {% include 'inc/_sidebar_search.html' %}
-            {% endcache %}
+            {% include 'inc/_sidebar_search.html' %}
         {% endblock %}
 
         {% show_menu_tree user request.path %}
     </div>
     {% block custom %}
-        {% cache 6000 custom request.user.username %}
-            {% include 'inc/_sidebar_custom.html' %}
-        {% endcache %}
+        {% include 'inc/_sidebar_custom.html' %}
     {% endblock %}
 </aside>
