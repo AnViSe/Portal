@@ -1,5 +1,5 @@
 def get_lfm(last_name, first_name=None, middle_name=None) -> str:
-    """Из фаМиЛИя иМя ОтчЕство вовращает Фамилия И.О."""
+    """Из фаМиЛИя иМя ОтчЕство возвращает Фамилия И.О."""
     result = ''
     if last_name:
         result = last_name.capitalize()
@@ -11,7 +11,7 @@ def get_lfm(last_name, first_name=None, middle_name=None) -> str:
 
 
 def get_fml(last_name, first_name=None, middle_name=None) -> str:
-    """Из фаМиЛИя иМя ОтчЕство вовращает И.О. Фамилия"""
+    """Из фаМиЛИя иМя ОтчЕство возвращает И.О. Фамилия"""
     result = ''
     if last_name:
         if first_name:
