@@ -3,8 +3,8 @@
 {% block content %}
 <div class="card-header">
     <div class="d-flex justify-content-between">
-        <h3 class="card-title">Заголовок</h3>
-        <a href="#" class="btn btn-default btn-sm">Список</a>
+        <h3 class="card-title">Создание объекта: {{ obj_name }}</h3>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">Список</a>
     </div>
 </div>
 <div class="card-body">

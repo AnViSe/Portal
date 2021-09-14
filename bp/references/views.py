@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import viewsets
 
+from extensions.service import get_columns
 from references.forms import EmployeeForm
 from references.models import Employee, Country, Region
 from references.serializers import EmployeeSerializer, CountrySerializer, RegionSerializer
@@ -25,7 +26,7 @@ class EmployeeList(RefTableMixin, generic.ListView):
     # template_name = 'references/ref_list.html'
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_employee'
-    url_list = 'employee-list'
+    # url_list = 'employee-list'
     field_list = [
         {'name': 'id', 'title': 'Код'},
         {'name': 'lastname', 'title': 'Фамилия'},
@@ -48,12 +49,25 @@ class EmployeeView(generic.DetailView):
     # form_class = EmployeeForm
     template_name = 'references/ref_view.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # fields = get_columns(self.model)
+        # for field in fields:
+        #     field['value'] = self.model.serializable_value(self, field['name'])
+        # context['fields'] = fields
+        return context
+
 
 class EmployeeCreate(PermissionRequiredMixin, generic.CreateView):
     permission_required = 'references.add_employee'
     form_class = EmployeeForm
     template_name = 'references/ref_add.html'
     success_url = reverse_lazy('employees')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['obj_name'] = Employee._meta.verbose_name
+        return context
 
 
 class EmployeeEdit(generic.UpdateView):

@@ -1,15 +1,15 @@
 {% extends 'references/index.html' %}
+{% load model_info %}
 
 {% block content %}
 <div class="card-header">
-    <h3 class="card-title">Заголовок</h3>
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Просмотр объекта: {{ object|title }}</h3>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">Список</a>
+    </div>
 </div>
 <div class="card-body">
-    <form method="post">
-        {{ object.lastname }}
-        {{ object.firstname }}
-        {{ object.middlename }}
-    </form>
+    {{ object }}
 </div>
 <div class="card-footer">
     Подвал

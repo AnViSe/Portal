@@ -14,7 +14,7 @@ class RefTableMixin(object):
             model_fields = model._meta.get_fields(include_parents=False, include_hidden=False)
             fields = []
             for field in model_fields:
-                fields.append({"field": field.name, "title": field.verbose_name})
+                fields.append({"name": field.name, "title": field.verbose_name})
             return fields
         else:
             # self.field_list.append({"name": None, "title": "Actions"})

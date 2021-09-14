@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 from .base import BaseRefModel
 from extensions.service import get_fml, get_lfm
@@ -25,7 +25,10 @@ class Employee(BaseRefModel):
 
     def get_absolute_url(self):
         # return reverse('view_employee', kwargs={"pk": self.pk})
-        return reverse('employees')
+        return reverse_lazy('employees')
+
+    def base_url(self):
+        return 'employees'
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'
