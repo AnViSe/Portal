@@ -2,7 +2,7 @@
     {% if menu.has_child %}
         {% if menu.route %}
             <li class="nav-item {% if menu.route in cur_url %}menu-is-opening menu-open{% endif %}">
-                <a href="#" class="nav-link {% if menu.route in cur_url %}active{% endif %}">
+                <a href="#" class="nav-link{% if menu.route in cur_url %} active{% endif %}">
         {% else %}
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -20,7 +20,8 @@
                 </ul>
     {% else %}
     <li class="nav-item">
-        <a href="{% if menu.route %}{% url menu.route %}{% else %}#{% endif %}" class="nav-link {% if menu.route in cur_url %}active{% endif %}">
+        <a href="{% if menu.route %}{% url menu.route %}{% else %}#{% endif %}"
+           class="nav-link{% if menu.route in cur_url %} active{% endif %}">
             <i class="nav-icon {% if menu.icon %}{{ menu.icon }}{% else %}far fa-circle{% endif %}"></i>
             <p>{{ menu.name }}
                 {% if menu.badge %}

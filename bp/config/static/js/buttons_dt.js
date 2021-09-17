@@ -96,6 +96,8 @@ var dt_dom = "<'card-header'<'row'<'col-sm-6 col-md-8'B><'col-sm-6 col-md-4'f>>>
              "<'card-footer clearfix'<'row'<'col-md'l><'col-md'i><'col-md'p>>>"
 
 var t = $('#ref-table').DataTable({
+        processing: true,
+        serverSide: true,
         columnDefs: [{
             targets: -1,
             data: null,
@@ -118,7 +120,7 @@ var t = $('#ref-table').DataTable({
             },
         ],
         language: {
-            url: "/static/plugins/datatables/Russian.json"
+            url: "/static/plugins/datatables/Russian.json",
         },
         lengthMenu: [
             [ 15, 25, 50, 100, -1 ],

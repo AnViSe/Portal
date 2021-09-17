@@ -3,9 +3,7 @@
 
 {% block stylesheet %}
 {{ block.super }}
-    {% cache 6000 stylesheet_dt  %}
-        {% include 'inc/_stylesheet_dt1.html' %}
-    {% endcache %}
+    {% include 'inc/_stylesheet_dt1.html' %}
 {% endblock %}
 
 {% block content %}
@@ -23,9 +21,7 @@
 
 {% block scripts %}
 {{ block.super }}
-    {% cache 6000 scripts_dt  %}
-        {% include 'inc/_scripts_dt1.html' %}
-    {% endcache %}
+    {% include 'inc/_scripts_dt1.html' %}
 <script type="text/javascript">
 $(document).ready(function(){
 <!--    prepareDataTableServerSideActionsTop();-->
