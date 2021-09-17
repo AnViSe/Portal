@@ -1,6 +1,14 @@
 from rest_framework import serializers
 
-from references.models import Country, Employee, Region
+from references.models import *
+
+
+class PersonSerializer(serializers.ModelSerializer):
+    """Список личностей (персон)"""
+
+    class Meta:
+        model = Person
+        exclude = ('dt_cr', 'dt_up')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -22,6 +30,7 @@ class CountrySerializer(serializers.ModelSerializer):
 class RegionSerializer(serializers.ModelSerializer):
     """Список областей"""
     country = serializers.StringRelatedField(source='country.name', read_only=True)
+
     # country = CountrySerializer(read_only=True)
     # country = serializers.CharField(source='country.name', default='', read_only=True)
 

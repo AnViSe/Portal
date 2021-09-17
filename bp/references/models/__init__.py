@@ -1,5 +1,7 @@
-from .employee import *  # noqa
-# from .subdivision import *  # noqa
-from .country import *  # noqa
-from .region import *  # noqa
+from .base import BaseRefModel
+from .employee import Employee
+from .country import Country
+from .region import Region
+from .person import Person
+
 

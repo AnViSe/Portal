@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
+from home.models import Menu
 from references.models import Country, Region
-from ...models import Menu
 
 
 class Command(BaseCommand):

@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'mptt',
     'maintenancemode',
+    'phonenumber_field',
 
     'debug_toolbar',
 
