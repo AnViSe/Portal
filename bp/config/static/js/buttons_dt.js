@@ -1,33 +1,73 @@
+window._buildUrl = function (dt, action) {
+    let url = dt.ajax.url() || '';
+    let params = dt.ajax.params();
+    params.action = action;
+
+    return url + '?' + $.param(params);
+};
+
 $.fn.dataTable.ext.buttons.create = {
     className: 'btn-success buttons-create',
     text: function (dt) {
-        return '<div class="d-none d-md-block"><i class="fas fa-plus"></i> Создать</div><div class="d-md-none"><i class="fas fa-plus"></i></div>';
+        return '<div class="d-none d-md-block"><i class="fas fa-plus"></i> Создать</div>'+
+               '<div class="d-md-none"><i class="fas fa-plus"></i></div>';
     },
    action: function (e, dt, button, config) {
         window.location = window.location.href.replace(/\/+$/, "") + '/create';
    }
 };
+
 $.fn.dataTable.ext.buttons.edit = {
     className: 'btn-info buttons-edit disabled',
     text: function (dt) {
-        return '<div class="d-none d-md-block"><i class="far fa-edit"></i> Изменить</div><div class="d-md-none"><i class="far fa-edit"></i></div>';
+        return '<div class="d-none d-md-block"><i class="far fa-edit"></i> Изменить</div>'+
+               '<div class="d-md-none"><i class="far fa-edit"></i></div>';
     },
-   action: function (e, dt, button, config) {
-        var obj_id = dt.row('.selected').data().id;
-//        console.log(obj_id);
-        window.location = window.location.href.replace(/\/+$/, "") + '/' + obj_id;
-   }
+    action: function (e, dt, button, config) {
+        if (dt.row('.selected').count() === 1) {
+            var obj_id = dt.row('.selected').data().id;
+            //console.log(obj_id);
+            window.location = window.location.href.replace(/\/+$/, "") + '/' + obj_id;
+        } else {
+            console.log('No selected record');
+        }
+    },
+    enabled: false,
 };
+
 $.fn.dataTable.ext.buttons.delete = {
     className: 'btn-danger buttons-delete disabled',
     text: function (dt) {
-        return '<div class="d-none d-md-block"><i class="far fa-trash-alt"></i> Удалить</div><div class="d-md-none"><i class="far fa-trash-alt"></i></div>';
+        return '<div class="d-none d-md-block"><i class="far fa-trash-alt"></i> Удалить</div>'+
+               '<div class="d-md-none"><i class="far fa-trash-alt"></i></div>';
     },
-   action: function (e, dt, button, config) {
-        var obj_id = dt.row('.selected').data().id;
-        console.log(obj_id);
-//        window.location = window.location.href.replace(/\/+$/, "") + '/' + obj_id + '/delete';
-   }
+    action: function (e, dt, button, config) {
+         if (dt.row('.selected').count() === 1) {
+            var obj_id = dt.row('.selected').data().id;
+            //console.log(obj_id);
+            window.location = window.location.href.replace(/\/+$/, "") + '/' + obj_id + '/delete';
+         } else {
+            console.log('No selected record');
+        }
+    },
+    enabled: false,
+};
+
+$.fn.dataTable.ext.buttons.reload = {
+//    name: 'reload',
+    className: 'buttons-reload',
+//    text: '<i class="fa fa-sync" data-toggle="tooltip" data-title="Reload"> Обновить</i>',
+    text: '<div class="d-none d-md-block"><i class="fa fa-sync"></i> Обновить</div>'+
+          '<div class="d-md-none"><i class="fa fa-sync"></i></div>',
+    action: function (e, dt, button, config) {
+        button.find('i').removeClass('fa-sync').addClass('fa-spinner fa-spin');
+        button.attr('disabled', true);
+        dt.on('xhr.reload', () => {
+            button.find('i').addClass('fa-sync').removeClass('fa-spinner fa-spin');
+            button.attr('disabled', false);
+        });
+        dt.draw(false);
+    }
 };
 
 function prepareDataTableServerSideActionsTop(){
@@ -36,16 +76,29 @@ var dt_dom = "<'card-header'<'row'<'col-sm-6 col-md-8'B><'col-sm-6 col-md-4'f>>>
              "<'card-footer clearfix'<'row'<'col-md'l><'col-md'i><'col-md'p>>>"
 
 var t = $('#ref-table').DataTable({
-        dom: dt_dom,
-        buttons: [
-            'create',
-            'edit',
-            'delete',
-            {
-                extend: 'print',
-                text: 'Печать',
-            },
-        ],
+        processing: true,
+        serverSide: true,
+//        columnDefs: [{
+//            targets: -1,
+//            data: null,
+//            visible: false,
+//            searchable: false,
+//        }],
+//        dom: dt_dom,
+//        buttons: [
+//            'create',
+//            'edit',
+//            'delete',
+//            {
+//                extend: 'print',
+//                text: '<div class="d-none d-md-block"><i class="fa fa-print"></i> Печать</div>'+
+//                      '<div class="d-md-none"><i class="fa fa-print"></i></div>',
+//                exportOptions: {
+//                    columns: 'visible'
+//                },
+//            },
+//            'reload',
+//        ],
         language: {
             url: "/static/plugins/datatables/Russian.json"
         },
@@ -54,36 +107,63 @@ var t = $('#ref-table').DataTable({
             [ '15', '25', '50', '100', 'Все' ]
         ],
         select: {
-            style: 'single'
+            style: 'single',
+            items: 'row',
+            info: false,
         },
-    });
+});
 
-t.on('select', function (e, dt, type, indexes) {
-    if ( type === 'row' ) {
-        var data = t.rows( indexes ).data().count();
-        console.log('select' + data);
-        //console.log(dt.find('.buttons-edit').class);
-        for (var obj of document.getElementsByClassName('buttons-edit')) {
-            obj.classList.toggle('disabled');
-        }
-        for (var obj of document.getElementsByClassName('buttons-delete')) {
-            obj.classList.toggle('disabled');
-        }
-    }
+t.on( 'select deselect', function () {
+		var selectedRows = t.rows( { selected: true } ).count();
+		t.button(1).enable( selectedRows === 1 );
+		t.button(2).enable( selectedRows > 0 );
 });
-t.on('deselect', function (e, dt, type, indexes) {
-    if ( type === 'row' ) {
-        var data = t.rows('.selected').data().count();
-        console.log('deselect' + data);
+
+
+//t.on('select', function (e, dt, type, indexes) {
+//    if ( type === 'row' ) {
+        //var data = t.rows( indexes ).data().count();
+        //console.log('select' + data);
         //console.log(dt.find('.buttons-edit').class);
-        for (var obj of document.getElementsByClassName('buttons-edit')) {
-            obj.classList.toggle('disabled');
+//        for (var obj of document.getElementsByClassName('buttons-edit')) {
+//            obj.classList.toggle('disabled');
+//        }
+//        for (var obj of document.getElementsByClassName('buttons-delete')) {
+//            obj.classList.toggle('disabled');
+//        }
+//    }
+//});
+
+//t.on('deselect', function (e, dt, type, indexes) {
+//    if ( type === 'row' ) {
+        //var data = t.rows('.selected').data().count();
+        //console.log('deselect' + data);
+        //console.log(dt.find('.buttons-edit').class);
+//        for (var obj of document.getElementsByClassName('buttons-edit')) {
+//            obj.classList.toggle('disabled');
+//        }
+//        for (var obj of document.getElementsByClassName('buttons-delete')) {
+//            obj.classList.toggle('disabled');
+//        }
+//    }
+//});
+new $.fn.dataTable.Buttons( t, {
+    buttons: [
+        {
+            text: 'Button 1',
+            action: function ( e, dt, node, conf ) {
+                console.log( 'Button 1 clicked on' );
+            }
+        },
+        {
+            text: 'Button 2',
+            action: function ( e, dt, node, conf ) {
+                console.log( 'Button 2 clicked on' );
+            }
         }
-        for (var obj of document.getElementsByClassName('buttons-delete')) {
-            obj.classList.toggle('disabled');
-        }
-    }
+    ]
 });
+t.buttons().container().prependTo(t.table().container());
 }
 
 function prepareDataTableServerSideActionsRow(){
@@ -110,17 +190,15 @@ var t = $('#ref-table').DataTable({
         dom: dt_dom,
         buttons: [
             'create',
+            'reload',
             {
                 extend: 'print',
-                text: 'Печать',
-                exportOptions: {
-                    columns: 'searchable'
-                },
-                autoPrint: true,
+                text: '<div class="d-none d-md-block"><i class="fa fa-print"></i> Печать</div>'+
+                      '<div class="d-md-none"><i class="fa fa-print"></i></div>',
             },
         ],
         language: {
-            url: "/static/plugins/datatables/Russian.json",
+            url: '/static/plugins/datatables/Russian.json',
         },
         lengthMenu: [
             [ 15, 25, 50, 100, -1 ],
@@ -143,6 +221,8 @@ var t = $('#ref-table').DataTable({
 		console.log(nextUrl)
 		window.location = nextUrl
 	});
+
+//t.buttons().container().prependTo(t.table().container());
 }
 
 function prepareDataTableServerSide(){
@@ -247,4 +327,41 @@ t.on('deselect', function (e, dt, type, indexes) {
 t.ajax.reload(function(json){
     $('#ref-table tbody tr:eq(0)').click();
 });
+}
+
+function prepareDataTableServerSideActionsTop1(){
+var table = $('#ref-table').DataTable({
+        processing: true,
+        serverSide: true,
+        language: {
+            url: '/static/plugins/datatables/Russian.json',
+        },
+        lengthMenu: [
+            [ 15, 25, 50, 100, -1 ],
+            [ '15', '25', '50', '100', 'Все' ]
+        ],
+        select: {
+            style: 'single',
+            items: 'row',
+            info: false,
+        },
+});
+new $.fn.dataTable.Buttons( table, {
+    buttons: [
+        'create',
+        'edit',
+        'delete',
+        {
+            extend: 'print',
+            text: '<div class="d-none d-md-block"><i class="fa fa-print"></i> Печать</div>'+
+                  '<div class="d-md-none"><i class="fa fa-print"></i></div>',
+            exportOptions: {
+                columns: 'visible'
+            },
+        },
+        'reload',
+    ]
+});
+//table.buttons().container().prependTo(table.table().container());
+table.buttons().container().appendTo('#cccc');
 }

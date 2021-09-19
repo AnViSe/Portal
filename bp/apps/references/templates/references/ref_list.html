@@ -7,8 +7,9 @@
 {% endblock %}
 
 {% block content %}
+<div id="cccc"></div>
 <table id="ref-table" width="100%" class="table table-hover table-sm no-footer"
-       data-server-side="true" data-ajax="{% url url_list %}?format=datatables">
+       data-ajax="{% url url_list %}?format=datatables">
     <thead>
     <tr>
         {% for field in field_list %}
@@ -17,13 +18,14 @@
     </tr>
     </thead>
 </table>
-{% endblock %}1
+{% endblock %}
 
 {% block scripts %}
 {{ block.super }}
     {% include 'inc/_scripts_dt1.html' %}
 <script type="text/javascript">
 $(document).ready(function(){
+<!--    prepareDataTableServerSideActionsTop1();-->
 <!--    prepareDataTableServerSideActionsTop();-->
     prepareDataTableServerSideActionsRow();
 });

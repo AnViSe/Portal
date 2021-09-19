@@ -18,7 +18,7 @@ class Command(BaseCommand):
             self.style.SUCCESS(f'Проект: "{settings.PROJECT_NAME}" по адресу: "{settings.PROJECT_DOMAIN}"'))
 
         Menu.objects.all().delete()
-        Menu.objects.create(name='Главное меню', route='home', icon='fas fa-home', sort=100)
+        Menu.objects.create(name='Главная', route='home', icon='fas fa-home', sort=100)
         parent_menu = Menu.objects.create(name='Справочники',
                                           route='refs', icon='fas fa-th-list', sort=800)
         Menu.objects.create(name='Сотрудники', parent=parent_menu, perm='references.view_employee',
