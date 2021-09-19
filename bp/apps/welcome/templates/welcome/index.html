@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static i18n %}
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Бизнес-портал</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'bs4/css/bootstrap.min.css' %}">
+    <style>
+            html, body {
+                background-color: #fff;
+                color: #636b6f;
+                font-family: sans-serif;
+                font-weight: 200;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .full-height {
+                height: 100vh;
+            }
+
+            .flex-center {
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            .position-ref {
+                position: relative;
+            }
+
+            .top-right {
+                position: absolute;
+                right: 10px;
+                top: 18px;
+            }
+
+            .content {
+                text-align: center;
+                width: 100%;
+            }
+
+            .title {
+                font-size: 84px;
+            }
+
+            .links > a {
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 16px;
+                font-weight: 600;
+                letter-spacing: .1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+
+            .m-b-md {
+                margin-bottom: 30px;
+            }
+
+    </style>
+</head>
+<body>
+<div class="flex-center position-ref full-height">
+    <div class="top-right links">
+        <a href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+        <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+    </div>
+    <div class="content">
+        <div class="title m-b-md">
+            Бизнес-портал
+        </div>
+        <div class="row links mb-2">
+            <div class="col"></div>
+            <div class="col"></div>
+            <a class="col" href="https://belpost.by">Белпочта</a>
+            <a class="col" href="https://ms.belpost.by">Белпочта CMS</a>
+            <a class="col" href="http://msp.belpost.by/tps/Pages/EnterTPS.aspx">ТПС</a>
+            <a class="col" href="http://msp.belpost.by/Uslugi/Vhod.aspx">Учет услуг</a>
+            <a class="col" href="http://tracksys.belpost.by/belpost/faces/loginPage.jsf">ПТКС</a>
+            <a class="col" href="https://post-box.by">Почтомат</a>
+            <a class="col" href="http://172.16.188.140/stat">Мониторинг услуг</a>
+            <a class="col" href="http://172.16.188.140/portal">Розница ПСМИ</a>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

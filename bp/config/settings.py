@@ -1,11 +1,20 @@
 import os
+import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
 # Application definition
+PROJECT_NAME = 'Бизнес-портал'
+PROJECT_DOMAIN = 'bp.grodno.belpost.by'
 
 INSTALLED_APPS = [
+    # General use templates & template tags (should appear first)
+    # 'adminlte3',
+    # Optional: Django admin theme (must be before django.contrib.admin)
+    # 'adminlte3_theme',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,11 +36,13 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
 
-    'welcome',
-    'home',
-    'accounts',
-    'references',
+    'apps.welcome',
+    'apps.home',
+    'apps.accounts',
+    'apps.references',
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,7 +115,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
 }
 
-
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
@@ -167,6 +177,7 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 
 MAINTENANCE_503_TEMPLATE = 'errors/503.html'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 try:
     from .local_settings import *

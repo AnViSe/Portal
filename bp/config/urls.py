@@ -21,11 +21,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
+    path('', include('apps.home.urls')),
     path('accounts/logout/', LogoutView.as_view(), name="account_logout"),
     path('accounts/', include('allauth.urls')),
     path('api/v1/', include('config.urls_api_v1')),
-    path('refs/', include('references.urls')),
+    path('refs/', include('apps.references.urls')),
 ]
 
 if settings.DEBUG:
@@ -34,6 +34,6 @@ if settings.DEBUG:
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler403 = 'home.views.handler403'
-handler404 = 'home.views.handler404'
-handler500 = 'home.views.handler500'
+handler403 = 'apps.home.views.handler403'
+handler404 = 'apps.home.views.handler404'
+handler500 = 'apps.home.views.handler500'

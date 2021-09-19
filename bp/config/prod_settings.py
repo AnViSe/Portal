@@ -10,17 +10,19 @@ DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1']
 
 DATABASES = {
-    'default': {
+    '_default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    '_default': {
+    'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': 'ORCL',
         'USER': 'WWW',
         'PASSWORD': 'www_dba',
         'HOST': '172.16.188.140',
         'PORT': '1521',
+        # Сколько секунд удерживать соединение с БД
+        "CONN_MAX_AGE": 10
     },
 }
 
