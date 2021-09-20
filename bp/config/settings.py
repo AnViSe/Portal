@@ -33,9 +33,11 @@ INSTALLED_APPS = [
     'mptt',
     'maintenancemode',
     'phonenumber_field',
+    'crispy_forms',
 
     'debug_toolbar',
 
+    'core',
     'apps.welcome',
     'apps.home',
     'apps.accounts',
@@ -178,6 +180,11 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 MAINTENANCE_503_TEMPLATE = 'errors/503.html'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+DATE_INPUT_FORMATS = ['%d.%m.%Y']
+
+PHONENUMBER_DEFAULT_REGION = 'BY'
+PHONENUMBER_DEFAULT_FORMAT = 'E164'
 
 try:
     from .local_settings import *
