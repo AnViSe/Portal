@@ -26,6 +26,7 @@ class PersonList(RefTableMixin, generic.ListView):
         {'name': 'middlename', 'title': 'Отчество'},
         {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
         {'name': 'phone', 'title': 'Телефон'},
+        {'name': 'fax', 'title': 'Факс'},
         {"name": None, "title": "Операции"},
     ]
 

@@ -1,10 +1,11 @@
 <div class="input-group">
-    <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fas fa-phone"></i></span>
-    </div>
     <input type="{{ widget.type }}" class="form-control"
            id="id-{{ widget.name }}" name="{{ widget.name }}"
            {% if widget.value != None %} value="{{ widget.value }}"{% endif %}
            {% include "widgets/attrs.html" %}
-           data-inputmask='"mask": "999999999999"' data-mask inputmode="text">
+           data-inputmask='"mask": "(375) 99-9999999"' data-mask inputmode="text">
+    <div class="input-group-append">
+        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+    </div>
+
 </div>

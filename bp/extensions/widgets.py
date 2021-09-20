@@ -11,11 +11,11 @@ class DateInputWidget(forms.DateInput):
 
 class PhoneNumberWidget(widgets.Input):
     template_name = 'widgets/phone.html'
-    input_type = 'text'
+    input_type = 'tel'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        print(context['widget']['value'])
+        # print(context['widget']['value'])
     #     context['widget']['name'] = name
     #     context['widget']['value'] = value
         return context

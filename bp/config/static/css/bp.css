@@ -17,3 +17,13 @@
   line-height: 1;
   border-radius: .2rem;
 }
+
+.form-group {
+    .invalid-feedback {
+        display: block;
+    }
+}
+
+.invalid-feedback {
+  display: block;
+}

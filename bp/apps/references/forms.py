@@ -21,12 +21,12 @@ class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
         fields = ['lastname', 'firstname', 'middlename', 'ident_num', 'birth_date', 'sex',
-                  # 'phone',
+                  'phone',
                   'fax'
                   ]
         widgets = {
             'birth_date': DateInputWidget(),
-            # 'phone': PhoneNumberWidget(),
+            'phone': PhoneNumberWidget(),
             'fax': PhoneNumberWidget(),
         }
 
