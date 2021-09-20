@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from extensions.service import get_fml, get_lfm
 from apps.references.models import BaseRefModel
+from extensions.validators import validate_phone_number
 
 
 class Person(BaseRefModel):
@@ -24,9 +26,15 @@ class Person(BaseRefModel):
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     sex = models.SmallIntegerField(verbose_name='Пол', choices=SEX_CHOICES, default=SEX_NONE)
     phone = PhoneNumberField(verbose_name='Телефон', blank=True, null=True)
+    fax = models.CharField(verbose_name='Факс', max_length=12, blank=True, null=True,
+                           validators=[validate_phone_number])
 
     def __str__(self):
         return self.name_lfm
+
+    # def clean(self):
+    #     if not str(self.fax).startswith('375'):
+    #         raise ValidationError('Номер должен начинаться на 375')
 
     def save(self, *args, **kwargs):
         self.name_lfm = get_lfm(self.lastname, self.firstname, self.middlename)

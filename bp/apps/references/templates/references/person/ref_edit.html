@@ -1,0 +1,21 @@
+{% extends 'references/index.html' %}
+{% load crispy_forms_tags model_info %}
+
+{% block content %}
+<div class="card-header">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Изменение объекта: {{ object|title }}</h3>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">Список</a>
+    </div>
+</div>
+<div class="card-body">
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+    </form>
+</div>
+<div class="card-footer">
+    Подвал
+</div>
+{% endblock %}
