@@ -3,7 +3,7 @@
 
 {% block stylesheet %}
 {{ block.super }}
-    {% include 'inc/_stylesheet_dt1.html' %}
+{% include 'inc/_stylesheet_dt1.html' %}
 {% endblock %}
 
 {% block content %}
@@ -18,16 +18,20 @@
     </tr>
     </thead>
 </table>
+<div id="bbbb"></div>
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
-    {% include 'inc/_scripts_dt1.html' %}
+{% include 'inc/_scripts_dt1.html' %}
 <script type="text/javascript">
 $(document).ready(function(){
-<!--    prepareDataTableServerSideActionsTop1();-->
+var dt_language = "{% static 'plugins/datatables/Russian.json' %}"
+    prepareDataTableServerSideActionsTop1(dt_language);
 <!--    prepareDataTableServerSideActionsTop();-->
-    prepareDataTableServerSideActionsRow();
+<!--    prepareDataTableServerSideActionsRow();-->
 });
+
+
 </script>
 {% endblock scripts %}

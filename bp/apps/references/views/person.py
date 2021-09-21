@@ -27,7 +27,7 @@ class PersonList(RefTableMixin, generic.ListView):
         {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
         {'name': 'phone', 'title': 'Телефон'},
         {'name': 'fax', 'title': 'Факс'},
-        {"name": None, "title": "Операции"},
+        # {"name": None, "title": "Операции"},
     ]
 
     def get_context_data(self, *, object_list=None, **kwargs):

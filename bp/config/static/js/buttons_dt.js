@@ -329,13 +329,55 @@ t.ajax.reload(function(json){
 });
 }
 
-function prepareDataTableServerSideActionsTop1(){
+function prepareDataTableServerSideActionsTop1(dt_language){
+var dt_dom =
+//             "<'card-header'"+
+//                "<'d-flex justify-content-between'"+
+//                    "<'header_left'B>"+
+//                    "<'header_center'>"+
+//                    "<'header_right'f>"+
+//                ">"+
+//             ">"+
+             "<'card-body table-responsive p-1't>"+
+             "<'card-footer clearfix'"+
+                "<'d-flex justify-content-between'"+
+//                "<"+
+//                    "<'col-md'l><'col-md'i><'col-md'p>"+
+                    "<'footer_left'l>"+
+                    "<'footer_center'p>"+
+                    "<'footer_right'>"+
+                ">"+
+             ">"
+var dt_dom1 = "<'card-header'<'row'<'col-sm-6 col-md-8'B><'col-sm-6 col-md-4'f>>>"+
+             "<'card-body table-responsive p-1'tr>"+
+             "<'card-footer clearfix'<'row'<'col-md'l><'col-md'i><'col-md'p>>>"
 var table = $('#ref-table').DataTable({
+        language: {
+            url: dt_language,
+        },
+		buttons: [
+//			'copy', 'csv', 'excel', 'pdf', 'print',
+		],
+        initComplete: function(settings, json) {
+            new $.fn.dataTable.Buttons( table, {
+                name: 'qqq',
+                buttons: [
+                    'create',
+                    'edit',
+                    'delete',
+                ]});
+
+//            table.buttons('qqq', null).container().addClass('mr-2')
+//                .prependTo($('.col-sm-6:eq(0)', table.table().container()));
+//            table.buttons('qqq', null).container().appendTo(table.table().container());
+            table.buttons('qqq', null).container().addClass('mr-2').attr('style','margin: 2px 0;')
+            .prependTo('.header_left');
+        },
         processing: true,
         serverSide: true,
-        language: {
-            url: '/static/plugins/datatables/Russian.json',
-        },
+        dom: dt_dom,
+//        dom: 'T<"clear">lfrtip',
+//        dom: 'Bt',
         lengthMenu: [
             [ 15, 25, 50, 100, -1 ],
             [ '15', '25', '50', '100', 'Все' ]
@@ -346,22 +388,32 @@ var table = $('#ref-table').DataTable({
             info: false,
         },
 });
+//new $.fn.dataTable.Buttons( table, {
+//    buttons: [
+//        'create',
+//        'edit',
+//        'delete',
+//    ]
+//});
+//table.buttons().container().prependTo(table.table().container());
+//table.buttons().container().appendTo('#cccc');
 new $.fn.dataTable.Buttons( table, {
+    name: 'but1',
     buttons: [
         'create',
         'edit',
         'delete',
-        {
-            extend: 'print',
-            text: '<div class="d-none d-md-block"><i class="fa fa-print"></i> Печать</div>'+
-                  '<div class="d-md-none"><i class="fa fa-print"></i></div>',
-            exportOptions: {
-                columns: 'visible'
-            },
-        },
+    ]
+});
+new $.fn.dataTable.Buttons( table, {
+    name: 'but2',
+    buttons: [
         'reload',
     ]
 });
-//table.buttons().container().prependTo(table.table().container());
-table.buttons().container().appendTo('#cccc');
+//table.buttons('but1', null).container().appendTo('#cccc');
+//table.buttons('but1', null).container().appendTo('#cccc');
+//table.buttons('but2', null).container().appendTo('#bbbb');
+//table.buttons('but2', null).container().appendTo('.dataTables_info');
+//table.buttons('but2', null).container().appendTo(table.table().container());
 }

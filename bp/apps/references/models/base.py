@@ -25,5 +25,6 @@ class BaseRefModel(models.Model):
     #     return '<button>Action</button>'
 
     class Meta:
+        managed = False
         app_label = 'references'
         abstract = True
