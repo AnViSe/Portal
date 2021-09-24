@@ -41,5 +41,4 @@ class Employee(BaseRefModel):
             {'name': 'firstname', 'title': 'Имя'},
             {'name': 'middlename', 'title': 'Отчество'},
             {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
-            {"name": None, "title": "Операции"},
         ]

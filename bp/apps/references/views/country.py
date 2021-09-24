@@ -21,4 +21,6 @@ class CountryList(RefTableMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context['route_list_api'] = self.model.Params.route_list_api
         context['fields_list'] = self.model.Params.fields_list
+        if self.action_field not in context['fields_list']:
+            context['fields_list'].append(self.action_field)
         return context

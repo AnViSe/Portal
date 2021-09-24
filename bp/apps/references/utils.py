@@ -2,7 +2,7 @@ class RefTableMixin(object):
     # url_list = ''
     # field_list = []
     template_name = 'references/ref_list.html'
-    action_field = {"name": None, "title": "Операции"}
+    action_field = {"name": '_', "title": "Операции"}
 
     # def get_url(self, model=None):
     #     if model:

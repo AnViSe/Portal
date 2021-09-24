@@ -30,5 +30,4 @@ class Country(BaseRefModel):
             {'name': 'name', 'title': 'Наименование'},
             {'name': 'alpha2', 'title': 'ISO2'},
             {'name': 'alpha3', 'title': 'ISO3'},
-            {"name": None, "title": "Операции"},
         ]

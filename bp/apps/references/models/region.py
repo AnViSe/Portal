@@ -30,5 +30,4 @@ class Region(BaseRefModel):
             {'name': 'code', 'title': 'Код1'},
             {'name': 'name', 'title': 'Наименование'},
             {'name': 'country', 'title': 'Страна'},
-            {"name": None, "title": "Операции"},
         ]
