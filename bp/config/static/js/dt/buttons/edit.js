@@ -1,8 +1,8 @@
 $.fn.dataTable.ext.buttons.edit = {
     className: 'btn-info buttons-edit disabled',
     text: function (dt) {
-        return '<div class="d-none d-md-block"><i class="far fa-edit"></i> Изменить</div>'+
-               '<div class="d-md-none"><i class="far fa-edit"></i></div>';
+        return '<div class="d-none d-lg-block"><i class="far fa-edit"></i> Изменить</div>'+
+               '<div class="d-lg-none"><i class="far fa-edit"></i></div>';
     },
     action: function (e, dt, button, config) {
         if (dt.row('.selected').count() === 1) {

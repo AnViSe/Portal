@@ -27,3 +27,15 @@
 .invalid-feedback {
   display: block;
 }
+
+div.dataTables_wrapper div.dataTables_filter label {
+  margin-bottom: auto;
+}
+
+div.dataTables_wrapper div.dataTables_length label {
+  margin-bottom: auto;
+}
+
+div.dataTables_wrapper div.footer_center div.dataTables_info {
+  padding-top: .65em;
+}

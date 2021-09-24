@@ -1,8 +1,8 @@
 $.fn.dataTable.ext.buttons.delete = {
     className: 'btn-danger buttons-delete disabled',
     text: function (dt) {
-        return '<div class="d-none d-md-block"><i class="far fa-trash-alt"></i> Удалить</div>'+
-               '<div class="d-md-none"><i class="far fa-trash-alt"></i></div>';
+        return '<div class="d-none d-lg-block"><i class="far fa-trash-alt"></i> Удалить</div>'+
+               '<div class="d-lg-none"><i class="far fa-trash-alt"></i></div>';
     },
     action: function (e, dt, button, config) {
          if (dt.row('.selected').count() === 1) {
