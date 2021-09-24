@@ -27,10 +27,19 @@ class Employee(BaseRefModel):
         # return reverse('view_employee', kwargs={"pk": self.pk})
         return reverse_lazy('employees')
 
-    def base_url(self):
-        return 'employees'
-
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'
         verbose_name = 'сотрудник'
         verbose_name_plural = 'сотрудники'
+
+    class Params(BaseRefModel.Params):
+        route_list = 'employees'
+        route_list_api = 'employee-list'
+        fields_list = [
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'lastname', 'title': 'Фамилия'},
+            {'name': 'firstname', 'title': 'Имя'},
+            {'name': 'middlename', 'title': 'Отчество'},
+            {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
+            {"name": None, "title": "Операции"},
+        ]

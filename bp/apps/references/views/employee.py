@@ -16,24 +16,14 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 class EmployeeList(RefTableMixin, generic.ListView):
     model = Employee
-    # template_name = 'references/ref_list.html'
+
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_employee'
-    # url_list = 'employee-list'
-    field_list = [
-        {'name': 'id', 'title': 'Код'},
-        {'name': 'lastname', 'title': 'Фамилия'},
-        {'name': 'firstname', 'title': 'Имя'},
-        {'name': 'middlename', 'title': 'Отчество'},
-        {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
-        {"name": None, "title": "Операции"},
-    ]
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['url_list'] = self.get_url(model=self.model)
-        # context['field_list'] = self.get_columns(model=self.model)
-        context['field_list'] = self.get_columns()
+        context['route_list_api'] = self.model.Params.route_list_api
+        context['fields_list'] = self.model.Params.fields_list
         return context
 
 

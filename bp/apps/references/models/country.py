@@ -20,3 +20,15 @@ class Country(BaseRefModel):
         db_table = 'ref_country'
         verbose_name = 'страна'
         verbose_name_plural = 'страны'
+
+    class Params(BaseRefModel.Params):
+        route_list = 'countries'
+        route_list_api = 'country-list'
+        fields_list = [
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'code', 'title': 'Код1'},
+            {'name': 'name', 'title': 'Наименование'},
+            {'name': 'alpha2', 'title': 'ISO2'},
+            {'name': 'alpha3', 'title': 'ISO3'},
+            {"name": None, "title": "Операции"},
+        ]

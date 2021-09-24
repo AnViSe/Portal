@@ -29,6 +29,13 @@ class Person(BaseRefModel):
     fax = models.CharField(verbose_name='Факс', max_length=12, blank=True, null=True,
                            validators=[validate_phone_number])
 
+    # def __init__(self, *args, **kwargs):
+    #     cls = self.__class__
+    #     meta = getattr(cls, '_meta', None)
+    #     setattr(meta, 'route_name', 'test_route')
+    #     setattr(meta, 'url_list', 'test_url')
+    #     super().__init__(*args, **kwargs)
+
     def __str__(self):
         return self.name_lfm
 
@@ -45,3 +52,17 @@ class Person(BaseRefModel):
         db_table = 'ref_person'
         verbose_name = 'персона'
         verbose_name_plural = 'персоны'
+
+    class Params(BaseRefModel.Params):
+        route_list = 'persons'
+        route_list_api = 'person-list'
+        fields_list = [
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'lastname', 'title': 'Фамилия'},
+            {'name': 'firstname', 'title': 'Имя'},
+            {'name': 'middlename', 'title': 'Отчество'},
+            {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
+            # {'name': 'phone', 'title': 'Телефон'},
+            # {'name': 'fax', 'title': 'Факс'},
+            # {"name": None, "title": "Операции"},
+        ]

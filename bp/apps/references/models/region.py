@@ -21,3 +21,14 @@ class Region(BaseRefModel):
         db_table = 'ref_region'
         verbose_name = 'область'
         verbose_name_plural = 'области'
+
+    class Params(BaseRefModel.Params):
+        route_list = 'regions'
+        route_list_api = 'region-list'
+        fields_list = [
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'code', 'title': 'Код1'},
+            {'name': 'name', 'title': 'Наименование'},
+            {'name': 'country', 'title': 'Страна'},
+            {"name": None, "title": "Операции"},
+        ]
