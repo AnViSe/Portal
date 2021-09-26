@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="card-header">
-    <h4 class="card-title">Создание объекта: {{ obj_name }}</h4>
+    <h4 class="card-title mt-1">Создание объекта: {{ obj_name }}</h4>
     <div class="card-tools">
         <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">
             <i class="far fa-list-alt"></i>
@@ -14,7 +14,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary btn-block">Добавить</button>
+        <button type="submit" class="btn btn-primary">Добавить</button>
     </form>
 </div>
 <div class="card-footer">

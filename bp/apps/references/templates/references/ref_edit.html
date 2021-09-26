@@ -4,8 +4,11 @@
 {% block content %}
 <div class="card-header">
     <div class="d-flex justify-content-between">
-        <h3 class="card-title">Изменение объекта: {{ object|title }}</h3>
-        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">Список</a>
+        <h3 class="card-title mt-1">Изменение объекта: {{ object|title }}</h3>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">
+            <i class="far fa-list-alt"></i>
+            Список
+        </a>
     </div>
 </div>
 <div class="card-body">

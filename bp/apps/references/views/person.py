@@ -37,7 +37,7 @@ class PersonCreate(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['obj_name'] = Person.Meta.verbose_name
+        context['obj_name'] = Person._meta.verbose_name
         return context
 
 
