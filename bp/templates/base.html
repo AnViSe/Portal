@@ -21,6 +21,10 @@
     {% include 'inc/_sidebar.html' %}
     {% endblock %}
 
+    {% block messages %}
+    {% include 'inc/_messages.html' %}
+    {% endblock %}
+
     <div class="content-wrapper">
         {% block breadcrumb %}
         {% include 'inc/_breadcrumb.html' %}
