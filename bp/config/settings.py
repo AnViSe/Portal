@@ -1,6 +1,6 @@
 import os
-import sys
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -185,6 +185,15 @@ DATE_INPUT_FORMATS = ['%d.%m.%Y']
 
 PHONENUMBER_DEFAULT_REGION = 'BY'
 PHONENUMBER_DEFAULT_FORMAT = 'E164'
+
+# Для переопределения меток в сообщениях
+MESSAGE_TAGS = {
+    messages.INFO: 'alert-info',
+    messages.DEBUG: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.ERROR: 'alert-danger',
+    messages.WARNING: 'alert-warning',
+}
 
 try:
     from .local_settings import *
