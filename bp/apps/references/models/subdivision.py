@@ -20,12 +20,26 @@ class Subdivision(BaseRefModel):
 
 
 class SB(BaseRefModel, MPTTModel):
-    parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
-    name = models.CharField(max_length=50)
+    parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
+                            verbose_name='Родитель', related_name='children')
+    name = models.CharField(verbose_name='Наименование', max_length=50)
 
-    class MPTTMeta:
-        app_label = 'references'
+    def __str__(self):
+        return self.name
+
+    class Meta(BaseRefModel.Meta):
         db_table = 'ref_sd'
         verbose_name = 'подразделение'
         verbose_name_plural = 'подразделения'
+
+    class MPTTMeta:
         order_insertion_by = ['name']
+
+    class Params(BaseRefModel.Params):
+        route_list = 'subdivisions'
+        route_list_api = 'sb-list'
+        fields_list = [
+            # {'name': None, 'title': '', 'className': 'treegrid-control'},
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'name', 'title': 'Наименование'},
+        ]

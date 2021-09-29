@@ -21,4 +21,6 @@ urlpatterns = [
         path('create/', PersonCreate.as_view(), name='add_person'),
         path('<int:pk>/', PersonEdit.as_view(), name='edit_person'),
     ])),
+
+    path('subdivisions/', SubdivisionList.as_view(), name='subdivisions'),
 ]

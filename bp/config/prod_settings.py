@@ -45,7 +45,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'config/static'),
+# ]
 
 EMAIL_HOST = '172.16.190.190'
 EMAIL_PORT = 25

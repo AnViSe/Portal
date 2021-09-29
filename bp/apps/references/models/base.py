@@ -37,7 +37,7 @@ class BaseRefModel(models.Model):
         # return cls.
 
     class Meta:
-        managed = False
+        # managed = False
         app_label = 'references'
         abstract = True
 
