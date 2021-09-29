@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-+9_asrz-rrx-ozd49moydb78-hjedrl)&-qv_h$#bdg+9h)u9*
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['bp.grodno.belpost.by', '172.16.190.221', 'localhost', '127.0.0.1']
 
 DATABASES = {
     '_default': {
@@ -15,7 +15,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'default': {
-        'ENGINE': 'django.db.backends.oracle',
+        # 'ENGINE': 'django.db.backends.oracle',
+        'ENGINE': 'extensions.oracle',
         'NAME': 'ORCL',
         'USER': 'WWW',
         'PASSWORD': 'www_dba',
