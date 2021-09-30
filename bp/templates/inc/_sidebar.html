@@ -1,18 +1,22 @@
-{% load menu_tree cache %}
+{% load menu_tree %}
 
-<aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+<!--<aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">-->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     {% block logo %}
-        {% include 'inc/_sidebar_logo.html' %}
+    {% include 'inc/_sidebar_logo.html' %}
     {% endblock %}
     <div class="sidebar">
         {% block user %}
+
         {% endblock %}
 
         {% block search %}
+        {% include 'inc/_sidebar_search.html' %}
         {% endblock %}
 
         {% show_menu_tree user request.path %}
     </div>
     {% block custom %}
+    {% include 'inc/_sidebar_custom.html' %}
     {% endblock %}
 </aside>

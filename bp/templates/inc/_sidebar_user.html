@@ -1,5 +1,5 @@
 {% load static %}
-<div class="user-panel mt-2 pb-2 mb-3 d-flex">
+<div class="user-panel mt-2 pb-2 d-flex">
     <div class="image">
         {% if user.is_authenticated %}
             <img src="{{ user.profile.avatar.url }}" class="img-circle elevation-2">

@@ -9,7 +9,10 @@
     {% include 'inc/_stylesheet.html' %}
     {% endblock %}
 </head>
-<body class="hold-transition sidebar-mini">
+<!--<body class="hold-transition sidebar-mini">-->
+<!--<body class="sidebar-mini layout-navbar-fixed">-->
+<body class="sidebar-mini layout-fixed">
+<!--<body class="sidebar-mini layout-fixed layout-navbar-fixed">-->
 <div class="wrapper">
     {% block navbar %}
     {% include 'inc/_navbar.html' %}
@@ -27,20 +30,21 @@
         {% block breadcrumb %}
         {% include 'inc/_breadcrumb.html' %}
         {% endblock %}
-
         <div class="content">
             <div class="container-fluid">
-                {% block content %}
-                {% endblock %}
+                <div class="card">
+                    {% block content %}
+                    {% endblock %}
+                </div>
             </div>
         </div>
     </div>
+
     {% block control %}
     {% include 'inc/_sidebar_control.html' %}
     {% endblock %}
 
     {% block footer %}
-    {% include 'inc/_footer.html' %}
     {% endblock %}
 </div>
 {% block scripts %}
