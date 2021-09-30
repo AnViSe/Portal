@@ -6,11 +6,9 @@
     {% endblock %}
     <div class="sidebar">
         {% block user %}
-            {% include 'inc/_sidebar_user.html' %}
         {% endblock %}
 
         {% block search %}
-            {% include 'inc/_sidebar_search.html' %}
         {% endblock %}
 
         {% show_menu_tree user request.path %}

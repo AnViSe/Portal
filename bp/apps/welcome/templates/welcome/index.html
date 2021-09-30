@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Бизнес-портал</title>
     <!-- Styles -->
-    <link rel="stylesheet" href="{% static 'bs4/css/bootstrap.min.css' %}">
+<!--    <link rel="stylesheet" href="{% static 'bs4/css/bootstrap.min.css' %}">-->
     <style>
             html, body {
                 background-color: #fff;
@@ -65,14 +65,14 @@
 <body>
 <div class="flex-center position-ref full-height">
     <div class="top-right links">
-        <a href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
-        <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+        <a href="{% url 'account_login' %}">Вход</a>
+        <a href="{% url 'account_signup' %}">Регистрация</a>
     </div>
     <div class="content">
         <div class="title m-b-md">
             Бизнес-портал
         </div>
-        <div class="row links mb-2">
+        <div class="links">
             <div class="col"></div>
             <div class="col"></div>
             <a class="col" href="https://belpost.by">Белпочта</a>
