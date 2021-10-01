@@ -37,12 +37,10 @@ class BaseRefModel(models.Model):
         # return cls.
 
     class Meta:
-        # managed = False
         app_label = 'references'
         abstract = True
 
     class Params:
         route_list = None
         route_list_api = None
-
         fields_list = []

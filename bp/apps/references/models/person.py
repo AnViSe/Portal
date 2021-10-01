@@ -25,9 +25,9 @@ class Person(BaseRefModel):
     ident_num = models.CharField(verbose_name='Личный номер', max_length=14, null=True, blank=True)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     sex = models.SmallIntegerField(verbose_name='Пол', choices=SEX_CHOICES, default=SEX_NONE)
-    phone = PhoneNumberField(verbose_name='Телефон', blank=True, null=True)
-    fax = models.CharField(verbose_name='Факс', max_length=12, blank=True, null=True,
-                           validators=[validate_phone_number])
+    # phone = PhoneNumberField(verbose_name='Телефон', blank=True, null=True)
+    # fax = models.CharField(verbose_name='Факс', max_length=12, blank=True, null=True,
+    #                        validators=[validate_phone_number])
 
     # def __init__(self, *args, **kwargs):
     #     cls = self.__class__
@@ -61,8 +61,6 @@ class Person(BaseRefModel):
             {'name': 'lastname', 'title': 'Фамилия'},
             {'name': 'firstname', 'title': 'Имя'},
             {'name': 'middlename', 'title': 'Отчество'},
-            {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
-            # {'name': 'phone', 'title': 'Телефон'},
-            # {'name': 'fax', 'title': 'Факс'},
+            {'name': 'birth_date', 'title': 'Дата рождения'},
             # {"name": None, "title": "Операции"},
         ]

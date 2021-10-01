@@ -105,6 +105,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DATE_FORMAT = '%d.%m.%Y'
+DATETIME_FORMAT = '%d.%m.%Y %H:%M:%S'
+DATE_INPUT_FORMATS = ['%d.%m.%Y']
+DATETIME_INPUT_FORMATS = ['%d.%m.%Y %H:%M:%S']
+
 SITE_ID = 1
 
 # DRF
@@ -119,6 +124,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables.pagination.DatatablesPageNumberPagination',
     'PAGE_SIZE': 50,
+    'DATE_FORMAT': DATE_FORMAT,
+    'DATETIME_FORMAT': DATETIME_FORMAT,
+    'DATE_INPUT_FORMATS': DATE_INPUT_FORMATS,
+    'DATETIME_INPUT_FORMATS': DATETIME_INPUT_FORMATS
 }
 
 LOGIN_REDIRECT_URL = 'home'
@@ -184,8 +193,6 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 MAINTENANCE_503_TEMPLATE = 'errors/503.html'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-DATE_INPUT_FORMATS = ['%d.%m.%Y']
 
 PHONENUMBER_DEFAULT_REGION = 'BY'
 PHONENUMBER_DEFAULT_FORMAT = 'E164'

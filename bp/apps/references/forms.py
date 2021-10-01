@@ -4,6 +4,7 @@ from phonenumber_field import widgets
 
 from apps.references.models import Employee, Person
 from extensions.widgets import DateInputWidget, PhoneNumberWidget
+from extensions.validators import validate_ident_num_2012
 
 
 class EmployeeForm(forms.ModelForm):
@@ -20,18 +21,16 @@ class EmployeeForm(forms.ModelForm):
 class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = ['lastname', 'firstname', 'middlename', 'ident_num', 'birth_date', 'sex',
-                  'phone',
-                  'fax'
-                  ]
+        fields = ['lastname', 'firstname', 'middlename', 'ident_num', 'birth_date', 'sex']
         widgets = {
-            'birth_date': DateInputWidget(),
-            'phone': PhoneNumberWidget(),
-            'fax': PhoneNumberWidget(),
+            'birth_date': forms.TextInput(attrs={'type': 'date'}),
+            # 'phone': PhoneNumberWidget(),
+            # 'fax': PhoneNumberWidget(),
         }
 
-    # def clean(self):
-    #     super().clean()
-    #     data = str(self.cleaned_data.get('fax'))
-    #     if not data.startswith('375'):
-    #         raise ValidationError('Номер должен начинаться на 375')
+    def clean(self):
+        super().clean()
+        value = str(self.cleaned_data.get('ident_num'))
+        result = validate_ident_num_2012(value)
+        if result is not None:
+            self.add_error('ident_num', result)
