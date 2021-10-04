@@ -28,6 +28,7 @@ class Employee(BaseRefModel):
         return reverse_lazy('employees')
 
     class Meta(BaseRefModel.Meta):
+        abstract = True
         db_table = 'ref_employee'
         verbose_name = 'сотрудник'
         verbose_name_plural = 'сотрудники'

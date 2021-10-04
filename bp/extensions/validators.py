@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 def validate_phone_number(value):
+    """Контроль номера телефона для Беларуси"""
     digits = ''.join([i for i in str(value) if i.isdigit()])
     if len(digits) == 12:
         if not digits.startswith('375'):
@@ -36,12 +37,11 @@ def validate_ident_num_2012(value: str):
                 result = 'Некорректный номер. Только цифры и заглавные латинские буквы.'
         else:
             result = 'Длина должна быть 14 символов.'
-
     return result
 
 
 def validate_image(content):
-    """Validates if Content Type is an image."""
+    """Контроль ялвяется ли тип контента изображением."""
     if getattr(content.file, 'content_type', None):
         content_type = content.file.content_type.split('/')[0]
         if content_type != 'image':
@@ -49,7 +49,7 @@ def validate_image(content):
 
 
 def validate_size(content):
-    """Validates if the size of the content in not too big."""
+    """Контроль на непревышение размера файла заданной границы."""
     if content.file.size > validate_size.MAX_UPLOAD_SIZE:
         message = _("Please keep file size under %(limit)s. Current file size %(current_size)s.")
         raise ValidationError(message, code='file-size', params={

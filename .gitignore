@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+cache/
 
 # C extensions
 *.so
@@ -130,3 +131,6 @@ dmypy.json
 
 #PyCharm
 .idea/
+
+#Migrations
+00??_*.py

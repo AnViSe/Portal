@@ -14,6 +14,7 @@ class Subdivision(BaseRefModel):
                             verbose_name='Наименование')
 
     class Meta(BaseRefModel.Meta):
+        abstract = True
         db_table = 'ref_subdivision'
         verbose_name = 'подразделение'
         verbose_name_plural = 'подразделения'
@@ -28,6 +29,7 @@ class SB(BaseRefModel, MPTTModel):
         return self.name
 
     class Meta(BaseRefModel.Meta):
+        abstract = True
         db_table = 'ref_sd'
         verbose_name = 'подразделение'
         verbose_name_plural = 'подразделения'

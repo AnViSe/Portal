@@ -17,6 +17,7 @@ class Country(BaseRefModel):
         return self.name
 
     class Meta(BaseRefModel.Meta):
+        abstract = True
         db_table = 'ref_country'
         verbose_name = 'страна'
         verbose_name_plural = 'страны'

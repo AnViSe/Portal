@@ -18,6 +18,7 @@ class Region(BaseRefModel):
         return self.name
 
     class Meta(BaseRefModel.Meta):
+        abstract = True
         db_table = 'ref_region'
         verbose_name = 'область'
         verbose_name_plural = 'области'

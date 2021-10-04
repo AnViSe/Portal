@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
+from core.fields import SexField
 from extensions.service import get_fml, get_lfm
 from apps.references.models import BaseRefModel
 from extensions.validators import validate_phone_number
@@ -8,14 +9,6 @@ from extensions.validators import validate_phone_number
 
 class Person(BaseRefModel):
     """Модель персоны"""
-    SEX_NONE = 0
-    SEX_MEN = 1
-    SEX_WOMEN = 2
-    SEX_CHOICES = [
-        (SEX_NONE, 'Не указан'),
-        (SEX_MEN, 'Мужской'),
-        (SEX_WOMEN, 'Женский'),
-    ]
 
     lastname = models.CharField(verbose_name='Фамилия', max_length=100)
     firstname = models.CharField(verbose_name='Имя', max_length=100, null=True, blank=True)
@@ -24,7 +17,7 @@ class Person(BaseRefModel):
     name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
     ident_num = models.CharField(verbose_name='Личный номер', max_length=14, null=True, blank=True)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
-    sex = models.SmallIntegerField(verbose_name='Пол', choices=SEX_CHOICES, default=SEX_NONE)
+    sex = SexField()
     # phone = PhoneNumberField(verbose_name='Телефон', blank=True, null=True)
     # fax = models.CharField(verbose_name='Факс', max_length=12, blank=True, null=True,
     #                        validators=[validate_phone_number])
@@ -52,6 +45,7 @@ class Person(BaseRefModel):
         db_table = 'ref_person'
         verbose_name = 'персона'
         verbose_name_plural = 'персоны'
+        ordering = ['id']
 
     class Params(BaseRefModel.Params):
         route_list = 'persons'
@@ -62,5 +56,4 @@ class Person(BaseRefModel):
             {'name': 'firstname', 'title': 'Имя'},
             {'name': 'middlename', 'title': 'Отчество'},
             {'name': 'birth_date', 'title': 'Дата рождения'},
-            # {"name": None, "title": "Операции"},
         ]

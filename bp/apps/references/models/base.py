@@ -1,24 +1,16 @@
 from django.db import models
 
+from core.fields import *
+
 
 class BaseRefModel(models.Model):
     """Базовая модель для справочников"""
-    ROW_INACTIVE = 0
-    ROW_ACTIVE = 1
-    ROW_STATUS = [
-        (ROW_INACTIVE, 'Неактивна'),
-        (ROW_ACTIVE, 'Активна'),
-    ]
 
     id = models.BigAutoField(primary_key=True,
                              verbose_name='Код')
-    dt_cr = models.DateTimeField(verbose_name='Создана',
-                                 auto_now_add=True)
-    dt_up = models.DateTimeField(verbose_name='Изменена',
-                                 auto_now=True)
-    status = models.SmallIntegerField(verbose_name='Статус',
-                                      choices=ROW_STATUS,
-                                      default=ROW_ACTIVE)
+    dt_cr = CreateDateTimeField()
+    dt_up = UpdateDateTimeField()
+    status = StatusField()
 
     # @property
     # def actions(self):
