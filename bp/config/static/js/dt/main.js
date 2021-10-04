@@ -4,18 +4,20 @@ var dt_defaultContent = '<div class="btn-group btn-group-xs" role="group" aria-l
                         '<button type="button" class="btn btn-outline-success btn_edit"><i class="far fa-edit"></i></button>'+
                         '<button type="button" class="btn btn-outline-danger btn_delete"><i class="far fa-trash-alt"></i></button></div>'
 var dt_dom = "<'card-header'"+
-                "<'d-flex justify-content-between'"+
-                    "<'header_left'B>"+
+                "<'row'"+
+//                "<'d-flex justify-content-between'"+
+                    "<'col-sm-12 col-md-6 header_left'B>"+
 //                    "<'header_center'>"+
-                    "<'header_right pt-2'f>"+
+                    "<'col-sm-12 col-md-6 header_right pt-2'f>"+
                 ">"+
              ">"+
              "<'card-body p-0't>"+
              "<'card-footer'"+
-                "<'d-flex justify-content-between'"+
-                    "<'footer_left pt-2'l>"+
-                    "<'footer_center d-none d-xl-block'i>"+
-                    "<'footer_right'p>"+
+                "<'row'"+
+//                "<'d-flex justify-content-between'"+
+                    "<'col-lg-3 col-md-6 footer_left pt-2'l>"+
+                    "<'col-lg-3 footer_center d-none d-lg-block'i>"+
+                    "<'col-lg-6 col-md-6 footer_right'p>"+
                 ">"+
              ">"
 var table = $('#ref-table').DataTable({
