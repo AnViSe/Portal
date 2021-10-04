@@ -1,4 +1,6 @@
 from django.core.exceptions import ValidationError
+from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
 
 
 def validate_phone_number(value):
@@ -36,3 +38,25 @@ def validate_ident_num_2012(value: str):
             result = 'Длина должна быть 14 символов.'
 
     return result
+
+
+def validate_image(content):
+    """Validates if Content Type is an image."""
+    if getattr(content.file, 'content_type', None):
+        content_type = content.file.content_type.split('/')[0]
+        if content_type != 'image':
+            raise ValidationError(_("File type is not supported"), code='file-type')
+
+
+def validate_size(content):
+    """Validates if the size of the content in not too big."""
+    if content.file.size > validate_size.MAX_UPLOAD_SIZE:
+        message = _("Please keep file size under %(limit)s. Current file size %(current_size)s.")
+        raise ValidationError(message, code='file-size', params={
+            'limit': filesizeformat(validate_size.MAX_UPLOAD_SIZE),
+            'current_size': filesizeformat(content.file.size),
+        })
+
+
+validate_size.MAX_UPLOAD_SIZE = 102400  # 100kB
+validate_size.constraint = ('maxlength', validate_size.MAX_UPLOAD_SIZE)

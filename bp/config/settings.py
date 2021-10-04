@@ -153,10 +153,10 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 # ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN (= 180)
 # : время охлаждения после отправки сообщения (в секундах)
 
-# ACCOUNT_LOGIN_ATTEMPTS_LIMIT (= 5)
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 # : количество неудачных попыток входа
 
-# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT (= 300)
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 # : продолжительность запрещенных попыток входа пользователя с момента последней неудачной попытки входа
 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
@@ -210,6 +210,9 @@ MESSAGE_TAGS = {
 # MPTT
 # Сдвиг веток в дереве (пиксели)
 MPTT_ADMIN_LEVEL_INDENT = 20
+
+
+DEFAULT_AVATAR_URL = ''
 
 try:
     from .local_settings import *
