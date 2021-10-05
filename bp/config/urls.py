@@ -22,8 +22,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.home.urls')),
-    path('accounts/logout/', LogoutView.as_view(), name="account_logout"),
-    path('accounts/', include('allauth.urls')),
+    path('account/logout/', LogoutView.as_view(), name="account_logout"),
+    path('account/', include('allauth.urls')),
     path('api/v1/', include('config.urls_api_v1')),
     path('refs/', include('apps.references.urls')),
 ]
