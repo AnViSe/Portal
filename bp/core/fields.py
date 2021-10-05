@@ -9,13 +9,13 @@ ROW_STATUS = [
 ]
 
 # Значения пола
-SEX_NONE = 0
-SEX_MEN = 1
-SEX_WOMEN = 2
-SEX_CHOICES = [
-    (SEX_NONE, 'Не указан'),
-    (SEX_MEN, 'Мужской'),
-    (SEX_WOMEN, 'Женский'),
+GENDER_NONE = 0
+GENDER_MEN = 1
+GENDER_WOMEN = 2
+GENDER_CHOICES = [
+    (GENDER_NONE, 'Не указан'),
+    (GENDER_MEN, 'Мужской'),
+    (GENDER_WOMEN, 'Женский'),
 ]
 
 
@@ -66,13 +66,13 @@ class UpdateDateTimeField(models.DateTimeField):
         return name, path, args, kwargs
 
 
-class SexField(models.SmallIntegerField):
+class GenderField(models.SmallIntegerField):
     """Пол человека"""
 
     def __init__(self, *args, **kwargs):
         kwargs['verbose_name'] = 'Пол'
-        kwargs['choices'] = SEX_CHOICES
-        kwargs['default'] = SEX_NONE
+        kwargs['choices'] = GENDER_CHOICES
+        kwargs['default'] = GENDER_NONE
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
