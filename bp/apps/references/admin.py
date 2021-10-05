@@ -18,8 +18,10 @@ class SubdivisionAdmin(ModelAdmin):
 # @admin.register(Employee)
 class EmployeeAdmin(ModelAdmin):
     list_display = ('pers_num', 'person', 'subdivision', 'dt_up', 'status')
+    list_select_related = ['person', 'subdivision']
+
     list_display_links = ('pers_num',)
-    search_fields = ('pers_num',)
+    search_fields = ('pers_num', 'person__name_lfm',)
 
     form = EmployeeForm
     # model = Employee

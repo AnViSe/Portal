@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # from .country import *
 # from .region import *
-# from .employee import *
+from .employee import *
 from .person import *
 # from .subdivision import *
 

@@ -4,13 +4,13 @@ from django.views import generic
 from rest_framework import viewsets
 
 from apps.references.forms import EmployeeForm
-from apps.references.models import Employee
+from apps.references.models.employee import Employee
 from apps.references.serializers import EmployeeSerializer
 from apps.references.utils import RefTableMixin
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    queryset = Employee.objects.all()
+    queryset = Employee.objects.select_related('person', 'subdivision').all()
     serializer_class = EmployeeSerializer
 
 

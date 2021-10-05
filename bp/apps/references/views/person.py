@@ -3,14 +3,14 @@ from django.views import generic
 from rest_framework import viewsets
 
 # from apps.references.forms import PersonForm
-# from apps.references.models.person import Person
-# from apps.references.serializers import PersonSerializer
+from apps.references.models.person import Person
+from apps.references.serializers import PersonSerializer
 from apps.references.utils import RefTableMixin
 
 
-# class PersonViewSet(viewsets.ModelViewSet):
-#     queryset = Person.objects.all()
-#     serializer_class = PersonSerializer
+class PersonViewSet(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
 
 
 # class PersonList(RefTableMixin, generic.ListView):

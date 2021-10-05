@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 # from phonenumber_field.modelfields import PhoneNumberField
-from core.fields import SexField
+from core.fields import GenderField
 from extensions.service import get_fml, get_lfm
 from apps.references.models import BaseRefModel
 from extensions.validators import validate_phone_number
@@ -17,7 +17,7 @@ class Person(BaseRefModel):
     name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
     ident_num = models.CharField(verbose_name='Личный номер', max_length=14, null=True, blank=True)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
-    sex = SexField()
+    gender = GenderField()
 
     # def __init__(self, *args, **kwargs):
     #     cls = self.__class__

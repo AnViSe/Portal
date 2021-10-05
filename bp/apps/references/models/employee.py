@@ -33,6 +33,7 @@ class Employee(BaseRefModel):
         db_table = 'ref_employee'
         verbose_name = 'сотрудник'
         verbose_name_plural = 'сотрудники'
+        ordering = ['id']
 
     # class Params(BaseRefModel.Params):
     #     route_list = 'employees'
