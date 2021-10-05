@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from config import settings
-from apps.references.models import Person
+from apps.references.models import Person, Employee
 
 
 class Command(BaseCommand):
@@ -27,10 +27,18 @@ class Command(BaseCommand):
                 m = faker.middle_name_female()
                 f = faker.first_name_female()
                 s = 2
+            b = faker.date_of_birth()
 
-            Person.objects.create(lastname=l, middlename=m, firstname=f, sex=s)
+            Person.objects.create(last_name=l, middle_name=m, first_name=f, gender=s, birth_date=b)
 
         count = Person.objects.all().count()
+        return count
+
+    def append_employees(self, count):
+        faker = Faker([settings.LANGUAGE_CODE])
+        for p in Person.objects.all():
+            Employee.objects.create(pers_num=faker.unique.random_int(10, 99999), person=p)
+        count = Employee.objects.all().count()
         return count
 
     def handle(self, *args, **kwargs):
@@ -40,3 +48,7 @@ class Command(BaseCommand):
         if model_name == 'person':
             result = self.append_persons(record_count)
             self.stdout.write(self.style.SUCCESS(f"Всего персон: {result}"))
+
+        if model_name == 'employee':
+            result = self.append_employees(record_count)
+            self.stdout.write(self.style.SUCCESS(f"Всего сотрудников: {result}"))
