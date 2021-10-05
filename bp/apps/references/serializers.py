@@ -13,12 +13,12 @@ from apps.references.models import *
 #         return serializer.data
 
 
-class PersonSerializer(serializers.ModelSerializer):
-    """Список личностей (персон)"""
+# class PersonSerializer(serializers.ModelSerializer):
+#     """Список личностей (персон)"""
 
-    class Meta:
-        model = Person
-        exclude = ('dt_cr', 'dt_up')
+    # class Meta:
+    #     model = Person
+    #     exclude = ('dt_cr', 'dt_up')
 
 
 # class EmployeeSerializer(serializers.ModelSerializer):

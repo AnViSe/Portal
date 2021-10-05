@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
+from core.fields import StatusField
 from extensions.service import build_tree_menu
 
 
@@ -29,8 +30,11 @@ class Menu(models.Model):
                                  verbose_name='Заголовок')
     sort = models.SmallIntegerField(default=999, db_index=True,
                                     verbose_name='Сортировка')
-    status = models.SmallIntegerField(default=1, db_index=True,
-                                      verbose_name='Статус')
+    status = StatusField()
+
+    class Meta:
+        verbose_name = 'пункт меню'
+        verbose_name_plural = 'пункты меню'
 
     def __str__(self):
         return self.name
@@ -62,10 +66,6 @@ class Menu(models.Model):
 
         menus = build_tree_menu(menus, None)
         return menus
-
-    class Meta:
-        verbose_name = 'пункт меню'
-        verbose_name_plural = 'пункты меню'
 
 
 @receiver(post_save, sender=Menu)

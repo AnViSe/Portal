@@ -1,45 +1,46 @@
 from django.db import models
 from django.urls import reverse_lazy
 
+from .person import Person
+from .subdivision import Subdivision
 from .base import BaseRefModel
-from extensions.service import get_fml, get_lfm
+
+
+# from extensions.service import get_fml, get_lfm
 
 
 class Employee(BaseRefModel):
     """Модель сотрудника"""
-    lastname = models.CharField(verbose_name='Фамилия', max_length=100)
-    firstname = models.CharField(verbose_name='Имя', max_length=100, null=True, blank=True)
-    middlename = models.CharField(verbose_name='Отчество', max_length=100, null=True, blank=True)
-    name_lfm = models.CharField(verbose_name='Фамилия И.О.', max_length=150, editable=False)
-    name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
-
-    # persnum = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
+    pers_num = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
+    person = models.ForeignKey(Person, verbose_name='Персона',
+                               on_delete=models.SET_NULL, blank=True, null=True,
+                               related_name='employees')
+    subdivision = models.ForeignKey(Subdivision, verbose_name='Подразделение',
+                                    on_delete=models.SET_NULL, blank=True, null=True,
+                                    related_name='employees')
 
     def __str__(self):
-        return self.name_lfm
+        if self.person:
+            return f'{self.person} ({self.pers_num})'
+        else:
+            return str(self.pers_num)
 
-    def save(self, *args, **kwargs):
-        self.name_lfm = get_lfm(self.lastname, self.firstname, self.middlename)
-        self.name_fml = get_fml(self.lastname, self.firstname, self.middlename)
-        super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        # return reverse('view_employee', kwargs={"pk": self.pk})
-        return reverse_lazy('employees')
+    # def get_absolute_url(self):
+    # return reverse('view_employee', kwargs={"pk": self.pk})
+    # return reverse_lazy('employees')
 
     class Meta(BaseRefModel.Meta):
-        abstract = True
         db_table = 'ref_employee'
         verbose_name = 'сотрудник'
         verbose_name_plural = 'сотрудники'
 
-    class Params(BaseRefModel.Params):
-        route_list = 'employees'
-        route_list_api = 'employee-list'
-        fields_list = [
-            {'name': 'id', 'title': 'Код'},
-            {'name': 'lastname', 'title': 'Фамилия'},
-            {'name': 'firstname', 'title': 'Имя'},
-            {'name': 'middlename', 'title': 'Отчество'},
-            {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
-        ]
+    # class Params(BaseRefModel.Params):
+    #     route_list = 'employees'
+    #     route_list_api = 'employee-list'
+    #     fields_list = [
+    #         {'name': 'id', 'title': 'Код'},
+    #         {'name': 'lastname', 'title': 'Фамилия'},
+    #         {'name': 'firstname', 'title': 'Имя'},
+    #         {'name': 'middlename', 'title': 'Отчество'},
+    #         {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
+    #     ]

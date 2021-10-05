@@ -10,17 +10,14 @@ from extensions.validators import validate_phone_number
 class Person(BaseRefModel):
     """Модель персоны"""
 
-    lastname = models.CharField(verbose_name='Фамилия', max_length=100)
-    firstname = models.CharField(verbose_name='Имя', max_length=100, null=True, blank=True)
-    middlename = models.CharField(verbose_name='Отчество', max_length=100, null=True, blank=True)
+    last_name = models.CharField(verbose_name='Фамилия', max_length=100)
+    first_name = models.CharField(verbose_name='Имя', max_length=100, null=True, blank=True)
+    middle_name = models.CharField(verbose_name='Отчество', max_length=100, null=True, blank=True)
     name_lfm = models.CharField(verbose_name='Фамилия И.О.', max_length=150, editable=False)
     name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
     ident_num = models.CharField(verbose_name='Личный номер', max_length=14, null=True, blank=True)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     sex = SexField()
-    # phone = PhoneNumberField(verbose_name='Телефон', blank=True, null=True)
-    # fax = models.CharField(verbose_name='Факс', max_length=12, blank=True, null=True,
-    #                        validators=[validate_phone_number])
 
     # def __init__(self, *args, **kwargs):
     #     cls = self.__class__
@@ -37,8 +34,8 @@ class Person(BaseRefModel):
     #         raise ValidationError('Номер должен начинаться на 375')
 
     def save(self, *args, **kwargs):
-        self.name_lfm = get_lfm(self.lastname, self.firstname, self.middlename)
-        self.name_fml = get_fml(self.lastname, self.firstname, self.middlename)
+        self.name_lfm = get_lfm(self.last_name, self.first_name, self.middle_name)
+        self.name_fml = get_fml(self.last_name, self.first_name, self.middle_name)
         super().save(*args, **kwargs)
 
     class Meta(BaseRefModel.Meta):
@@ -47,13 +44,13 @@ class Person(BaseRefModel):
         verbose_name_plural = 'персоны'
         ordering = ['id']
 
-    class Params(BaseRefModel.Params):
-        route_list = 'persons'
-        route_list_api = 'person-list'
-        fields_list = [
-            {'name': 'id', 'title': 'Код'},
-            {'name': 'lastname', 'title': 'Фамилия'},
-            {'name': 'firstname', 'title': 'Имя'},
-            {'name': 'middlename', 'title': 'Отчество'},
-            {'name': 'birth_date', 'title': 'Дата рождения'},
-        ]
+    # class Params(BaseRefModel.Params):
+    #     route_list = 'persons'
+    #     route_list_api = 'person-list'
+    #     fields_list = [
+    #         {'name': 'id', 'title': 'Код'},
+    #         {'name': 'last_name', 'title': 'Фамилия'},
+    #         {'name': 'first_name', 'title': 'Имя'},
+    #         {'name': 'middle_name', 'title': 'Отчество'},
+    #         {'name': 'birth_date', 'title': 'Дата рождения'},
+    #     ]
