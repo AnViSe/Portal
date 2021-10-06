@@ -4,7 +4,7 @@ from django.shortcuts import render
 # from .region import *
 from .employee import *
 from .person import *
-# from .subdivision import *
+from .subdivision import *
 
 
 def index(request):

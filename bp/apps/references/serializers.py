@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.fields import ListField
+from rest_framework.fields import ListField, SerializerMethodField
 from rest_framework_recursive.fields import RecursiveField
 
 from apps.references.models import *
@@ -16,14 +16,12 @@ from apps.references.models import *
 class PersonSerializer(serializers.ModelSerializer):
     """Список личностей (персон)"""
 
-    status = serializers.CharField(source='get_status_display', label='Статус')
-    gender = serializers.CharField(source='get_gender_display', label='Пол')
-
-    # status = serializers.SerializerMethodField()
+    # status = serializers.CharField(source='get_status_display', label='Статус')
+    # gender = serializers.CharField(source='get_gender_display', label='Пол')
 
     class Meta:
         model = Person
-        exclude = ('dt_cr', 'dt_up')
+        fields = ['id', 'last_name', 'first_name', 'middle_name', 'gender', 'ident_num', 'status']
 
     # def get_status(self, obj):
     #     return obj.get_status_display()
@@ -39,6 +37,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = ['id', 'pers_num', 'person', 'subdivision', 'status']
         # exclude = ('dt_cr', 'dt_up')
+
 
 # class CountrySerializer(serializers.ModelSerializer):
 #     """Список стран"""
@@ -61,31 +60,47 @@ class EmployeeSerializer(serializers.ModelSerializer):
 # exclude = ('dt_cr', 'dt_up')
 
 
-# class FilterSubdivisionListSerializer(serializers.ListSerializer):
-#     """Фильтр подразделений, только родители"""
+class FilterSubdivisionListSerializer(serializers.ListSerializer):
+    """Фильтр подразделений, только родители"""
 
-# def to_representation(self, data):
-#     print(data, type(data))
-#     data = data.filter(parent=None)
-# return super().to_representation(data)
-
-
-# class SubdivisionSerializer(serializers.ModelSerializer):
-#     """Список подразделений"""
-# children = RecursiveSerializer(many=True)
-#    next = RecursiveField(allow_null=True)
-
-#     class Meta:
-# list_serializer_class = FilterSubdivisionListSerializer
-#        model = SB
-#        fields = ('name', 'children')
-# exclude = ('dt_cr', 'dt_up')
+    def to_representation(self, data):
+        print(data, type(data))
+        data = data.filter(parent=None)
+        return super().to_representation(data)
 
 
-# class SubdivisionTreeSerializer(serializers.ModelSerializer):
-#     children = RecursiveField(many=True)
-# children = ListField(child=RecursiveField())
+class SubdivisionSerializer(serializers.ModelSerializer):
+    """Список подразделений"""
 
-# class Meta:
-#     model = SB
-#     fields = ('id', 'name', 'children', 'status')
+    parent = serializers.StringRelatedField(source='parent.name', read_only=True)
+    status = serializers.CharField(source='get_status_display', label='Статус')
+
+    # children = RecursiveSerializer(many=True)
+    # next = RecursiveField(allow_null=True)
+
+    class Meta:
+        # list_serializer_class = FilterSubdivisionListSerializer
+
+        model = Subdivision
+        fields = ('id', 'name', 'parent', 'status')
+
+
+class SubdivisionTreeSerializer(serializers.ModelSerializer):
+    children = RecursiveField(many=True)
+    # children = ListField(child=RecursiveField())
+
+    class Meta:
+        model = Subdivision
+        fields = ('id', 'name', 'children', 'status')
+
+
+class SubdivisionTreeSerializer1(serializers.ModelSerializer):
+    children = SerializerMethodField(source='get_children')
+
+    class Meta:
+        fields = ('children',)  # add here rest of the fields from model
+
+    def get_children(self, obj):
+        children = self.context['children'].get(obj.id, [])
+        serializer = SubdivisionTreeSerializer(children, many=True, context=self.context)
+        return serializer.data
