@@ -2,7 +2,7 @@ from django.views import generic
 from rest_framework import decorators, mixins, status, viewsets
 from rest_framework.response import Response
 
-from apps.references.models import Subdivision
+from apps.references.models.subdivision import Subdivision
 from apps.references.serializers import SubdivisionTreeSerializer, SubdivisionSerializer
 from apps.references.utils import RefTableMixin
 

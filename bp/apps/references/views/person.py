@@ -13,20 +13,20 @@ class PersonViewSet(viewsets.ModelViewSet):
     serializer_class = PersonSerializer
 
 
-# class PersonList(RefTableMixin, generic.ListView):
-#     model = Person
+class PersonList(RefTableMixin, generic.ListView):
+    model = Person
 
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_person'
 
     # todo Попробовать сделать через mixin
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['route_list_api'] = self.model.Params.route_list_api
-    #     context['fields_list'] = self.model.Params.fields_list
-    #     if self.action_field not in context['fields_list']:
-    #         context['fields_list'].append(self.action_field)
-    #     return context
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['route_list_api'] = self.model.Params.route_list_api
+        context['fields_list'] = self.model.Params.fields_list
+        if self.action_field not in context['fields_list']:
+            context['fields_list'].append(self.action_field)
+        return context
 
 
 # class PersonCreate(generic.CreateView):

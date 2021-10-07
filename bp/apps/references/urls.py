@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 
-from apps.references.views import *
+from apps.references.views import index
+from apps.references.views.employee import EmployeeList
+from apps.references.views.person import PersonList
 
 urlpatterns = [
     path('', login_required(index), name='refs'),
 
-    # path('employees/', login_required(EmployeeList.as_view()), name='employees'),
+    path('employees/', login_required(EmployeeList.as_view()), name='employees'),
     # path('employees/', include([
     #     path('create/', login_required(EmployeeCreate.as_view()), name='add_employee'),
     #     path('<int:pk>/', login_required(EmployeeEdit.as_view()), name='edit_employee'),
@@ -16,7 +18,7 @@ urlpatterns = [
     # path('countries/', login_required(CountryList.as_view()), name='countries'),
     # path('regions/', login_required(RegionList.as_view()), name='regions'),
 
-    # path('persons/', PersonList.as_view(), name='persons'),
+    path('persons/', PersonList.as_view(), name='persons'),
     # path('persons/', include([
     #     path('create/', PersonCreate.as_view(), name='add_person'),
     #     path('<int:pk>/', PersonEdit.as_view(), name='edit_person'),

@@ -22,16 +22,16 @@ class Employee(BaseRefModel):
         verbose_name_plural = 'сотрудники'
         ordering = ['id']
 
-    # class Params(BaseRefModel.Params):
-    #     route_list = 'employees'
-    #     route_list_api = 'employee-list'
-    #     fields_list = [
-    #         {'name': 'id', 'title': 'Код'},
-    #         {'name': 'lastname', 'title': 'Фамилия'},
-    #         {'name': 'firstname', 'title': 'Имя'},
-    #         {'name': 'middlename', 'title': 'Отчество'},
-    #         {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
-    #     ]
+    class Params(BaseRefModel.Params):
+        route_list = 'employees'
+        route_list_api = 'employee-list'
+        fields_list = [
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'tab_num', 'title': 'Табельный'},
+            # {'name': 'first_name', 'title': 'Имя'},
+            # {'name': 'middle_name', 'title': 'Отчество'},
+            # {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
+        ]
 
     def __str__(self):
         if self.person:

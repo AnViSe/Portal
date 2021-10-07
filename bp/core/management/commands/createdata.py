@@ -4,7 +4,8 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from config import settings
-from apps.references.models import Person, Employee
+from apps.references.models.person import Person
+from apps.references.models.employee import Employee
 
 
 class Command(BaseCommand):
@@ -37,7 +38,7 @@ class Command(BaseCommand):
     def append_employees(self, count):
         faker = Faker([settings.LANGUAGE_CODE])
         for p in Person.objects.all():
-            Employee.objects.create(pers_num=faker.unique.random_int(10, 99999), person=p)
+            Employee.objects.create(tab_num=faker.unique.random_int(10, 99999), person=p)
         count = Employee.objects.all().count()
         return count
 

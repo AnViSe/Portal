@@ -5,6 +5,8 @@ from rest_framework_recursive.fields import RecursiveField
 from apps.references.models.employee import Employee
 from apps.references.models.person import Person
 
+from apps.references.models.subdivision import Subdivision
+
 
 # class RecursiveSerializer(serializers.Serializer):
 #     """Рекурсивный вывод children"""
@@ -22,7 +24,7 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ['id', 'last_name', 'first_name', 'middle_name', 'gender', 'ident_num', 'status']
+        fields = ['id', 'last_name', 'first_name', 'middle_name', 'gender', 'birth_date', 'pers_num', 'status']
 
     # def get_status(self, obj):
     #     return obj.get_status_display()
@@ -88,6 +90,7 @@ class SubdivisionSerializer(serializers.ModelSerializer):
 
 class SubdivisionTreeSerializer(serializers.ModelSerializer):
     children = RecursiveField(many=True)
+
     # children = ListField(child=RecursiveField())
 
     class Meta:

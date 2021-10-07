@@ -23,16 +23,16 @@ class Person(BaseRefModel):
         verbose_name_plural = 'персоны'
         ordering = ['id']
 
-    # class Params(BaseRefModel.Params):
-    #     route_list = 'persons'
-    #     route_list_api = 'person-list'
-    #     fields_list = [
-    #         {'name': 'id', 'title': 'Код'},
-    #         {'name': 'last_name', 'title': 'Фамилия'},
-    #         {'name': 'first_name', 'title': 'Имя'},
-    #         {'name': 'middle_name', 'title': 'Отчество'},
-    #         {'name': 'birth_date', 'title': 'Дата рождения'},
-    #     ]
+    class Params(BaseRefModel.Params):
+        route_list = 'persons'
+        route_list_api = 'person-list'
+        fields_list = [
+            {'name': 'id', 'title': 'Код'},
+            {'name': 'last_name', 'title': 'Фамилия'},
+            {'name': 'first_name', 'title': 'Имя'},
+            {'name': 'middle_name', 'title': 'Отчество'},
+            {'name': 'birth_date', 'title': 'Дата рождения'},
+        ]
 
     # def __init__(self, *args, **kwargs):
     #     cls = self.__class__
