@@ -13,18 +13,14 @@ class Menu(models.Model):
                                verbose_name='Родитель')
     name = models.CharField(max_length=100,
                             verbose_name='Заголовок')
-    route = models.CharField(max_length=100,
-                             blank=True, null=True,
+    route = models.CharField(max_length=100, blank=True, null=True,
                              verbose_name='Имя маршрута')
-    perm = models.CharField(max_length=100,
-                            blank=True, null=True,
+    perm = models.CharField(max_length=100, blank=True, null=True,
                             verbose_name='Разрешение')
-    icon = models.CharField(max_length=30,
-                            blank=True, null=True,
+    icon = models.CharField(max_length=30, blank=True, null=True,
                             default='far fa-circle',
                             verbose_name='Иконка')
-    badge = models.CharField(max_length=20,
-                             blank=True, null=True,
+    badge = models.CharField(max_length=20, blank=True, null=True,
                              verbose_name='Метка')
     header = models.BooleanField(default=False,
                                  verbose_name='Заголовок')

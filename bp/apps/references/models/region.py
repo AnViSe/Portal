@@ -1,6 +1,7 @@
 from django.db import models
 
-from apps.references.models import BaseRefModel, Country
+from apps.references.models.base import BaseRefModel
+from apps.references.models.country import Country
 
 
 class Region(BaseRefModel):
@@ -13,9 +14,6 @@ class Region(BaseRefModel):
                                 verbose_name='Страна')
     name = models.CharField(max_length=60,
                             verbose_name='Наименование')
-
-    def __str__(self):
-        return self.name
 
     class Meta(BaseRefModel.Meta):
         abstract = True
@@ -32,3 +30,6 @@ class Region(BaseRefModel):
             {'name': 'name', 'title': 'Наименование'},
             {'name': 'country', 'title': 'Страна'},
         ]
+
+    def __str__(self):
+        return self.name

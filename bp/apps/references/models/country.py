@@ -13,9 +13,6 @@ class Country(BaseRefModel):
     alpha3 = models.CharField(max_length=3,
                               verbose_name='Код3')
 
-    def __str__(self):
-        return self.name
-
     class Meta(BaseRefModel.Meta):
         abstract = True
         db_table = 'ref_country'
@@ -32,3 +29,6 @@ class Country(BaseRefModel):
             {'name': 'alpha2', 'title': 'ISO2'},
             {'name': 'alpha3', 'title': 'ISO3'},
         ]
+
+    def __str__(self):
+        return self.name

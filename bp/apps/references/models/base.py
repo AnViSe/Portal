@@ -7,10 +7,19 @@ class BaseRefModel(models.Model):
     """Базовая модель для справочников"""
 
     id = models.BigAutoField(primary_key=True,
-                             verbose_name='Код')
+                             verbose_name='Идентификатор')
     dt_cr = CreateDateTimeField()
     dt_up = UpdateDateTimeField()
     status = StatusField()
+
+    class Meta:
+        app_label = 'references'
+        abstract = True
+
+    class Params:
+        route_list = None
+        route_list_api = None
+        fields_list = []
 
     # @property
     # def actions(self):
@@ -28,11 +37,3 @@ class BaseRefModel(models.Model):
         # return getattr(cls, f'{attr_name}', 'test')
         # return cls.
 
-    class Meta:
-        app_label = 'references'
-        abstract = True
-
-    class Params:
-        route_list = None
-        route_list_api = None
-        fields_list = []

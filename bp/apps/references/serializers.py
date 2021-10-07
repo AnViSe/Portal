@@ -2,7 +2,8 @@ from rest_framework import serializers
 from rest_framework.fields import ListField, SerializerMethodField
 from rest_framework_recursive.fields import RecursiveField
 
-from apps.references.models import *
+from apps.references.models.employee import Employee
+from apps.references.models.person import Person
 
 
 # class RecursiveSerializer(serializers.Serializer):
@@ -35,7 +36,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ['id', 'pers_num', 'person', 'subdivision', 'status']
+        fields = ['id', 'tab_num', 'person', 'subdivision', 'status']
         # exclude = ('dt_cr', 'dt_up')
 
 

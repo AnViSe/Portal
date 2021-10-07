@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    list_display = ('username', 'employee', 'subdivision', 'is_active')
+    list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
     list_display_links = ('username',)
     search_fields = ('username',)
 
@@ -28,7 +28,7 @@ admin.site.unregister(Group)
 
 class CustomGroupAdmin(GroupAdmin):
     form = CustomGroupAdminForm
-    filter_horizontal = ['permissions']
+    # filter_horizontal = ['permissions']
 
 
 admin.site.register(Group, CustomGroupAdmin)
