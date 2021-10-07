@@ -14,7 +14,7 @@ class Employee(BaseRefModel):
                                related_name='employees')
     subdivision = models.ForeignKey(Subdivision, verbose_name='Подразделение',
                                     on_delete=models.SET_NULL, blank=True, null=True,
-                                    related_name='employees')
+                                    related_name='subdivisions')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'

@@ -2,7 +2,9 @@ from django.contrib.sites.models import Site
 from django.core.management.base import BaseCommand
 
 from apps.home.models import Menu
-from apps.references.models import Country, Region
+from apps.references.models.country import Country
+from apps.references.models.region import Region
+from apps.references.models.subdivision import Subdivision
 from config import settings
 
 
@@ -33,22 +35,35 @@ class Command(BaseCommand):
         _count = Menu.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))
 
-        Country.objects.all().delete()
-        Country.objects.create(code=112, name='Беларусь', alpha2='BY', alpha3='BLR')
-        Country.objects.create(code=643, name='Россия', alpha2='RU', alpha3='RUS')
+        # Country.objects.all().delete()
+        # Country.objects.create(code='112', name='Беларусь', alpha2='BY', alpha3='BLR')
+        # Country.objects.create(code='643', name='Россия', alpha2='RU', alpha3='RUS')
 
-        _count = Country.objects.all().count()
-        self.stdout.write(self.style.SUCCESS(f"Стран: {_count}"))
+        # _count = Country.objects.all().count()
+        # self.stdout.write(self.style.SUCCESS(f"Стран: {_count}"))
 
-        blr = Country.objects.get(code=112)
-        Region.objects.all().delete()
-        Region.objects.create(country=blr, code=100, name='Брестская')
-        Region.objects.create(country=blr, code=200, name='Витебская')
-        Region.objects.create(country=blr, code=300, name='Гомельская')
-        Region.objects.create(country=blr, code=400, name='Гродненская')
-        Region.objects.create(country=blr, code=500, name='Минская')
-        Region.objects.create(country=blr, code=600, name='Могилёвская')
-        Region.objects.create(country=blr, code=700, name='г. Минск')
+        # blr = Country.objects.get(code='112')
+        # Region.objects.all().delete()
+        # Region.objects.create(country=blr, code='100', name='Брестская')
+        # Region.objects.create(country=blr, code='200', name='Витебская')
+        # Region.objects.create(country=blr, code='300', name='Гомельская')
+        # Region.objects.create(country=blr, code='400', name='Гродненская')
+        # Region.objects.create(country=blr, code='500', name='Минская')
+        # Region.objects.create(country=blr, code='600', name='Могилёвская')
+        # Region.objects.create(country=blr, code='700', name='г. Минск')
 
-        _count = Region.objects.all().count()
-        self.stdout.write(self.style.SUCCESS(f"Областей: {_count}"))
+        # _count = Region.objects.all().count()
+        # self.stdout.write(self.style.SUCCESS(f"Областей: {_count}"))
+
+        Subdivision.objects.all().delete()
+        belpost = Subdivision.objects.create(name='Белпочта')
+        Subdivision.objects.create(parent=belpost, name='Брестский филиал')
+        Subdivision.objects.create(parent=belpost, name='Витебский филиал')
+        Subdivision.objects.create(parent=belpost, name='Гомельский филиал')
+        Subdivision.objects.create(parent=belpost, name='Гродненский филиал')
+        Subdivision.objects.create(parent=belpost, name='Минский филиал')
+        Subdivision.objects.create(parent=belpost, name='Могилевский филиал')
+        Subdivision.objects.create(parent=belpost, name='Минск ПОПП')
+
+        _count = Subdivision.objects.all().count()
+        self.stdout.write(self.style.SUCCESS(f"Подразделений: {_count}"))

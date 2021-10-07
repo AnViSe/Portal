@@ -1,6 +1,7 @@
 from django.db import models
 
-from apps.references.models import BaseRefModel, Country
+from apps.references.models.base import BaseRefModel
+from apps.references.models.country import Country
 
 
 class Region(BaseRefModel):

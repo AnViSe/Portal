@@ -28,7 +28,7 @@ admin.site.unregister(Group)
 
 class CustomGroupAdmin(GroupAdmin):
     form = CustomGroupAdminForm
-    filter_horizontal = ['permissions']
+    # filter_horizontal = ['permissions']
 
 
 admin.site.register(Group, CustomGroupAdmin)
