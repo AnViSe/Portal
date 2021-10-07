@@ -14,9 +14,6 @@ class Region(BaseRefModel):
     name = models.CharField(max_length=60,
                             verbose_name='Наименование')
 
-    def __str__(self):
-        return self.name
-
     class Meta(BaseRefModel.Meta):
         abstract = True
         db_table = 'ref_region'
@@ -32,3 +29,6 @@ class Region(BaseRefModel):
             {'name': 'name', 'title': 'Наименование'},
             {'name': 'country', 'title': 'Страна'},
         ]
+
+    def __str__(self):
+        return self.name

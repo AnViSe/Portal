@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from apps.accounts.gravatar import email_to_gravatar
-from apps.references.models import Employee, Subdivision
+from apps.references.models.employee import Employee
+from apps.references.models.subdivision import Subdivision
 from extensions.validators import validate_image, validate_size
 
 
