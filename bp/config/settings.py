@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
@@ -63,7 +62,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            BASE_DIR.joinpath('templates'),
+            BASE_DIR.joinpath('apps/account/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,13 +96,13 @@ LOCALE_PATHS = ['core/locale']
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR.joinpath('static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'config/static'),
+    BASE_DIR.joinpath('config/static'),
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -139,7 +141,7 @@ LOGOUT_REDIRECT_URL = 'home'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'cache'),
+        'LOCATION': BASE_DIR.joinpath('cache'),
     }
 }
 
