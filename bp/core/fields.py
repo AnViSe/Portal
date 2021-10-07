@@ -19,13 +19,31 @@ GENDER_CHOICES = [
 ]
 
 
+class CodeField(models.CharField):
+    """Код записи"""
+
+    def __init__(self, *args, **kwargs):
+        kwargs['verbose_name'] = 'Код'
+        kwargs['max_length'] = 15
+        kwargs['unique'] = True
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        del kwargs["verbose_name"]
+        del kwargs["max_length"]
+        del kwargs["unique"]
+        return name, path, args, kwargs
+
+
 class StatusField(models.SmallIntegerField):
-    """Стутус записи"""
+    """Статус записи"""
 
     def __init__(self, *args, **kwargs):
         kwargs['verbose_name'] = 'Статус'
         kwargs['choices'] = ROW_STATUS
         kwargs['default'] = ROW_ACTIVE
+        kwargs['db_index'] = True
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
@@ -33,6 +51,7 @@ class StatusField(models.SmallIntegerField):
         del kwargs["verbose_name"]
         del kwargs["choices"]
         del kwargs["default"]
+        del kwargs["db_index"]
         return name, path, args, kwargs
 
 
