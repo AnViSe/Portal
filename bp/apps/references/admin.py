@@ -3,10 +3,12 @@ from django.contrib.admin import ModelAdmin
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
 
 from apps.references.forms import EmployeeForm
-from apps.references.models import *
+
+from apps.references.models.employee import Employee
+from apps.references.models.person import Person
+from apps.references.models.subdivision import Subdivision
 
 
-# @admin.register(Person)
 class PersonAdmin(ModelAdmin):
     pass
 
@@ -17,11 +19,11 @@ class SubdivisionAdmin(ModelAdmin):
 
 # @admin.register(Employee)
 class EmployeeAdmin(ModelAdmin):
-    list_display = ('pers_num', 'person', 'subdivision', 'dt_up', 'status')
+    list_display = ('tab_num', 'person', 'subdivision', 'dt_up', 'status')
     list_select_related = ['person', 'subdivision']
 
-    list_display_links = ('pers_num',)
-    search_fields = ('pers_num', 'person__name_lfm',)
+    list_display_links = ('tab_num',)
+    search_fields = ('tab_num', 'person__name_lfm',)
 
     form = EmployeeForm
     # model = Employee

@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    list_display = ('username', 'employee', 'subdivision', 'is_active')
+    list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
     list_display_links = ('username',)
     search_fields = ('username',)
 
