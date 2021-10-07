@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from phonenumber_field import widgets
 
-from apps.references.models import *
+from apps.references.models.employee import Employee
 from extensions.widgets import DateInputWidget, PhoneNumberWidget
 from extensions.validators import validate_ident_num_2012
 
@@ -11,7 +11,7 @@ class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
         # exclude = ['id']
-        fields = ['pers_num', 'person', 'subdivision', 'status']
+        fields = ['tab_num', 'person', 'subdivision', 'status']
         # fields = '__all__'
         # readonly_fields = ('dt_cr', 'dt_up',)
         # widgets = {
