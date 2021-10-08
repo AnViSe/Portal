@@ -10,10 +10,14 @@
     <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
 </head>
 <body class="hold-transition login-page">
+{% block messages %}
+{% include 'inc/_messages.html' %}
+{% endblock %}
 {% block content %}
 {% endblock content %}
 <script src="{% static 'js/jquery/jquery-3.6.0.js' %}"></script>
 <script src="{% static 'js/bootstrap/4/bootstrap.bundle.js' %}"></script>
 <script src="{% static 'js/adminlte/adminlte.js' %}"></script>
+<script>$('.toast').toast('show');</script>
 </body>
 </html>

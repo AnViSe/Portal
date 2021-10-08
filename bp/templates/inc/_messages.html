@@ -1,6 +1,7 @@
 {% if messages %}
 <!-- Toasts -->
-<div id="toastsContainerTopRight" class="toasts-top-right fixed">
+<!--<div id="toastsContainerTopRight" class="toasts-top-right fixed">-->
+<div id="toastsContainerBottomRight" class="toasts-bottom-right fixed mr-3 mb-3" style="width: 300px;">
 {% for message in messages %}
     <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
         <div class="toast-header {{ message.tags }}">
