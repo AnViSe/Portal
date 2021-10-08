@@ -21,11 +21,7 @@ class EmployeeList(RefTableMixin, generic.ListView):
     # permission_required = 'references.view_employee'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['route_list_api'] = self.model.Params.route_list_api
-        context['fields_list'] = self.model.Params.fields_list
-        if self.action_field not in context['fields_list']:
-            context['fields_list'].append(self.action_field)
+        context = self.update_context_data(super().get_context_data(**kwargs))
         return context
 
 

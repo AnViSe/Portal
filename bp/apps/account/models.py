@@ -9,7 +9,7 @@ from extensions.validators import validate_image, validate_size
 
 
 def _user_directory_path(instance, filename):
-    return f'profiles/{instance.user.username}/{filename}'
+    return f'profiles/{instance.username}/{filename}'
 
 
 class CustomUser(AbstractUser):
@@ -29,15 +29,21 @@ class CustomUser(AbstractUser):
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
 
+    def get_person_name(self):
+        if self.employee and self.employee.person:
+            return self.employee.person.name_lfm
+        else:
+            return self.get_username()
+
     @property
     def avatar_url(self):
         if self.avatar and hasattr(self.avatar, 'url') and self.avatar_exists():
-            print('Аватар есть: ', self.avatar.url)
+            # print('Аватар есть: ', self.avatar.url)
             return self.avatar.url
         else:
             email = self.email if self.pk else "default.user@example.com"
             # email = value_without_invalid_marker(email)
-            print('Аватара нет: ', email)
+            # print('Аватара нет: ', email)
             return email_to_gravatar(email, settings.DEFAULT_AVATAR_URL)
 
     def avatar_exists(self):

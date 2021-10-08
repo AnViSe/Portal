@@ -134,6 +134,7 @@ REST_FRAMEWORK = {
     'DATETIME_INPUT_FORMATS': DATETIME_INPUT_FORMATS
 }
 
+LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
@@ -145,54 +146,77 @@ CACHES = {
     }
 }
 
-# ACCOUNT_AUTHENTICATION_METHOD (= "username" | "email" | "username_email")
-# : укажите используемый метод входа (имя пользователя, адрес электронной почты или один из двух)
+# Укажите используемый метод входа ("username" | "email" | "username_email")
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-# : крайний срок для подтверждения по электронной почте (дни)
+# При регистрации от пользователя требуется указать адрес электронной почты.
+# ACCOUNT_EMAIL_REQUIRED = True
 
-# ACCOUNT_EMAIL_VERIFICATION (= "необязательно")
-# : метод проверки электронной почты при регистрации: choose one of "mandatory", "optional", or "none"
+# Количество дней для подтверждения регистрации по электронной почте
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5
 
-# ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN (= 180)
-# : время охлаждения после отправки сообщения (в секундах)
+# Метод проверки электронной почты при регистрации: "mandatory", "optional", or "none"
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
+# URL-адрес для перенаправления после успешного подтверждения по электронной почте,
+# если пользователь не вошел в систему.
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = LOGIN_URL
+
+# URL-адрес для перенаправления после успешного подтверждения по электронной почте
+# в случае аутентифицированного пользователя.
+# Установите None для использования settings.LOGIN_REDIRECT_URL.
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+
+# Период восстановления (в секундах) после отправки электронного письма с подтверждением,
+# в течение которого дальнейшие электронные письма не отправляются.
+ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180
+
+# Определяет, должны ли пользователи подтверждать адрес вручную
+# ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+
+# Количество неудачных попыток входа
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-# : количество неудачных попыток входа
 
+# Продолжительность запрета попыток входа пользователя с момента последней неудачной попытки входа
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-# : продолжительность запрещенных попыток входа пользователя с момента последней неудачной попытки входа
 
+# Автоматический вход пользователя в систему после подтверждения своего адреса электронной почты.
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-# : измените на True, пользователи будут автоматически входить в систему после подтверждения своего адреса электронной почты.
 
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
-# : автоматически выходить из системы после изменения или установки пароля
+# Автоматический вход пользователя в систему после сброса пароля
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
 
-# ACCOUNT_LOGIN_ON_PASSWORD_RESET (= False)
-# : измените на True, пользователь автоматически войдет в систему после сброса пароля
+# Автоматический выход из системы после изменения или установки пароля
+# ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 
-# ACCOUNT_SESSION_REMEMBER (= Нет)
-# : управление жизненным циклом сеанса, варианты: False, True
+# Отключить запрос подтверждения выхода
+ACCOUNT_LOGOUT_ON_GET = True
 
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
-# : нужно ли пользователю дважды вводить адрес электронной почты при регистрации
-
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-# : требуется ли пользователю дважды вводить пароль при регистрации
-
-ACCOUNT_USERNAME_BLACKLIST = ['admin, Admin']
-# : список имен пользователей, которые пользователи не могут использовать
-
-# ACCOUNT_UNIQUE_EMAIL (= True)
-# : повысить уникальность адресов электронной почты
-
-ACCOUNT_USERNAME_MIN_LENGTH = 3
-# целое число с минимальной длиной, допустимой для имени пользователя
-
-ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 # Установить ссылку перехода после выхода из системы
+# ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 
+# Контролирует время жизни сеанса.
+# Установите, чтобы None спрашивать пользователя («Запомнить меня?»),
+# False Не помнить и True всегда помнить.
+ACCOUNT_SESSION_REMEMBER = None
+
+# Нужно ли пользователю дважды вводить адрес электронной почты при регистрации
+# ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
+
+# Требуется ли пользователю дважды вводить пароль при регистрации
+# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+
+# URL-адрес (или имя URL-адреса) для перенаправления сразу после регистрации.
+# ACCOUNT_SIGNUP_REDIRECT_URL = LOGIN_REDIRECT_URL
+
+# Список имен пользователей, которые пользователи не могут использовать
+ACCOUNT_USERNAME_BLACKLIST = ['admin, Admin']
+
+# Уникальность адресов электронной почты
+ACCOUNT_UNIQUE_EMAIL = True
+
+# Минимальная длина имени пользователя
+ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 MAINTENANCE_503_TEMPLATE = 'errors/503.html'
 

@@ -23,14 +23,30 @@ class Command(BaseCommand):
         Menu.objects.create(name='Главная', route='home', icon='fas fa-home', sort=100)
         parent_menu = Menu.objects.create(name='Справочники',
                                           route='refs', icon='fas fa-th-list', sort=800)
-        Menu.objects.create(name='Сотрудники', parent=parent_menu, perm='references.view_employee',
-                            route='employees', icon='far fa-address-book')
-        Menu.objects.create(name='Персоны', parent=parent_menu, perm='references.view_person',
-                            route='persons', icon='far fa-address-book')
-        Menu.objects.create(name='Страны', parent=parent_menu, perm='references.view_country',
-                            route='countries')
-        Menu.objects.create(name='Области', parent=parent_menu, perm='references.view_region',
-                            route='regions')
+        Menu.objects.create(name='Сотрудники', parent=parent_menu,
+                            perm='references.view_employee', route='employees',
+                            icon='fas fa-user-tie')
+        Menu.objects.create(name='Персоны', parent=parent_menu,
+                            perm='references.view_person', route='persons',
+                            icon='fas fa-person')
+        Menu.objects.create(name='Страны', parent=parent_menu,
+                            perm='references.view_country', route='countries',
+                            icon='fas fa-globe')
+        Menu.objects.create(name='Области', parent=parent_menu,
+                            perm='references.view_region', route='regions',
+                            icon='fas fa-map')
+        Menu.objects.create(name='Районы', parent=parent_menu,
+                            perm='references.view_district', route='districts',
+                            icon='fas fa-map-location-dot',
+                            status=0)
+        Menu.objects.create(name='Населенные пункты', parent=parent_menu,
+                            perm='references.view_location', route='locations',
+                            icon='fas fa-city',
+                            status=0)
+        Menu.objects.create(name='Улицы', parent=parent_menu,
+                            perm='references.view_street', route='streets',
+                            icon='fas fa-road',
+                            status=0)
 
         _count = Menu.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))

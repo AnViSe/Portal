@@ -4,6 +4,7 @@ from django.urls import include, path
 from apps.references.views import index
 from apps.references.views.employee import EmployeeList
 from apps.references.views.person import PersonList
+from apps.references.views.subdivision import SubdivisionList
 
 urlpatterns = [
     path('', login_required(index), name='refs'),
@@ -24,5 +25,5 @@ urlpatterns = [
     #     path('<int:pk>/', PersonEdit.as_view(), name='edit_person'),
     # ])),
 
-    # path('subdivisions/', SubdivisionList.as_view(), name='subdivisions'),
+    path('subdivisions/', SubdivisionList.as_view(), name='subdivisions'),
 ]

@@ -2,7 +2,8 @@ class RefTableMixin(object):
     # url_list = ''
     # field_list = []
     template_name = 'references/ref_list.html'
-    action_field = {"name": '_', "title": "Операции"}
+    status_field = {'name': 'status', 'title': 'Статус', 'width': 100}
+    action_field = {'name': '_', 'title': 'Операции'}
 
     # def get_url(self, model=None):
     #     if model:
@@ -26,3 +27,20 @@ class RefTableMixin(object):
     #     context['route_list_api'] = self.model.Params.route_list_api
     #     context['fields_list'] = self.model.Params.fields_list
     #     return context
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     print(object, self)
+    # context = object.super().get_context_data(**kwargs)
+    # context['route_list_api'] = self.model.Params.route_list_api
+    # context['fields_list'] = self.model.Params.fields_list
+    # if self.action_field not in context['fields_list']:
+    #     context['fields_list'].append(self.action_field)
+    # return context
+
+    def update_context_data(self, context):
+        result = context
+        result['route_list_api'] = self.model.Params.route_list_api
+        result['fields_list'] = self.model.Params.fields_list
+        if self.action_field not in result['fields_list']:
+            result['fields_list'].append(self.action_field)
+        return result

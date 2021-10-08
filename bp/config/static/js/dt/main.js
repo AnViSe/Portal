@@ -26,15 +26,20 @@ var table = $('#ref-table').DataTable({
         },
         processing: true,
         serverSide: true,
-        columnDefs: [{
+        columnDefs: [
+            {
             targets: -1,
             data: null,
-            width: 50,
+            width: 85,
             sortable: false,
             searchable: false,
             printable: false,
-            defaultContent: dt_defaultContent,
-        }],
+            defaultContent: dt_defaultContent,},
+//            {
+//            targets: -2,
+//            width: 85,
+//            }
+        ],
         dom: dt_dom,
         buttons: [
         ],
@@ -65,23 +70,26 @@ var table = $('#ref-table').DataTable({
             [ 15, 25, 50, 100, -1 ],
             [ '15', '25', '50', '100', 'Все' ]
         ],
-    });
+});
 
-    $('#ref-table tbody').on('click', 'button', function(){
-		var baseUrl = $(this)[0].baseURI
-		var data = table.row($(this).parents('tr')).data();
-		if ($(this).hasClass('btn_view')) {
-		    var nextUrl = baseUrl + data.id + '/view'
-		}
-		if ($(this).hasClass('btn_edit')) {
-		    var nextUrl = baseUrl + data.id
-		}
-		if ($(this).hasClass('btn_delete')) {
-		    var nextUrl = baseUrl + data.id	+ '/delete'
-		}
-		console.log(nextUrl)
-		window.location = nextUrl
-	});
+//$('#ref-table').css('display', 'block');
+//table.columns.adjust().draw();
+
+$('#ref-table tbody').on('click', 'button', function(){
+    var baseUrl = $(this)[0].baseURI
+    var data = table.row($(this).parents('tr')).data();
+    if ($(this).hasClass('btn_view')) {
+        var nextUrl = baseUrl + data.id + '/view'
+    }
+    if ($(this).hasClass('btn_edit')) {
+        var nextUrl = baseUrl + data.id
+    }
+    if ($(this).hasClass('btn_delete')) {
+        var nextUrl = baseUrl + data.id	+ '/delete'
+    }
+    console.log(nextUrl)
+    window.location = nextUrl
+});
 }
 
 function prepareDataTableServerSideTreeActionsRow(dt_language){

@@ -25,11 +25,13 @@ class Subdivision(BaseRefModel, MPTTModel):
     def __str__(self):
         return self.name
 
-    # class Params(BaseRefModel.Params):
-    #     route_list = 'subdivisions'
-    #     route_list_api = 'sb-list'
-    #     fields_list = [
-    # {'name': None, 'title': '', 'className': 'treegrid-control'},
-    # {'name': 'id', 'title': 'Код'},
-    # {'name': 'name', 'title': 'Наименование'},
-    # ]
+    class Params(BaseRefModel.Params):
+        route_list = 'subdivisions'
+        route_list_api = 'subdivision-list'
+        fields_list = [
+            # {'name': None, 'title': '', 'className': 'treegrid-control'},
+            # {'name': 'id', 'title': 'Код'},
+            {'name': 'name', 'title': 'Наименование'},
+            {'name': 'parent', 'title': 'Родитель'},
+            {'name': 'status', 'title': 'Статус'},
+        ]

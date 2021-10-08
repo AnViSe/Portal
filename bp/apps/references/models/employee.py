@@ -26,11 +26,11 @@ class Employee(BaseRefModel):
         route_list = 'employees'
         route_list_api = 'employee-list'
         fields_list = [
-            {'name': 'id', 'title': 'Код'},
+            # {'name': 'id', 'title': 'Код'},
             {'name': 'tab_num', 'title': 'Табельный'},
-            # {'name': 'first_name', 'title': 'Имя'},
-            # {'name': 'middle_name', 'title': 'Отчество'},
-            # {'name': 'name_lfm', 'title': 'Фамилия И.О.'},
+            {'name': 'person', 'title': 'Физлицо'},
+            {'name': 'subdivision', 'title': 'Подразделение'},
+            {'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

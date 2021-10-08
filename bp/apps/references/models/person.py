@@ -27,11 +27,12 @@ class Person(BaseRefModel):
         route_list = 'persons'
         route_list_api = 'person-list'
         fields_list = [
-            {'name': 'id', 'title': 'Код'},
+            # {'name': 'id', 'title': 'Код'},
             {'name': 'last_name', 'title': 'Фамилия'},
             {'name': 'first_name', 'title': 'Имя'},
             {'name': 'middle_name', 'title': 'Отчество'},
-            {'name': 'birth_date', 'title': 'Дата рождения'},
+            {'name': 'pers_num', 'title': 'Личный номер'},
+            {'name': 'status', 'title': 'Статус'},
         ]
 
     # def __init__(self, *args, **kwargs):

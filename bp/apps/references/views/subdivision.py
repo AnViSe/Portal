@@ -34,17 +34,14 @@ class SubdivisionViewSet(viewsets.ModelViewSet):
     #     serializer = SubdivisionTreeSerializer(subdivisions, many=True)
     #     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-# class SubdivisionList(RefTableMixin, generic.ListView):
-#     model = SB
-# template_name = 'references/subdivision/ref_list.html'
-# PermissionRequiredMixin, <== Добавить в класс первым
-# permission_required = 'references.view_person'
 
-# todo Попробовать сделать через mixin
-# def get_context_data(self, *, object_list=None, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context['route_list_api'] = self.model.Params.route_list_api
-#     context['fields_list'] = self.model.Params.fields_list
-#     if self.action_field not in context['fields_list']:
-#         context['fields_list'].append(self.action_field)
-#     return context
+class SubdivisionList(RefTableMixin, generic.ListView):
+    model = Subdivision
+
+    # PermissionRequiredMixin, <== Добавить в класс первым
+    # permission_required = 'references.view_subdivision'
+
+    # todo Попробовать сделать через mixin
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = self.update_context_data(super().get_context_data(**kwargs))
+        return context
