@@ -14,11 +14,9 @@ def _user_directory_path(instance, filename):
 
 class CustomUser(AbstractUser):
     employee = models.ForeignKey(Employee, verbose_name='сотрудник',
-                                 on_delete=models.SET_NULL, blank=True, null=True,
-                                 related_name='users')
+                                 on_delete=models.SET_NULL, blank=True, null=True)
     subdivision = models.ForeignKey(Subdivision, verbose_name='подразделение',
-                                    on_delete=models.SET_NULL, blank=True, null=True,
-                                    related_name='users')
+                                    on_delete=models.SET_NULL, blank=True, null=True)
     avatar = models.ImageField(upload_to=_user_directory_path,
                                default='avatars/default.png',
                                validators=[validate_image, validate_size],
@@ -28,6 +26,10 @@ class CustomUser(AbstractUser):
         db_table = 'auth_user'
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+
+    @property
+    def person_name(self):
+        return self.get_person_name()
 
     def get_person_name(self):
         if self.employee and self.employee.person:

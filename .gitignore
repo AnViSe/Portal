@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 cache/
+select2/
 
 # C extensions
 *.so
@@ -23,6 +24,7 @@ var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
+static/
 *.egg-info/
 .installed.cfg
 *.egg

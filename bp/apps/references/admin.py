@@ -12,7 +12,7 @@ from apps.references.models.subdivision import Subdivision
 class PersonAdmin(ModelAdmin):
     list_display = ('name_lfm', 'last_name', 'first_name', 'middle_name',
                     'pers_num', 'status')
-    list_filter = ('status',)
+    # list_filter = ('status',)
 
     form = PersonForm
 
@@ -23,11 +23,14 @@ class SubdivisionAdmin(ModelAdmin):
 
 # @admin.register(Employee)
 class EmployeeAdmin(ModelAdmin):
-    list_display = ('tab_num', 'person', 'subdivision', 'dt_up', 'status')
+    list_display = ('tab_num',
+                    'person',
+                    'subdivision',
+                    'dt_up', 'status')
     list_select_related = ['person', 'subdivision']
     list_display_links = ('tab_num',)
     search_fields = ('tab_num', 'person__name_lfm',)
-    list_filter = ('status',)
+    # list_filter = ('status',)
 
     form = EmployeeForm
     # model = Employee

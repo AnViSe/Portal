@@ -16,6 +16,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 class EmployeeList(RefTableMixin, generic.ListView):
     model = Employee
+    # queryset = Employee.objects.select_related('person').all()
 
     # PermissionRequiredMixin, <== Добавить в класс первым
     # permission_required = 'references.view_employee'

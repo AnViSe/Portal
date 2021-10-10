@@ -1,4 +1,5 @@
 from django import forms
+from django_select2 import forms as s2forms
 from django.forms import widgets
 from django.template import loader
 from django.utils.safestring import mark_safe
@@ -24,3 +25,19 @@ class PhoneNumberWidget(widgets.Input):
         context = self.get_context(name, value, attrs)
         template = loader.get_template(self.template_name).render(context)
         return mark_safe(template)
+
+
+class BaseAutocompleteSelect(s2forms.ModelSelect2Widget):
+    class Media:
+        js = ("/static/js/jquery/jquery-3.6.0.min.js",)
+
+    # def __init__(self, **kwargs):
+    #     super().__init__(kwargs)
+    #     self.attrs = {"style": "width: 300px"}
+
+    # def build_attrs(self, base_attrs, extra_attrs=None):
+    #     base_attrs = super().build_attrs(base_attrs, extra_attrs)
+    #     base_attrs.update(
+    #         {"data-minimum-input-length": 3, "data-placeholder": self.empty_label}
+    #     )
+    #     return base_attrs

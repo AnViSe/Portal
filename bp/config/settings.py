@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_datatables',
     'django_filters',
+    'django_select2',
 
     'allauth',
     'allauth.account',
@@ -80,7 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Minsk'
 
@@ -143,8 +144,18 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': BASE_DIR.joinpath('cache'),
+    },
+    'select2': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR.joinpath('select2'),
     }
 }
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "select2"
+SELECT2_CSS = '/static/css/select2/select2.css'
+SELECT2_JS = '/static/js/select2/select2.js'
+SELECT2_I18N_PATH = '/static/js/select2/i18n'
 
 # Укажите используемый метод входа ("username" | "email" | "username_email")
 ACCOUNT_AUTHENTICATION_METHOD = "username"

@@ -2,15 +2,15 @@ from django.db import models
 
 from apps.references.models.base import BaseRefModel
 from apps.references.models.country import Country
+from core.fields import CodeField
 
 
 class Region(BaseRefModel):
-    code = models.PositiveSmallIntegerField(unique=True,
-                                            verbose_name='Код1')
+    code = CodeField()
     country = models.ForeignKey(Country,
                                 on_delete=models.SET_NULL,
                                 blank=True, null=True,
-                                related_name='region',
+                                # related_name='region',
                                 verbose_name='Страна')
     name = models.CharField(max_length=60,
                             verbose_name='Наименование')

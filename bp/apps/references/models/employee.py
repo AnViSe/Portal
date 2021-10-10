@@ -8,13 +8,15 @@ from .subdivision import Subdivision
 
 class Employee(BaseRefModel):
     """Модель сотрудника"""
-    tab_num = models.PositiveIntegerField(verbose_name='Табельный', unique=True, db_index=True)
+    tab_num = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
     person = models.ForeignKey(Person, verbose_name='Персона',
                                on_delete=models.SET_NULL, blank=True, null=True,
-                               related_name='employees')
+                               # related_name='employees',
+                               )
     subdivision = models.ForeignKey(Subdivision, verbose_name='Подразделение',
                                     on_delete=models.SET_NULL, blank=True, null=True,
-                                    related_name='subdivisions')
+                                    # related_name='subdivisions',
+                                    )
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'
