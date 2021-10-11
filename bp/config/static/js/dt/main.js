@@ -28,6 +28,10 @@ var table = $('#ref-table').DataTable({
         serverSide: true,
         columnDefs: [
             {
+            targets: 0,
+            visible: false,
+            },
+            {
             targets: -1,
             data: null,
             width: 85,
@@ -56,10 +60,10 @@ var table = $('#ref-table').DataTable({
                         title: 'Титул',
                         messageTop: 'Заголовок',
                         messageBottom: 'Подвальчик',
-//                        exportOptions: {
-//                            columns: ':visible'
-//                        },
-                        autoPrint: false
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        autoPrint: true
                     },
                 ]});
             table.buttons('but_top_left', null).container()

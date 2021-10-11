@@ -47,13 +47,13 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         exclude = []
-        widgets = {
-            'employee': EmployeeWidget,
-            'subdivision': s2forms.HeavySelect2Widget(data_view='subdivision-list',
+        # widgets = {
+        #     'employee': EmployeeWidget,
+            # 'subdivision': s2forms.HeavySelect2Widget(data_view='subdivision-list',
             # 'subdivision': s2forms.HeavySelect2Widget(data_url='/api/v1/refs/subdivision/?format=json',
-                                                      search_fields=['name__icontains', ]
-                                                      ),
-        }
+            #                                           search_fields=['name__icontains', ]
+            #                                           ),
+        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

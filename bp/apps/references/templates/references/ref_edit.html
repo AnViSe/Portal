@@ -1,5 +1,5 @@
 {% extends 'references/index.html' %}
-{% load model_info %}
+{% load model_info crispy_forms_tags %}
 
 {% block content %}
 <div class="card-header">
@@ -14,7 +14,7 @@
 <div class="card-body">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
     </form>
 </div>

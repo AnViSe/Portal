@@ -139,23 +139,11 @@ LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Кеширование
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR.joinpath('cache'),
-    },
-    'select2': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR.joinpath('select2'),
-    }
-}
-
 # Tell select2 which cache configuration to use:
 SELECT2_CACHE_BACKEND = "select2"
-SELECT2_CSS = '/static/css/select2/select2.css'
-SELECT2_JS = '/static/js/select2/select2.js'
-SELECT2_I18N_PATH = '/static/js/select2/i18n'
+SELECT2_CSS = ''
+SELECT2_JS = ''
+SELECT2_I18N_PATH = ''
 
 # Укажите используемый метод входа ("username" | "email" | "username_email")
 ACCOUNT_AUTHENTICATION_METHOD = "username"

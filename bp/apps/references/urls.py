@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 
 from apps.references.views import index
-from apps.references.views.employee import EmployeeList
+from apps.references.views.employee import EmployeeList, EmployeeCreate, EmployeeEdit, EmployeeView
 from apps.references.views.person import PersonList
 from apps.references.views.subdivision import SubdivisionList
 
@@ -10,11 +10,11 @@ urlpatterns = [
     path('', login_required(index), name='refs'),
 
     path('employees/', login_required(EmployeeList.as_view()), name='employees'),
-    # path('employees/', include([
-    #     path('create/', login_required(EmployeeCreate.as_view()), name='add_employee'),
-    #     path('<int:pk>/', login_required(EmployeeEdit.as_view()), name='edit_employee'),
-    #     path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_employee'),
-    # ])),
+    path('employees/', include([
+        path('create/', login_required(EmployeeCreate.as_view()), name='add_employee'),
+        path('<int:pk>/', login_required(EmployeeEdit.as_view()), name='edit_employee'),
+        path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_employee'),
+    ])),
 
     # path('countries/', login_required(CountryList.as_view()), name='countries'),
     # path('regions/', login_required(RegionList.as_view()), name='regions'),

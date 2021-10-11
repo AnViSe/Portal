@@ -25,7 +25,7 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ['id', 'last_name', 'first_name', 'middle_name',
+        fields = ['id', 'last_name', 'first_name', 'middle_name', 'name_lfm',
                   'gender', 'birth_date', 'pers_num', 'status']
 
     # def get_status(self, obj):
