@@ -30,7 +30,7 @@ class Subdivision(BaseRefModel, MPTTModel):
         route_list_api = 'subdivision-list'
         fields_list = [
             # {'name': None, 'title': '', 'className': 'treegrid-control'},
-            # {'name': 'id', 'title': 'Код'},
+            {'name': 'id', 'title': 'Код'},
             {'name': 'name', 'title': 'Наименование'},
             {'name': 'parent', 'title': 'Родитель'},
             {'name': 'status', 'title': 'Статус'},

@@ -1,7 +1,10 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import decorators, mixins, status, viewsets
 from rest_framework.response import Response
 
+from apps.references.forms import SubdivisionForm
 from apps.references.models.subdivision import Subdivision
 from apps.references.serializers import SubdivisionTreeSerializer, SubdivisionSerializer
 from apps.references.utils import RefTableMixin
@@ -35,13 +38,31 @@ class SubdivisionViewSet(viewsets.ModelViewSet):
     #     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-class SubdivisionList(RefTableMixin, generic.ListView):
+class SubdivisionList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    permission_required = 'references.view_subdivision'
     model = Subdivision
-
-    # PermissionRequiredMixin, <== Добавить в класс первым
-    # permission_required = 'references.view_subdivision'
 
     # todo Попробовать сделать через mixin
     def get_context_data(self, *, object_list=None, **kwargs):
         context = self.update_context_data(super().get_context_data(**kwargs))
         return context
+
+
+class SubdivisionCreate(PermissionRequiredMixin, generic.CreateView):
+    permission_required = 'references.add_subdivision'
+    form_class = SubdivisionForm
+    template_name = 'references/ref_add.html'
+    success_url = reverse_lazy('subdivisions')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['obj_name'] = Subdivision._meta.verbose_name
+        return context
+
+
+class SubdivisionEdit(PermissionRequiredMixin, generic.UpdateView):
+    permission_required = 'references.change_subdivision'
+    model = Subdivision
+    form_class = SubdivisionForm
+    template_name = 'references/ref_edit.html'
+    success_url = reverse_lazy(model.Params.route_list)

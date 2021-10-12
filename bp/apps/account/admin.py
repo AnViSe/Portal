@@ -12,15 +12,24 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
     list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
-    list_select_related = ['employee', 'employee__person', 'subdivision']
+    list_select_related = [
+        'employee__person',
+        'subdivision'
+    ]
     list_display_links = ('username',)
-    search_fields = ('username',)
+    # search_fields = ['username',]
 
     readonly_fields = ['date_joined', 'last_login']
 
     fieldsets = UserAdmin.fieldsets + (
-        ('Профиль', {'fields': ('avatar', 'employee', 'subdivision')}),
+        ('Профиль', {'fields': (
+            'avatar',
+            'employee',
+            'subdivision'
+        )}),
     )
+
+    autocomplete_fields = ['employee', 'subdivision']
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

@@ -4,7 +4,7 @@
 {% block content %}
 <div class="card-header">
     <div class="d-flex justify-content-between">
-        <h3 class="card-title mt-1">Изменение объекта: {{ object|title }}</h3>
+        <h1 class="card-title mt-1">Изменение объекта: {{ object|title }}</h1>
         <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">
             <i class="far fa-list-alt"></i>
             Список
@@ -15,7 +15,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 </div>
 <div class="card-footer">

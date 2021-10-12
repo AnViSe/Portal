@@ -27,7 +27,7 @@ class Person(BaseRefModel):
         route_list = 'persons'
         route_list_api = 'person-list'
         fields_list = [
-            # {'name': 'id', 'title': 'Код'},
+            {'name': 'id', 'title': 'Код'},
             {'name': 'last_name', 'title': 'Фамилия'},
             {'name': 'first_name', 'title': 'Имя'},
             {'name': 'middle_name', 'title': 'Отчество'},
@@ -35,17 +35,15 @@ class Person(BaseRefModel):
             {'name': 'status', 'title': 'Статус'},
         ]
 
-    # def __init__(self, *args, **kwargs):
-    #     cls = self.__class__
-    #     meta = getattr(cls, '_meta', None)
-    #     setattr(meta, 'route_name', 'test_route')
-    #     setattr(meta, 'url_list', 'test_url')
-    #     super().__init__(*args, **kwargs)
-
     def __str__(self):
         return self.name_lfm
 
     def save(self, *args, **kwargs):
+        self.last_name = str(self.last_name).capitalize()
+        if self.first_name:
+            self.first_name = str(self.first_name).capitalize()
+        if self.middle_name:
+            self.middle_name = str(self.middle_name).capitalize()
         self.name_lfm = get_lfm(self.last_name, self.first_name, self.middle_name)
         self.name_fml = get_fml(self.last_name, self.first_name, self.middle_name)
         super().save(*args, **kwargs)

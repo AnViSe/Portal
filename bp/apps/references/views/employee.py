@@ -14,12 +14,9 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
 
-class EmployeeList(RefTableMixin, generic.ListView):
+class EmployeeList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    permission_required = 'references.view_employee'
     model = Employee
-    # queryset = Employee.objects.select_related('person').all()
-
-    # PermissionRequiredMixin, <== Добавить в класс первым
-    # permission_required = 'references.view_employee'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = self.update_context_data(super().get_context_data(**kwargs))
@@ -52,11 +49,12 @@ class EmployeeCreate(PermissionRequiredMixin, generic.CreateView):
         return context
 
 
-class EmployeeEdit(generic.UpdateView):
+class EmployeeEdit(PermissionRequiredMixin, generic.UpdateView):
+    permission_required = 'references.change_employee'
     model = Employee
     form_class = EmployeeForm
     template_name = 'references/ref_edit.html'
-    success_url = reverse_lazy('employees')
+    success_url = reverse_lazy(model.Params.route_list)
 
 
 class EmployeeDelete(generic.DeleteView):

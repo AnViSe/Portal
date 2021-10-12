@@ -35,7 +35,7 @@ class PersonSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     """Список сотрудников"""
     person = serializers.StringRelatedField(source='person.name_lfm', read_only=True)
-    subdivision = serializers.StringRelatedField(source='subdivision.name', read_only=True)
+    subdivision = serializers.StringRelatedField(source='subdivision.name', read_only=True, default=None)
     status = serializers.CharField(source='get_status_display', label='Статус')
 
     class Meta:

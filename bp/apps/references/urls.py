@@ -3,8 +3,8 @@ from django.urls import include, path
 
 from apps.references.views import index
 from apps.references.views.employee import EmployeeList, EmployeeCreate, EmployeeEdit, EmployeeView
-from apps.references.views.person import PersonList
-from apps.references.views.subdivision import SubdivisionList
+from apps.references.views.person import PersonList, PersonCreate, PersonEdit
+from apps.references.views.subdivision import SubdivisionList, SubdivisionCreate, SubdivisionEdit
 
 urlpatterns = [
     path('', login_required(index), name='refs'),
@@ -20,10 +20,16 @@ urlpatterns = [
     # path('regions/', login_required(RegionList.as_view()), name='regions'),
 
     path('persons/', PersonList.as_view(), name='persons'),
-    # path('persons/', include([
-    #     path('create/', PersonCreate.as_view(), name='add_person'),
-    #     path('<int:pk>/', PersonEdit.as_view(), name='edit_person'),
-    # ])),
+    path('persons/', include([
+        path('create/', PersonCreate.as_view(), name='add_person'),
+        path('<int:pk>/', PersonEdit.as_view(), name='edit_person'),
+    ])),
 
     path('subdivisions/', SubdivisionList.as_view(), name='subdivisions'),
+    path('subdivisions/', include([
+        path('create/', login_required(SubdivisionCreate.as_view()), name='add_subdivision'),
+        path('<int:pk>/', login_required(SubdivisionEdit.as_view()), name='edit_subdivision'),
+        # path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
+    ])),
+
 ]

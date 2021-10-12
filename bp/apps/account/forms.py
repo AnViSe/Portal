@@ -5,34 +5,25 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
-from extensions.widgets import BaseAutocompleteSelect
+from extensions.widgets import BaseSelect2Widget
 from apps.account.models import CustomUser
 from apps.references.models.employee import Employee
 from apps.references.models.subdivision import Subdivision
 
 
-class EmployeeWidget(BaseAutocompleteSelect):
+class EmployeeWidget(BaseSelect2Widget):
     empty_label = '-- Выберите сотрудника --'
-    # model = Employee
     search_fields = [
         'tab_num__icontains',
         'person__name_lfm__icontains',
     ]
-
-    def label_from_instance(self, obj):
-        return str(obj.person)
+    queryset = Employee.objects.select_related('person').all().order_by('person__name_lfm')
 
 
-class SubdivisionWidget(s2forms.HeavySelect2Widget):
+class SubdivisionWidget(BaseSelect2Widget):
     empty_label = '-- Выберите подразделение --'
-    # model = Subdivision
-    # queryset = Subdivision.objects.filter().order_by('name')
-    search_fields = [
-        'name__icontains',
-    ]
-
-    def label_from_instance(self, obj):
-        return str(obj.name)
+    search_fields = ['name__icontains',]
+    queryset = Subdivision.objects.all().order_by('name')
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -42,23 +33,23 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
-# https://django-select2.readthedocs.io/en/latest/django_select2.html#module-django_select2.views
+    # https://django-select2.readthedocs.io/en/latest/django_select2.html#module-django_select2.views
 
     class Meta:
         model = CustomUser
         exclude = []
         # widgets = {
         #     'employee': EmployeeWidget,
-            # 'subdivision': s2forms.HeavySelect2Widget(data_view='subdivision-list',
-            # 'subdivision': s2forms.HeavySelect2Widget(data_url='/api/v1/refs/subdivision/?format=json',
-            #                                           search_fields=['name__icontains', ]
-            #                                           ),
+        #     'subdivision': SubdivisionWidget,
         # }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # self.fields['employee'].queryset = Employee.objects.none()
-        # self.fields['subdivision'].queryset = Subdivision.objects.none()
+    # class Media:
+    #     js = ('','')
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    # self.fields['employee'].queryset = Employee.objects.none()
+    # self.fields['subdivision'].queryset = Subdivision.objects.none()
 
 
 class CustomGroupAdminForm(forms.ModelForm):

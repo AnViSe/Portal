@@ -3,14 +3,11 @@
 
 {% block stylesheet %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/select2/select2.css' %}">
-<link rel="stylesheet" href="{% static 'css/select2/select2-bootstrap4.css' %}">
+{{ form.media.css }}
 {% endblock %}
 
 
 {% block scripts %}
 {{ block.super }}
-<script src="{% static 'js/select2/select2.full.js' %}"></script>
-<script src="{% static 'js/select2/i18n/ru.js' %}"></script>
-<script src="{% static 'django_select2/django_select2.js' %}"></script>
+{{ form.media.js }}
 {% endblock %}

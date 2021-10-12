@@ -141,9 +141,11 @@ LOGOUT_REDIRECT_URL = 'home'
 
 # Tell select2 which cache configuration to use:
 SELECT2_CACHE_BACKEND = "select2"
-SELECT2_CSS = ''
-SELECT2_JS = ''
-SELECT2_I18N_PATH = ''
+SELECT2_CSS = ('/static/css/select2/select2.css',
+               '/static/css/select2/select2-bootstrap4.css',)
+SELECT2_JS = ('/static/js/select2/select2.full.js',)
+SELECT2_I18N_PATH = '/static/js/select2/i18n'
+# SELECT2_I18N_AVAILABLE_LANGUAGES = ('ru',)
 
 # Укажите используемый метод входа ("username" | "email" | "username_email")
 ACCOUNT_AUTHENTICATION_METHOD = "username"
