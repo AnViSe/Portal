@@ -82,6 +82,7 @@ var table = $('#ref-table').DataTable({
 $('#ref-table tbody').on('click', 'button', function(){
     var baseUrl = $(this)[0].baseURI
     var data = table.row($(this).parents('tr')).data();
+    var work = true;
     if ($(this).hasClass('btn_view')) {
         var nextUrl = baseUrl + data.id + '/view'
     }
@@ -90,9 +91,12 @@ $('#ref-table tbody').on('click', 'button', function(){
     }
     if ($(this).hasClass('btn_delete')) {
         var nextUrl = baseUrl + data.id	+ '/delete'
+        work = false;
     }
-    console.log(nextUrl)
-    window.location = nextUrl
+    if (work == true) {
+        console.log(nextUrl)
+        window.location = nextUrl
+    }
 });
 }
 

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.account',
     'apps.references',
+    'apps.modules',
 ]
 
 AUTH_USER_MODEL = 'apps_account.CustomUser'

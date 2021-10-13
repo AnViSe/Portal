@@ -26,6 +26,7 @@ urlpatterns = [
     path('account/', include('allauth.urls')),
     path('api/v1/', include('config.urls_api_v1')),
     path('refs/', include('apps.references.urls')),
+    path('modules/', include('apps.modules.urls')),
 ]
 
 if settings.DEBUG:
