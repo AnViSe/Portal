@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% load static cache %}
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Бизнес-портал</title>
+    {% block stylesheet %}
+    {% include 'inc/_stylesheet.html' %}
+    {% endblock %}
+</head>
+<body class="hold-transition sidebar-mini sidebar-collapse sidebar-closed">
+<!-- Site wrapper -->
+<div class="wrapper">
+    {% block navbar %}
+    {% include 'inc/_navbar.html' %}
+    {% endblock %}
+
+    {% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+    {% endblock %}
+
+    {% block messages %}
+    {% include 'inc/_messages.html' %}
+    {% endblock %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Collapsed Sidebar</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Layout</a></li>
+                            <li class="breadcrumb-item active">Collapsed Sidebar</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+                    <div class="col">
+                        <a href="#" class="info-box shadow">
+                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-number">Отправка СМС извещений</span>
+                                <span class="info-box-text">Ввод и отправка извещений клиентам и их обработка</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="info-box shadow">
+                            <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Shadows</span>
+                                <span class="info-box-number">Small</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col">
+                        <div class="info-box shadow">
+                            <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Shadows</span>
+                                <span class="info-box-number">Regular</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col">
+                        <div class="info-box shadow">
+                            <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Shadows</span>
+                                <span class="info-box-number">Large</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% block control %}
+    {% include 'inc/_sidebar_control.html' %}
+    {% endblock %}
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    {% block footer %}
+    {% endblock %}
+</div>
+{% block scripts %}
+{% include 'inc/_scripts.html' %}
+{% endblock %}
+</body>
+</html>
