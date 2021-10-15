@@ -8,6 +8,8 @@ from extensions.service import build_tree_menu
 
 
 class Menu(models.Model):
+    """Модель меню"""
+
     parent = models.ForeignKey('self', on_delete=models.SET_NULL,
                                blank=True, null=True, related_name='child',
                                verbose_name='Родитель')
