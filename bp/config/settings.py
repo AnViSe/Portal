@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'maintenancemode',
     'phonenumber_field',
     'crispy_forms',
+    # 'sitetree',
 
     'debug_toolbar',
 

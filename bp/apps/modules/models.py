@@ -20,3 +20,7 @@ class Module(models.Model):
     sort = models.SmallIntegerField(default=999, db_index=True,
                                     verbose_name='Сортировка')
     status = StatusField()
+
+    class Meta:
+        verbose_name = 'модуль'
+        verbose_name_plural = 'модули'

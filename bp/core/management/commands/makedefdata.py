@@ -17,18 +17,14 @@ class Command(BaseCommand):
         site_mode.domain = settings.PROJECT_DOMAIN
         site_mode.save()
         self.stdout.write(
-            self.style.SUCCESS(f'Проект: "{settings.PROJECT_NAME}" по адресу: "{settings.PROJECT_DOMAIN}"'))
+            self.style.SUCCESS(
+                f'Проект: "{settings.PROJECT_NAME}" по адресу: "{settings.PROJECT_DOMAIN}"'))
 
         Menu.objects.all().delete()
         Menu.objects.create(name='Главная', route='home', icon='fas fa-home', sort=100)
         parent_menu = Menu.objects.create(name='Справочники',
                                           route='refs', icon='fas fa-th-list', sort=800)
-        Menu.objects.create(name='Сотрудники', parent=parent_menu,
-                            perm='references.view_employee', route='employees',
-                            icon='fas fa-user-tie')
-        Menu.objects.create(name='Персоны', parent=parent_menu,
-                            perm='references.view_person', route='persons',
-                            icon='fas fa-person')
+
         Menu.objects.create(name='Страны', parent=parent_menu,
                             perm='references.view_country', route='countries',
                             icon='fas fa-globe')
@@ -47,6 +43,21 @@ class Command(BaseCommand):
                             perm='references.view_street', route='streets',
                             icon='fas fa-road',
                             status=0)
+        Menu.objects.create(name='Здания', parent=parent_menu,
+                            perm='references.view_building', route='buildings',
+                            icon='fas fa-building',
+                            status=0)
+
+        Menu.objects.create(name='Персоны', parent=parent_menu,
+                            perm='references.view_person', route='persons',
+                            icon='fas fa-person')
+        Menu.objects.create(name='Сотрудники', parent=parent_menu,
+                            perm='references.view_employee', route='employees',
+                            icon='fas fa-user-tie')
+
+        Menu.objects.create(name='Подразделения', parent=parent_menu,
+                            perm='references.view_subdivision', route='subdivisions',
+                            icon='fas fa-house-laptop')
 
         _count = Menu.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))
@@ -79,7 +90,7 @@ class Command(BaseCommand):
         Subdivision.objects.create(parent=belpost, name='Гродненский филиал')
         Subdivision.objects.create(parent=belpost, name='Минский филиал')
         Subdivision.objects.create(parent=belpost, name='Могилевский филиал')
-        Subdivision.objects.create(parent=belpost, name='Минск ПОПП')
+        Subdivision.objects.create(parent=belpost, name='Минск - город')
 
         _count = Subdivision.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Подразделений: {_count}"))

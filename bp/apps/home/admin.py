@@ -1,11 +1,14 @@
 from django.contrib import admin
-from django.contrib.admin import ModelAdmin
+from mptt.admin import DraggableMPTTAdmin
 
 from .models import Menu
 
 
-class MenuAdmin(ModelAdmin):
-    list_display = ('name', 'route', 'icon', 'status')
+@admin.register(Menu)
+class MenuAdmin(DraggableMPTTAdmin):
+    list_display = ('tree_actions', 'indented_title', 'route', 'icon', 'status')
+    list_display_links = ('indented_title',)
+    search_fields = ['name']
 
-
-admin.site.register(Menu, MenuAdmin)
+    fields = ['name', 'parent', 'route', 'perm', 'icon', 'badge', 'header', 'sort', 'status']
+    autocomplete_fields = ['parent']

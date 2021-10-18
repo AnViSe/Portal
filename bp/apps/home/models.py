@@ -2,17 +2,17 @@ from django.core.cache import cache
 from django.db import models
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+from mptt.models import MPTTModel, TreeForeignKey
 
 from core.fields import StatusField
 from extensions.service import build_tree_menu
 
 
-class Menu(models.Model):
+class Menu(MPTTModel):
     """Модель меню"""
 
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL,
-                               blank=True, null=True, related_name='child',
-                               verbose_name='Родитель')
+    parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
+                            verbose_name='Родитель', related_name='children')
     name = models.CharField(max_length=100,
                             verbose_name='Заголовок')
     route = models.CharField(max_length=100, blank=True, null=True,
@@ -34,9 +34,13 @@ class Menu(models.Model):
         verbose_name = 'пункт меню'
         verbose_name_plural = 'пункты меню'
 
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     def __str__(self):
         return self.name
 
+    @staticmethod
     def get_user_menu(user=None):
         menus = []
         if user:

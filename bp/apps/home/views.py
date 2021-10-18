@@ -23,3 +23,4 @@ def handler500(request):
 
 class HomeView(generic.TemplateView):
     template_name = 'home/index.html'
+
