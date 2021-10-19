@@ -6,7 +6,7 @@ from .models import Menu
 
 @admin.register(Menu)
 class MenuAdmin(DraggableMPTTAdmin):
-    list_display = ('tree_actions', 'indented_title', 'route', 'icon', 'status')
+    list_display = ('tree_actions', 'indented_title', 'route', 'icon', 'perm', 'status')
     list_display_links = ('indented_title',)
     search_fields = ['name']
 
