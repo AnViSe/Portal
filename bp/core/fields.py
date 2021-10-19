@@ -18,6 +18,21 @@ GENDER_CHOICES = [
     (GENDER_WOMEN, 'Женский'),
 ]
 
+# Тип номера телефона
+PHONE_NONE = 0
+PHONE_MOBILE = 1
+PHONE_HOME = 2
+PHONE_WORK = 3
+PHONE_INTERNAL = 4
+
+PHONE_TYPE = [
+    (PHONE_NONE, 'Не указан'),
+    (PHONE_MOBILE, 'Мобильный'),
+    (PHONE_HOME, 'Домашний'),
+    (PHONE_WORK, 'Рабочий'),
+    (PHONE_INTERNAL, 'Внутренний'),
+]
+
 
 class CodeField(models.CharField):
     """Код записи"""
@@ -92,6 +107,23 @@ class GenderField(models.SmallIntegerField):
         kwargs['verbose_name'] = 'Пол'
         kwargs['choices'] = GENDER_CHOICES
         kwargs['default'] = GENDER_NONE
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        del kwargs["verbose_name"]
+        del kwargs["choices"]
+        del kwargs["default"]
+        return name, path, args, kwargs
+
+
+class PhoneTypeField(models.SmallIntegerField):
+    """Тип номера телефона"""
+
+    def __init__(self, *args, **kwargs):
+        kwargs['verbose_name'] = 'Тип номера'
+        kwargs['choices'] = PHONE_TYPE
+        kwargs['default'] = PHONE_NONE
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
