@@ -9,7 +9,6 @@
     {% endblock %}
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse sidebar-closed">
-<!-- Site wrapper -->
 <div class="wrapper">
     {% block navbar %}
     {% include 'inc/_navbar.html' %}
@@ -23,9 +22,7 @@
     {% include 'inc/_messages.html' %}
     {% endblock %}
 
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -40,65 +37,26 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
-
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+                    {% for mod in mods_list %}
                     <div class="col">
-                        <a href="#" class="info-box shadow">
-                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                        <a href="{% url mod.route %}" class="info-box shadow">
+                            <span class="info-box-icon bg-primary"><i class="{{ mod.icon }}"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-number">Отправка СМС извещений</span>
-                                <span class="info-box-text">Ввод и отправка извещений клиентам и их обработка</span>
+                                <span class="info-box-number">{{ mod.name }}</span>
+                                <span class="info-box-text">{{ mod.desc }}</span>
                             </div>
                         </a>
                     </div>
-                    <div class="col">
-                        <div class="info-box shadow">
-                            <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Shadows</span>
-                                <span class="info-box-number">Small</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col">
-                        <div class="info-box shadow">
-                            <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Shadows</span>
-                                <span class="info-box-number">Regular</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col">
-                        <div class="info-box shadow">
-                            <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Shadows</span>
-                                <span class="info-box-number">Large</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
     {% block control %}
     {% include 'inc/_sidebar_control.html' %}
     {% endblock %}

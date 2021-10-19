@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+
+from apps.modules.models import Module
 
 
-def index(request):
-    return render(request, template_name='modules/index.html')
+class ModulesMainView(ListView):
+    model = Module
+    template_name = 'modules/index.html'
+    context_object_name = 'mods_list'

@@ -1,7 +1,7 @@
 from django.urls import path
 
-from apps.modules.views import index
+from apps.modules.views import ModulesMainView
 
 urlpatterns = [
-    path('', index, name='modules'),
+    path('', ModulesMainView.as_view(), name='modules'),
 ]
