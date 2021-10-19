@@ -1,5 +1,7 @@
 from django.db import models
-from core.fields import GenderField
+
+from apps.references.models.phone import Phone
+from core.fields import GenderField, StatusField
 from extensions.service import get_fml, get_lfm
 from apps.references.models.base import BaseRefModel
 
@@ -16,6 +18,9 @@ class Person(BaseRefModel):
                                 null=True, blank=True, db_index=True)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     gender = GenderField()
+    phones = models.ManyToManyField(Phone, through='PersonPhones',
+                                    related_name='persons',
+                                    verbose_name='Телефоны')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_person'
@@ -47,3 +52,18 @@ class Person(BaseRefModel):
         self.name_lfm = get_lfm(self.last_name, self.first_name, self.middle_name)
         self.name_fml = get_fml(self.last_name, self.first_name, self.middle_name)
         super().save(*args, **kwargs)
+
+
+class PersonPhones(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE,
+                               verbose_name='Персона')
+    phone = models.ForeignKey(Phone, on_delete=models.CASCADE,
+                              verbose_name='Телефон')
+    status = StatusField()
+
+    class Meta:
+        verbose_name = 'Телефон персоны'
+        verbose_name_plural = 'Телефоны персоны'
+
+    def __str__(self):
+        return ''
