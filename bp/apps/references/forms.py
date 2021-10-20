@@ -31,6 +31,7 @@ class EmployeeForm(forms.ModelForm):
 
 
 class PersonForm(forms.ModelForm):
+
     class Meta:
         model = Person
         fields = ['last_name', 'first_name', 'middle_name',
@@ -48,6 +49,7 @@ class PersonForm(forms.ModelForm):
 
 
 class SubdivisionForm(forms.ModelForm):
+
     class Meta:
         model = Subdivision
         fields = ['name', 'parent', 'status']

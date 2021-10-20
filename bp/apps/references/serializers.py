@@ -5,6 +5,7 @@ from rest_framework_recursive.fields import RecursiveField
 from apps.references.models.country import Country
 from apps.references.models.employee import Employee
 from apps.references.models.person import Person
+from apps.references.models.phone import Phone
 from apps.references.models.region import Region
 from apps.references.models.subdivision import Subdivision
 
@@ -20,8 +21,8 @@ from apps.references.models.subdivision import Subdivision
 class PersonSerializer(serializers.ModelSerializer):
     """Список личностей (персон)"""
 
-    status = serializers.CharField(source='get_status_display', label='Статус')
     gender = serializers.CharField(source='get_gender_display', label='Пол')
+    status = serializers.CharField(source='get_status_display', label='Статус')
 
     class Meta:
         model = Person
@@ -32,10 +33,23 @@ class PersonSerializer(serializers.ModelSerializer):
     #     return obj.get_status_display()
 
 
+class PhoneSerializer(serializers.ModelSerializer):
+    """Список телефонных номеров"""
+
+    phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
+    status = serializers.CharField(source='get_status_display', label='Статус')
+
+    class Meta:
+        model = Phone
+        fields = ['id', 'phone_number', 'phone_type', 'status']
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     """Список сотрудников"""
+
     person = serializers.StringRelatedField(source='person.name_lfm', read_only=True)
-    subdivision = serializers.StringRelatedField(source='subdivision.name', read_only=True, default=None)
+    subdivision = serializers.StringRelatedField(source='subdivision.name', read_only=True,
+                                                 default=None)
     status = serializers.CharField(source='get_status_display', label='Статус')
 
     class Meta:
@@ -53,6 +67,7 @@ class CountrySerializer(serializers.ModelSerializer):
 
 class RegionSerializer(serializers.ModelSerializer):
     """Список областей"""
+
     country = serializers.StringRelatedField(source='country.name', read_only=True)
 
     # country = CountrySerializer(read_only=True)

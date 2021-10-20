@@ -40,14 +40,14 @@ class CodeField(models.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['verbose_name'] = 'Код'
         kwargs['max_length'] = 15
-        kwargs['unique'] = True
+        # kwargs['unique'] = True
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
         del kwargs["verbose_name"]
         del kwargs["max_length"]
-        del kwargs["unique"]
+        # del kwargs["unique"]
         return name, path, args, kwargs
 
 

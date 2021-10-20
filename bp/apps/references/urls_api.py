@@ -3,6 +3,7 @@ from rest_framework import routers
 
 from apps.references.views.employee import EmployeeViewSet
 from apps.references.views.person import PersonViewSet
+from apps.references.views.phone import PhoneViewSet
 from apps.references.views.subdivision import SubdivisionTreeViewSet, SubdivisionViewSet
 
 router = routers.DefaultRouter()
@@ -14,6 +15,7 @@ router.register(r'employee', EmployeeViewSet)
 # router.register(r'region', RegionViewSet)
 # router.register(r'person/tree', PersonViewSet, basename='person-tree')
 router.register(r'person', PersonViewSet)
+router.register(r'phone', PhoneViewSet)
 router.register(r'subdivision', SubdivisionViewSet)
 
 # routerTree.register(r'person', PersonViewSet)

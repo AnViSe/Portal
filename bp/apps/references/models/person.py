@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.references.models.phone import Phone
-from core.fields import GenderField, StatusField
+from core.fields import GenderField, PhoneTypeField, StatusField
 from extensions.service import get_fml, get_lfm
 from apps.references.models.base import BaseRefModel
 
@@ -59,9 +59,11 @@ class PersonPhones(models.Model):
                                verbose_name='Персона')
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE,
                               verbose_name='Телефон')
+    phone_type = PhoneTypeField()
     status = StatusField()
 
     class Meta:
+        db_table = 'ref_person_phones'
         verbose_name = 'Телефон персоны'
         verbose_name_plural = 'Телефоны персоны'
 
