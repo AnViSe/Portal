@@ -37,11 +37,14 @@ class PhoneSerializer(serializers.ModelSerializer):
     """Список телефонных номеров"""
 
     phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
+    model_type = serializers.StringRelatedField(source='model_type.type_name', read_only=True,
+                                                default=None,
+                                                label='Тип')
     status = serializers.CharField(source='get_status_display', label='Статус')
 
     class Meta:
         model = Phone
-        fields = ['id', 'phone_number', 'phone_type', 'status']
+        fields = ['id', 'phone_number', 'phone_type', 'model_type', 'status']
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

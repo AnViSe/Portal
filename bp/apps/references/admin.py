@@ -4,9 +4,15 @@ from django.utils.safestring import mark_safe
 from mptt.admin import DraggableMPTTAdmin
 
 from apps.references.models.employee import Employee
+from apps.references.models.flex_type import FlexType
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
 from apps.references.models.subdivision import Subdivision
+
+
+@admin.register(FlexType)
+class FlexType(ModelAdmin):
+    list_display = ('type_name', 'type_desc')
 
 
 # https://brainstorm.it/snippets/many-many-example-using-through-augment-m2m-relationships/
@@ -18,20 +24,27 @@ class PersonForPhoneTabularInline(admin.TabularInline):
 
 @admin.register(Phone)
 class PhoneAdmin(ModelAdmin):
-    list_display = ('phone_number', 'phone_type', 'list_persons', 'status')
+    list_display = ('phone_number',
+                    'phone_type',
+                    # 'list_persons',
+                    'status')
+    # list_prefetch_related = ['persons']
     list_display_links = ('phone_number',)
     search_fields = ['phone_number']
     inlines = [PersonForPhoneTabularInline, ]
 
-    fields = ['phone_number', 'phone_type', 'status']
+    fields = ['phone_number', 'model_type', 'phone_type', 'status']
+
     # autocomplete_fields = ['person']
 
     def list_persons(self, obj):
         return mark_safe(', '.join([
             # f'<a href="{person.get_admin_url()}">{str(person)}</a>'
-            str(person)
+            f'<a href="#">{str(person)}</a>'
+            # str(person)
             for person in obj.persons.all()
         ]))
+
     list_persons.short_description = 'персоны'
 
 
@@ -44,7 +57,10 @@ class PhoneTabularInline(admin.TabularInline):
 @admin.register(Person)
 class PersonAdmin(ModelAdmin):
     list_display = ('name_lfm', 'last_name', 'first_name', 'middle_name',
-                    'pers_num', 'list_phones', 'status')
+                    'pers_num',
+                    # 'list_phones',
+                    'status')
+    # list_prefetch_related = ['phones']
     list_display_links = ('name_lfm',)
     search_fields = ['name_lfm']
     list_filter = ('status',)
@@ -52,6 +68,7 @@ class PersonAdmin(ModelAdmin):
 
     fields = ['last_name', 'first_name', 'middle_name',
               'pers_num', 'birth_date', 'gender', 'status']
+
     # autocomplete_fields = ['phones']
 
     def list_phones(self, obj):
@@ -60,6 +77,7 @@ class PersonAdmin(ModelAdmin):
             str(phone)
             for phone in obj.phones.all()
         ]))
+
     list_phones.short_description = 'телефоны'
 
 

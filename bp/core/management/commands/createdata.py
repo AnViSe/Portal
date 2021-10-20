@@ -3,6 +3,7 @@ from optparse import make_option
 from django.core.management.base import BaseCommand
 from faker import Faker
 
+from apps.references.models.phone import Phone
 from config import settings
 from apps.references.models.person import Person
 from apps.references.models.employee import Employee
@@ -42,6 +43,15 @@ class Command(BaseCommand):
         count = Employee.objects.all().count()
         return count
 
+    def append_phones(self, count):
+        faker = Faker([settings.LANGUAGE_CODE])
+        phones = set()
+        for i in range(count):
+            fn = faker.unique.msisdn()
+            Phone.objects.create(phone_number=fn)
+        count = Phone.objects.all().count()
+        return count
+
     def handle(self, *args, **kwargs):
         model_name = kwargs['model']
         record_count = kwargs['count']
@@ -53,3 +63,7 @@ class Command(BaseCommand):
         if model_name == 'employee':
             result = self.append_employees(record_count)
             self.stdout.write(self.style.SUCCESS(f"Всего сотрудников: {result}"))
+
+        if model_name == 'phone':
+            result = self.append_phones(record_count)
+            self.stdout.write(self.style.SUCCESS(f"Всего телефонов: {result}"))
