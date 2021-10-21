@@ -133,6 +133,6 @@ dmypy.json
 .idea/
 
 #Migrations
-00??_*.py
+#00??_*.py
 /bp/cache/
 /bp/select2/

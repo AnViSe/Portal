@@ -7,23 +7,23 @@ from django.contrib.auth.models import Group
 
 from extensions.widgets import BaseSelect2Widget
 from apps.account.models import CustomUser
-from apps.references.models.employee import Employee
-from apps.references.models.subdivision import Subdivision
+# from apps.references.models.employee import Employee
+# from apps.references.models.subdivision import Subdivision
 
 
-class EmployeeWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите сотрудника --'
-    search_fields = [
-        'tab_num__icontains',
-        'person__name_lfm__icontains',
-    ]
-    queryset = Employee.objects.select_related('person').all().order_by('person__name_lfm')
+# class EmployeeWidget(BaseSelect2Widget):
+#     empty_label = '-- Выберите сотрудника --'
+#     search_fields = [
+#         'tab_num__icontains',
+#         'person__name_lfm__icontains',
+#     ]
+#     queryset = Employee.objects.select_related('person').all().order_by('person__name_lfm')
 
 
-class SubdivisionWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите подразделение --'
-    search_fields = ['name__icontains',]
-    queryset = Subdivision.objects.all().order_by('name')
+# class SubdivisionWidget(BaseSelect2Widget):
+#     empty_label = '-- Выберите подразделение --'
+#     search_fields = ['name__icontains',]
+#     queryset = Subdivision.objects.all().order_by('name')
 
 
 class CustomUserCreationForm(UserCreationForm):

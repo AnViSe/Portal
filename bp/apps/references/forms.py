@@ -14,8 +14,8 @@ class PersonWidget(BaseSelect2Widget):
 
 class SubdivisionWidget(BaseSelect2Widget):
     empty_label = '-- Выберите подразделение --'
-    search_fields = ('name__icontains',)
-    queryset = Subdivision.objects.all().order_by('name')
+    search_fields = ('name_sd__icontains',)
+    queryset = Subdivision.objects.all().order_by('name_sd')
 
 
 class EmployeeForm(forms.ModelForm):
@@ -52,7 +52,7 @@ class SubdivisionForm(forms.ModelForm):
 
     class Meta:
         model = Subdivision
-        fields = ['name', 'parent', 'status']
+        fields = ['name_sd', 'parent', 'status']
         widgets = {
             'parent': SubdivisionWidget,
         }

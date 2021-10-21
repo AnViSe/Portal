@@ -3,11 +3,41 @@ from rest_framework.fields import ListField, SerializerMethodField
 from rest_framework_recursive.fields import RecursiveField
 
 from apps.references.models.country import Country
+from apps.references.models.district import District
 from apps.references.models.employee import Employee
+from apps.references.models.location import Location
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
 from apps.references.models.region import Region
 from apps.references.models.subdivision import Subdivision
+
+
+class DistrictSerializer(serializers.ModelSerializer):
+    """Список районов"""
+
+    region = serializers.StringRelatedField(source='region.name_rgn',
+                                            default=None, read_only=True,
+                                            label='Область')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
+    class Meta:
+        model = District
+        fields = ['id', 'code', 'name_dst', 'region', 'status']
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    """Список населенных пунктов"""
+
+    district = serializers.StringRelatedField(source='district.name_dst',
+                                              default=None, read_only=True,
+                                              label='Район')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
+    class Meta:
+        model = Location
+        fields = ['id', 'code', 'name_lct', 'district', 'status']
 
 
 # class RecursiveSerializer(serializers.Serializer):
@@ -51,7 +81,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     """Список сотрудников"""
 
     person = serializers.StringRelatedField(source='person.name_lfm', read_only=True)
-    subdivision = serializers.StringRelatedField(source='subdivision.name', read_only=True,
+    subdivision = serializers.StringRelatedField(source='subdivision.name_sd', read_only=True,
                                                  default=None)
     status = serializers.CharField(source='get_status_display', label='Статус')
 
@@ -63,23 +93,26 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     """Список стран"""
 
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
     class Meta:
         model = Country
-        exclude = ('dt_cr', 'dt_up')
+        fields = ['id', 'code', 'name_cnt', 'alpha2', 'alpha3', 'status']
 
 
 class RegionSerializer(serializers.ModelSerializer):
     """Список областей"""
 
-    country = serializers.StringRelatedField(source='country.name', read_only=True)
-
-    # country = CountrySerializer(read_only=True)
-    # country = serializers.CharField(source='country.name', default='', read_only=True)
+    country = serializers.StringRelatedField(source='country.name_cnt',
+                                             default=None, read_only=True,
+                                             label='Страна')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
 
     class Meta:
         model = Region
-        fields = ['id', 'code', 'name', 'country', 'status']
-        exclude = ('dt_cr', 'dt_up')
+        fields = ['id', 'code', 'name_rgn', 'country', 'status']
 
 
 # class FilterSubdivisionListSerializer(serializers.ListSerializer):
@@ -94,7 +127,7 @@ class RegionSerializer(serializers.ModelSerializer):
 class SubdivisionSerializer(serializers.ModelSerializer):
     """Список подразделений"""
 
-    parent = serializers.StringRelatedField(source='parent.name', read_only=True, default=None)
+    parent = serializers.StringRelatedField(source='parent.name_sd', read_only=True, default=None)
     status = serializers.CharField(source='get_status_display', label='Статус')
 
     # children = RecursiveSerializer(many=True)
@@ -104,7 +137,7 @@ class SubdivisionSerializer(serializers.ModelSerializer):
         # list_serializer_class = FilterSubdivisionListSerializer
 
         model = Subdivision
-        fields = ('id', 'name', 'parent', 'status')
+        fields = ('id', 'name_sd', 'parent', 'status')
 
 
 class SubdivisionTreeSerializer(serializers.ModelSerializer):

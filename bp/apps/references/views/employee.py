@@ -25,16 +25,15 @@ class EmployeeList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
 
 class EmployeeView(generic.DetailView):
     model = Employee
-    # form_class = EmployeeForm
     template_name = 'references/ref_view.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
         # fields = get_columns(self.model)
         # for field in fields:
         #     field['value'] = self.model.serializable_value(self, field['name'])
         # context['fields'] = fields
-        return context
+        # return context
 
 
 class EmployeeCreate(PermissionRequiredMixin, generic.CreateView):

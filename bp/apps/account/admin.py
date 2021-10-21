@@ -11,11 +11,11 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
-    list_select_related = [
-        'employee__person',
-        'subdivision'
-    ]
+    # list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
+    # list_select_related = [
+    #     'employee__person',
+    #     'subdivision'
+    # ]
     list_display_links = ('username',)
     # search_fields = ['username',]
 
@@ -29,7 +29,7 @@ class CustomUserAdmin(UserAdmin):
         )}),
     )
 
-    autocomplete_fields = ['employee', 'subdivision']
+    # autocomplete_fields = ['employee', 'subdivision']
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

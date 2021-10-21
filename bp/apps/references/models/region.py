@@ -6,30 +6,28 @@ from core.fields import CodeField
 
 
 class Region(BaseRefModel):
-    code = CodeField()
-    country = models.ForeignKey(Country,
-                                on_delete=models.SET_NULL,
-                                blank=True, null=True,
-                                # related_name='region',
+    code = CodeField(unique=True)
+    name_rgn = models.CharField(max_length=60, verbose_name='Наименование')
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, blank=True, null=True,
+                                related_name='country',
                                 verbose_name='Страна')
-    name = models.CharField(max_length=60,
-                            verbose_name='Наименование')
 
     class Meta(BaseRefModel.Meta):
-        abstract = True
         db_table = 'ref_region'
         verbose_name = 'область'
         verbose_name_plural = 'области'
+        ordering = ['id']
 
     class Params(BaseRefModel.Params):
         route_list = 'regions'
         route_list_api = 'region-list'
         fields_list = [
-            {'name': 'id', 'title': 'Код'},
-            {'name': 'code', 'title': 'Код1'},
-            {'name': 'name', 'title': 'Наименование'},
-            {'name': 'country', 'title': 'Страна'},
+            {'data': 'id', 'title': 'ID'},
+            {'data': 'code', 'title': 'Код'},
+            {'data': 'name_rgn', 'title': 'Наименование'},
+            {'data': 'country', 'name': 'country.name_cnt', 'title': 'Страна'},
+            {'data': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):
-        return self.name
+        return self.name_rgn

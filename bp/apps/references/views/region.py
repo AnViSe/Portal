@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views import generic
 from rest_framework import viewsets
 
@@ -11,11 +12,9 @@ class RegionViewSet(viewsets.ModelViewSet):
     serializer_class = RegionSerializer
 
 
-class RegionList(RefTableMixin, generic.ListView):
+class RegionList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    permission_required = 'references.view_region'
     model = Region
-
-    # PermissionRequiredMixin, <== Добавить в класс первым
-    # permission_required = 'references.view_region'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = self.update_context_data(super().get_context_data(**kwargs))

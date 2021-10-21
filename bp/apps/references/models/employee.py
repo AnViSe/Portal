@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse_lazy
 
 from .base import BaseRefModel
 from .person import Person
@@ -10,13 +9,9 @@ class Employee(BaseRefModel):
     """Модель сотрудника"""
     tab_num = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
     person = models.ForeignKey(Person, verbose_name='Персона',
-                               on_delete=models.SET_NULL, blank=True, null=True,
-                               # related_name='employees',
-                               )
+                               on_delete=models.SET_NULL, blank=True, null=True)
     subdivision = models.ForeignKey(Subdivision, verbose_name='Подразделение',
-                                    on_delete=models.SET_NULL, blank=True, null=True,
-                                    # related_name='subdivisions',
-                                    )
+                                    on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'
@@ -28,11 +23,11 @@ class Employee(BaseRefModel):
         route_list = 'employees'
         route_list_api = 'employee-list'
         fields_list = [
-            {'name': 'id', 'title': 'Код'},
-            {'name': 'tab_num', 'title': 'Табельный'},
-            {'name': 'person', 'title': 'Физлицо'},
-            {'name': 'subdivision', 'title': 'Подразделение'},
-            {'name': 'status', 'title': 'Статус'},
+            {'data': 'id', 'title': 'Код'},
+            {'data': 'tab_num', 'title': 'Табельный'},
+            {'data': 'person', 'name': 'person.name_lfm', 'title': 'Физлицо'},
+            {'data': 'subdivision', 'name': 'subdivision.name_sd', 'title': 'Подразделение'},
+            {'data': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

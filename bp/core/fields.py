@@ -34,20 +34,33 @@ PHONE_TYPE = [
 ]
 
 
-class CodeField(models.CharField):
-    """Код записи"""
+class BarcodeField(models.CharField):
+    """Штрихкод"""
 
     def __init__(self, *args, **kwargs):
-        kwargs['verbose_name'] = 'Код'
-        kwargs['max_length'] = 15
-        # kwargs['unique'] = True
+        kwargs['verbose_name'] = 'Штрихкод'
+        kwargs['max_length'] = 30
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
         del kwargs["verbose_name"]
         del kwargs["max_length"]
-        # del kwargs["unique"]
+        return name, path, args, kwargs
+
+
+class CodeField(models.CharField):
+    """Код записи"""
+
+    def __init__(self, *args, **kwargs):
+        kwargs['verbose_name'] = 'Код'
+        kwargs['max_length'] = 15
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        del kwargs["verbose_name"]
+        del kwargs["max_length"]
         return name, path, args, kwargs
 
 

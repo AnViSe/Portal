@@ -10,5 +10,5 @@ class MenuAdmin(DraggableMPTTAdmin):
     list_display_links = ('indented_title',)
     search_fields = ['name']
 
-    fields = ['name', 'parent', 'route', 'perm', 'icon', 'badge', 'header', 'sort', 'status']
+    fields = ['name', 'parent', 'route', 'perm', 'icon', 'badge', 'header', 'status']
     autocomplete_fields = ['parent']

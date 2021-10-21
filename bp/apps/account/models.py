@@ -13,14 +13,14 @@ def _user_directory_path(instance, filename):
 
 
 class CustomUser(AbstractUser):
-    employee = models.ForeignKey(Employee, verbose_name='сотрудник',
-                                 on_delete=models.SET_NULL, blank=True, null=True)
-    subdivision = models.ForeignKey(Subdivision, verbose_name='подразделение',
-                                    on_delete=models.SET_NULL, blank=True, null=True)
     avatar = models.ImageField(upload_to=_user_directory_path,
                                default='avatars/default.png',
                                validators=[validate_image, validate_size],
                                verbose_name='аватар')
+    employee = models.ForeignKey(Employee, verbose_name='сотрудник',
+                                 on_delete=models.SET_NULL, blank=True, null=True)
+    subdivision = models.ForeignKey(Subdivision, verbose_name='подразделение',
+                                    on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         db_table = 'auth_user'

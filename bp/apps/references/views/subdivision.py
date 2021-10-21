@@ -10,12 +10,12 @@ from apps.references.serializers import SubdivisionTreeSerializer, SubdivisionSe
 from apps.references.utils import RefTableMixin
 
 
-class SubdivisionTreeViewSet(viewsets.ModelViewSet):
+# class SubdivisionTreeViewSet(viewsets.ModelViewSet):
     # queryset = Subdivision.objects.all()
-    queryset = Subdivision.objects.filter(level=0).all()
+    # queryset = Subdivision.objects.filter(level=0).all()
     # queryset = Subdivision.objects.filter(level=0).all().prefetch_related('children')
     # queryset = Subdivision.objects.select_related('parent').filter(level=0).all()
-    serializer_class = SubdivisionTreeSerializer
+    # serializer_class = SubdivisionTreeSerializer
 
     # @decorators.list_route(methods=['get'])
     # def tree(self, *args, **kwargs):

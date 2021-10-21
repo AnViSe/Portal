@@ -26,8 +26,8 @@ class Menu(MPTTModel):
                              verbose_name='Метка')
     header = models.BooleanField(default=False,
                                  verbose_name='Заголовок')
-    sort = models.SmallIntegerField(default=999, db_index=True,
-                                    verbose_name='Сортировка')
+    # sort = models.SmallIntegerField(default=999, db_index=True,
+    #                                 verbose_name='Сортировка')
     status = StatusField()
 
     class Meta:
@@ -54,7 +54,7 @@ class Menu(MPTTModel):
             perms = []
         cached_menus = cache.get('menu_items')
         if cached_menus is None:
-            all_items = Menu.objects.filter(status=1).order_by('sort').values()
+            all_items = Menu.objects.filter(status=1).order_by('name').values()
             cache.set('menu_items', all_items)
         else:
             all_items = cached_menus
