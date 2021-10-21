@@ -9,7 +9,6 @@ class Region(BaseRefModel):
     code = CodeField(unique=True)
     name_rgn = models.CharField(max_length=60, verbose_name='Наименование')
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, blank=True, null=True,
-                                related_name='country',
                                 verbose_name='Страна')
 
     class Meta(BaseRefModel.Meta):

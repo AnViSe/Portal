@@ -6,18 +6,19 @@ from .forms import CustomGroupAdminForm, CustomUserCreationForm, CustomUserChang
 from .models import CustomUser
 
 
+@admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
 
-    # list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
-    # list_select_related = [
-    #     'employee__person',
-    #     'subdivision'
-    # ]
+    list_display = ('username', 'employee', 'subdivision', 'last_login', 'is_active')
+    list_select_related = [
+        'employee__person',
+        'subdivision'
+    ]
     list_display_links = ('username',)
-    # search_fields = ['username',]
+    search_fields = ['username',]
 
     readonly_fields = ['date_joined', 'last_login']
 
@@ -29,7 +30,7 @@ class CustomUserAdmin(UserAdmin):
         )}),
     )
 
-    # autocomplete_fields = ['employee', 'subdivision']
+    autocomplete_fields = ['employee', 'subdivision']
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -63,8 +64,6 @@ class CustomUserAdmin(UserAdmin):
 
         return form
 
-
-admin.site.register(CustomUser, CustomUserAdmin)
 
 admin.site.unregister(Group)
 

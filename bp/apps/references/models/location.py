@@ -41,3 +41,7 @@ class Location(BaseRefModel):
 
     def __str__(self):
         return self.name_lct
+
+    def save(self, *args, **kwargs):
+        self.name_lct_full = f'{self.model_type.type_name} {self.name_lct}'
+        super().save(*args, **kwargs)

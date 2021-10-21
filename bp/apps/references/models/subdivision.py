@@ -21,7 +21,7 @@ class Subdivision(BaseRefModel, MPTTModel):
         verbose_name_plural = 'подразделения'
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['id']
 
     class Params(BaseRefModel.Params):
         route_list = 'subdivisions'
