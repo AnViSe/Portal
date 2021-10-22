@@ -9,7 +9,7 @@
             <a href="{% if node.route %}{% url node.route %}{% else %}#{% endif %}"
                class="nav-link{% if node.route in cur_url or node.route == 'home' and cur_url == '/' %} active{% endif %}">
                 <i class="nav-icon{% if node.icon %} {{ node.icon }}{% else %} far fa-circle{% endif %}"></i>
-                <p>{{ node.name }}
+                <p>{{ node.title }}
                     {% if not node.is_leaf_node %}
                     <i class="fas fa-angle-left right"></i>
                     {% endif %}

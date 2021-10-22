@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-+9_asrz-rrx-ozd49moydb78-hjedrl)&-qv_h$#bdg+9h)u9*
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['bp.grodno.belpost.by', '172.16.190.221', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['bp.belpost.by', '172.16.100.227', 'localhost', '127.0.0.1']
 
 DATABASES = {
     '_default': {

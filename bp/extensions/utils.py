@@ -1,9 +1,9 @@
-from django.contrib.contenttypes.models import ContentType
+from apps.references.models.base import FlexObject
 
 
 def limit_content_type(app, model):
     try:
-        content_type = ContentType.objects.get_by_natural_key(app, model).pk
+        to_pk = FlexObject.objects.get(object_app=app, object_model=model).pk
     except:
-        content_type = 0
-    return {'content_type': content_type}
+        to_pk = 0
+    return {'type_object': to_pk}

@@ -7,7 +7,8 @@ from core.fields import CodeField
 
 class Region(BaseRefModel):
     code = CodeField(unique=True)
-    name_rgn = models.CharField(max_length=60, verbose_name='Наименование')
+    name_rgn = models.CharField(max_length=60, db_index=True,
+                                verbose_name='Наименование')
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, blank=True, null=True,
                                 verbose_name='Страна')
 

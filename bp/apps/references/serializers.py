@@ -9,6 +9,7 @@ from apps.references.models.location import Location
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
 from apps.references.models.region import Region
+from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
 
 
@@ -113,6 +114,20 @@ class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
         fields = ['id', 'code', 'name_rgn', 'country', 'status']
+
+
+class StreetSerializer(serializers.ModelSerializer):
+    """Список улиц"""
+
+    # country = serializers.StringRelatedField(source='country.name_cnt',
+    #                                          default=None, read_only=True,
+    #                                          label='Страна')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
+    class Meta:
+        model = Street
+        fields = ['id', 'code', 'name_str_full', 'status']
 
 
 # class FilterSubdivisionListSerializer(serializers.ListSerializer):

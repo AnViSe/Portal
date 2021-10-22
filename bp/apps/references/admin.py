@@ -11,6 +11,7 @@ from apps.references.models.location import Location
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
 from apps.references.models.region import Region
+from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
 
 
@@ -48,8 +49,13 @@ class EmployeeAdmin(ModelAdmin):
 
 @admin.register(FlexType)
 class FlexTypeAdmin(ModelAdmin):
-    list_display = ['type_code', 'type_name', 'type_name_full', 'type_desc', 'status']
+    list_display = ['type_code', 'type_name', 'type_name_full', 'type_object', 'status']
+    list_display_links = ['type_code']
+    list_select_related = ['type_object']
     search_fields = ['type_name']
+
+    fields = ['type_code', 'type_name', 'type_object', 'status']
+    # autocomplete_fields = ['content_type']
 
 
 @admin.register(Location)
@@ -59,8 +65,9 @@ class LocationAdmin(ModelAdmin):
     list_select_related = ['district']
     search_fields = ['name_lct_full']
 
-    fields = ['code', 'soato', 'name_lct', 'district', 'model_type', 'status']
+    fields = ['code', 'soato', 'model_type', 'name_lct', 'district', 'status']
     autocomplete_fields = ['district', 'model_type']
+
 
 # https://brainstorm.it/snippets/many-many-example-using-through-augment-m2m-relationships/
 # class PersonForPhoneTabularInline(admin.TabularInline):
@@ -137,6 +144,15 @@ class RegionAdmin(ModelAdmin):
 
     fields = ['code', 'name_rgn', 'country', 'status']
     autocomplete_fields = ['country']
+
+
+@admin.register(Street)
+class StreetAdmin(ModelAdmin):
+    list_display = ['code', 'name_str_full', 'status']
+    list_display_links = ['code']
+    search_fields = ['name_str_full']
+
+    fields = ['code', 'name_str', 'status']
 
 
 @admin.register(Subdivision)

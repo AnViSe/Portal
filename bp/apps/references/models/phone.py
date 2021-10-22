@@ -5,11 +5,10 @@ from extensions.utils import limit_content_type
 
 
 class Phone(BaseRefModel):
-    phone_number = models.CharField(max_length=15,
+    phone_number = models.CharField(max_length=15, db_index=True,
                                     verbose_name='Номер телефона')
 
-    model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL,
-                                   blank=True, null=True,
+    model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to=limit_content_type('references', 'phone'),
                                    verbose_name='Тип')
 

@@ -6,7 +6,7 @@ from .base import BaseRefModel
 
 class Country(BaseRefModel):
     code = CodeField(unique=True)
-    name_cnt = models.CharField(max_length=60, verbose_name='Наименование')
+    name_cnt = models.CharField(max_length=100, db_index=True, verbose_name='Наименование')
     alpha2 = models.CharField(max_length=2, verbose_name='Код2')
     alpha3 = models.CharField(max_length=3, verbose_name='Код3')
 

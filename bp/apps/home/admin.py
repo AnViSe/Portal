@@ -8,7 +8,7 @@ from .models import Menu
 class MenuAdmin(DraggableMPTTAdmin):
     list_display = ('tree_actions', 'indented_title', 'route', 'icon', 'perm', 'status')
     list_display_links = ('indented_title',)
-    search_fields = ['name']
+    search_fields = ['title']
 
-    fields = ['name', 'parent', 'route', 'perm', 'icon', 'badge', 'header', 'status']
+    fields = ['title', 'parent', 'route', 'perm', 'icon', 'badge', 'header', 'status']
     autocomplete_fields = ['parent']

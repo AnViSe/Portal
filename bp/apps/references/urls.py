@@ -9,6 +9,7 @@ from apps.references.views.location import LocationList
 from apps.references.views.person import PersonList, PersonCreate, PersonEdit
 from apps.references.views.phone import PhoneList
 from apps.references.views.region import RegionList
+from apps.references.views.street import StreetList
 from apps.references.views.subdivision import SubdivisionList, SubdivisionCreate, SubdivisionEdit
 
 urlpatterns = [
@@ -42,5 +43,5 @@ urlpatterns = [
     path('regions/', login_required(RegionList.as_view()), name='regions'),
     path('districts/', login_required(DistrictList.as_view()), name='districts'),
     path('locations/', login_required(LocationList.as_view()), name='locations'),
-
+    path('streets/', login_required(StreetList.as_view()), name='streets'),
 ]

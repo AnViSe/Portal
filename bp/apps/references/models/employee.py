@@ -7,11 +7,12 @@ from .subdivision import Subdivision
 
 class Employee(BaseRefModel):
     """Модель сотрудника"""
-    tab_num = models.PositiveIntegerField(verbose_name='Табельный', unique=True)
-    person = models.ForeignKey(Person, verbose_name='Персона',
-                               on_delete=models.SET_NULL, blank=True, null=True)
-    subdivision = models.ForeignKey(Subdivision, verbose_name='Подразделение',
-                                    on_delete=models.SET_NULL, blank=True, null=True)
+    tab_num = models.PositiveIntegerField(unique=True,
+                                          verbose_name='Табельный')
+    person = models.ForeignKey(Person, on_delete=models.SET_NULL, blank=True, null=True,
+                               verbose_name='Персона')
+    subdivision = models.ForeignKey(Subdivision, on_delete=models.SET_NULL, blank=True, null=True,
+                                    verbose_name='Подразделение')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_employee'

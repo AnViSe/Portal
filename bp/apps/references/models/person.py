@@ -1,22 +1,28 @@
 from django.db import models
 
 from apps.references.models.phone import Phone
-from core.fields import GenderField, PhoneTypeField, StatusField
+from core.fields import GenderField, OBJ_TYPE_PHONE, StatusField
 from extensions.service import get_fml, get_lfm
-from apps.references.models.base import BaseRefModel
+from apps.references.models.base import BaseRefModel, FlexType
 
 
 class Person(BaseRefModel):
     """Модель персоны"""
 
-    last_name = models.CharField(verbose_name='Фамилия', max_length=100, db_index=True)
-    first_name = models.CharField(verbose_name='Имя', max_length=100, null=True, blank=True)
-    middle_name = models.CharField(verbose_name='Отчество', max_length=100, null=True, blank=True)
-    name_lfm = models.CharField(verbose_name='Фамилия И.О.', max_length=150, editable=False)
-    name_fml = models.CharField(verbose_name='И.О. Фамилия', max_length=150, editable=False)
-    pers_num = models.CharField(verbose_name='Личный номер', max_length=14,
-                                null=True, blank=True, db_index=True)
-    birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
+    last_name = models.CharField(max_length=100,
+                                 verbose_name='Фамилия')
+    first_name = models.CharField(max_length=100, blank=True, null=True,
+                                  verbose_name='Имя')
+    middle_name = models.CharField(max_length=100, blank=True, null=True,
+                                   verbose_name='Отчество')
+    name_lfm = models.CharField(max_length=150, db_index=True, editable=False,
+                                verbose_name='Фамилия И.О.')
+    name_fml = models.CharField(max_length=150, editable=False,
+                                verbose_name='И.О. Фамилия')
+    pers_num = models.CharField(max_length=14, db_index=True, blank=True, null=True,
+                                verbose_name='Личный номер')
+    birth_date = models.DateField(blank=True, null=True,
+                                  verbose_name='Дата рождения')
     gender = GenderField()
     phones = models.ManyToManyField(Phone, through='PersonPhones',
                                     related_name='persons',
@@ -59,7 +65,9 @@ class PersonPhones(models.Model):
                                verbose_name='Персона')
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE,
                               verbose_name='Телефон')
-    phone_type = PhoneTypeField()
+    phone_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
+                                   limit_choices_to=OBJ_TYPE_PHONE,
+                                   verbose_name='Тип')
     status = StatusField()
 
     class Meta:

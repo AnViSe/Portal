@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Application definition
 PROJECT_NAME = 'Бизнес-портал'
-PROJECT_DOMAIN = 'bp.grodno.belpost.by'
+PROJECT_DOMAIN = 'http://bp.belpost.by'
 
 INSTALLED_APPS = [
     # General use templates & template tags (should appear first)

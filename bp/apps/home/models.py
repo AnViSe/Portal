@@ -13,8 +13,8 @@ class Menu(MPTTModel):
 
     parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
                             verbose_name='Родитель', related_name='children')
-    name = models.CharField(max_length=100,
-                            verbose_name='Заголовок')
+    title = models.CharField(max_length=100,
+                             verbose_name='Заголовок')
     route = models.CharField(max_length=100, blank=True, null=True,
                              verbose_name='Имя маршрута')
     perm = models.CharField(max_length=100, blank=True, null=True,
@@ -26,8 +26,6 @@ class Menu(MPTTModel):
                              verbose_name='Метка')
     header = models.BooleanField(default=False,
                                  verbose_name='Заголовок')
-    # sort = models.SmallIntegerField(default=999, db_index=True,
-    #                                 verbose_name='Сортировка')
     status = StatusField()
 
     class Meta:
@@ -35,39 +33,39 @@ class Menu(MPTTModel):
         verbose_name_plural = 'пункты меню'
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['id']
 
     def __str__(self):
-        return self.name
+        return self.title
 
-    @staticmethod
-    def get_user_menu(user=None):
-        menus = []
-        if user:
-            cached_perms = cache.get(f"user_perms_{user.id}")
-            if cached_perms is None:
-                perms = user.get_all_permissions()
-                cache.set(f"user_perms_{user.id}", perms)
-            else:
-                perms = cached_perms
-        else:
-            perms = []
-        cached_menus = cache.get('menu_items')
-        if cached_menus is None:
-            all_items = Menu.objects.filter(status=1).order_by('name').values()
-            cache.set('menu_items', all_items)
-        else:
-            all_items = cached_menus
-
-        for item in all_items:
-            if item['perm']:
-                if item['perm'] in perms:
-                    menus.append(item)
-            else:
-                menus.append(item)
-
-        menus = build_tree_menu(menus, None)
-        return menus
+    # @staticmethod
+    # def get_user_menu(user=None):
+    #     menus = []
+    #     if user:
+    #         cached_perms = cache.get(f"user_perms_{user.id}")
+    #         if cached_perms is None:
+    #             perms = user.get_all_permissions()
+    #             cache.set(f"user_perms_{user.id}", perms)
+    #         else:
+    #             perms = cached_perms
+    #     else:
+    #         perms = []
+    #     cached_menus = cache.get('menu_items')
+    #     if cached_menus is None:
+    #         all_items = Menu.objects.filter(status=1).order_by('title').values()
+    #         cache.set('menu_items', all_items)
+    #     else:
+    #         all_items = cached_menus
+    #
+    #     for item in all_items:
+    #         if item['perm']:
+    #             if item['perm'] in perms:
+    #                 menus.append(item)
+    #         else:
+    #             menus.append(item)
+    #
+    #     menus = build_tree_menu(menus, None)
+    #     return menus
 
 
 @receiver(post_save, sender=Menu)

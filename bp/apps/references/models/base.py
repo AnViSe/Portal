@@ -1,4 +1,3 @@
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from core.fields import CodeField, CreateDateTimeField, StatusField, UpdateDateTimeField
@@ -39,25 +38,48 @@ class BaseRefModel(models.Model):
     # return cls.
 
 
+class FlexObject(models.Model):
+    """Список моделей для которых есть типы"""
+
+    id = models.PositiveIntegerField(primary_key=True,
+                                     verbose_name='ID')
+    object_name = models.CharField(max_length=100,
+                                   verbose_name='Наименование')
+    object_app = models.CharField(max_length=100,
+                                  verbose_name='Приложение')
+    object_model = models.CharField(max_length=100,
+                                    verbose_name='Модель')
+
+    class Meta:
+        app_label = 'references'
+        db_table = 'ref_object'
+        unique_together = ['object_app', 'object_model']
+        verbose_name = 'объект'
+        verbose_name_plural = 'объекты'
+        ordering = ['id']
+
+    def __str__(self):
+        return self.object_name
+
+
 class FlexType(models.Model):
     """Гибкая модель типов сущностей"""
 
-    type_code = CodeField(blank=True, null=True)
+    type_code = CodeField()
     type_name = models.CharField(max_length=100,
                                  verbose_name='Наименование')
     type_name_full = models.CharField(max_length=255, blank=True, null=True,
                                       verbose_name='Наименование полное')
     type_desc = models.CharField(max_length=255, blank=True, null=True,
                                  verbose_name='Описание')
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
-                                     verbose_name='Объект')
-    # object_id = models.PositiveIntegerField()
-    # content_object = GenericForeignKey('content_type', 'object_id')
+    type_object = models.ForeignKey(FlexObject, on_delete=models.SET_NULL, blank=True, null=True,
+                                    verbose_name='Имя модели')
     status = StatusField()
 
     class Meta:
         app_label = 'references'
         db_table = 'ref_type'
+        unique_together = ['type_object', 'type_code']
         verbose_name = 'тип'
         verbose_name_plural = 'типы'
         ordering = ['id']

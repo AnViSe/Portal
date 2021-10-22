@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.references.models.base import BaseRefModel, FlexType
 from apps.references.models.district import District
-from core.fields import CodeField
+from core.fields import CodeField, OBJ_TYPE_LOCATION
 from extensions.utils import limit_content_type
 
 
@@ -10,14 +10,14 @@ class Location(BaseRefModel):
     code = CodeField(unique=True)
     soato = models.BigIntegerField(unique=True,
                                    verbose_name='СОАТО')
-    name_lct = models.CharField(max_length=100, verbose_name='Наименование')
-    name_lct_full = models.CharField(max_length=150, verbose_name='Наименование полное',
-                                     editable=False)
+    name_lct = models.CharField(max_length=100,
+                                verbose_name='Наименование')
+    name_lct_full = models.CharField(max_length=150, db_index=True, editable=False,
+                                     verbose_name='Наименование полное')
     district = models.ForeignKey(District, on_delete=models.SET_NULL, blank=True, null=True,
                                  verbose_name='район')
-    model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL,
-                                   blank=True, null=True,
-                                   limit_choices_to=limit_content_type('references', 'location'),
+    model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
+                                   limit_choices_to=OBJ_TYPE_LOCATION,
                                    verbose_name='Тип')
 
     class Meta(BaseRefModel.Meta):
