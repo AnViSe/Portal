@@ -1,7 +1,8 @@
 from django.db import models
 
+from apps.references.models.address import Address
 from apps.references.models.phone import Phone
-from core.fields import GenderField, OBJ_TYPE_PHONE, StatusField
+from core.fields import GenderField, OBJ_TYPE_PHONE, StatusField, OBJ_TYPE_ADDRESS
 from extensions.service import get_fml, get_lfm
 from apps.references.models.base import BaseRefModel, FlexType
 
@@ -27,6 +28,9 @@ class Person(BaseRefModel):
     phones = models.ManyToManyField(Phone, through='PersonPhones',
                                     related_name='persons',
                                     verbose_name='Телефоны')
+    addresses = models.ManyToManyField(Address, through='PersonAddresses',
+                                       related_name='persons',
+                                       verbose_name='Адреса')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_person'
@@ -68,12 +72,37 @@ class PersonPhones(models.Model):
     phone_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to=OBJ_TYPE_PHONE,
                                    verbose_name='Тип')
+    phone_desc = models.CharField(max_length=100, blank=True, null=True,
+                                  verbose_name='Примечание')
     status = StatusField()
 
     class Meta:
+        app_label = 'references'
         db_table = 'ref_person_phones'
         verbose_name = 'Телефон персоны'
         verbose_name_plural = 'Телефоны персоны'
+
+    def __str__(self):
+        return ''
+
+
+class PersonAddresses(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE,
+                               verbose_name='Персона')
+    address = models.ForeignKey(Address, on_delete=models.CASCADE,
+                                verbose_name='Адрес')
+    address_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
+                                     limit_choices_to=OBJ_TYPE_ADDRESS,
+                                     verbose_name='Тип')
+    address_desc = models.CharField(max_length=100, blank=True, null=True,
+                                    verbose_name='Примечание')
+    status = StatusField()
+
+    class Meta:
+        app_label = 'references'
+        db_table = 'ref_person_addresses'
+        verbose_name = 'Адрес персоны'
+        verbose_name_plural = 'Адреса персоны'
 
     def __str__(self):
         return ''

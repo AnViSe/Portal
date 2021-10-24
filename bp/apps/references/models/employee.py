@@ -2,7 +2,6 @@ from django.db import models
 
 from .base import BaseRefModel
 from .person import Person
-from .subdivision import Subdivision
 
 
 class Employee(BaseRefModel):
@@ -11,7 +10,7 @@ class Employee(BaseRefModel):
                                           verbose_name='Табельный')
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, blank=True, null=True,
                                verbose_name='Персона')
-    subdivision = models.ForeignKey(Subdivision, on_delete=models.SET_NULL, blank=True, null=True,
+    subdivision = models.ForeignKey(to='references.Subdivision', on_delete=models.SET_NULL, blank=True, null=True,
                                     verbose_name='Подразделение')
 
     class Meta(BaseRefModel.Meta):

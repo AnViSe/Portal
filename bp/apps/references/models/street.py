@@ -1,7 +1,6 @@
 from django.db import models
 
 from apps.references.models.base import BaseRefModel, FlexType
-from apps.references.models.location import Location
 from core.fields import CodeField, OBJ_TYPE_STREET
 
 
@@ -36,6 +35,7 @@ class Street(BaseRefModel):
     def __str__(self):
         return self.name_str_full
 
-    # def save(self, *args, **kwargs):
-    #     self.name_str_full = f'{self.model_type.type_name} {self.name_str}'
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.name_str_full:
+            self.name_str_full = f'{self.model_type.type_name} {self.name_str}'
+        super().save(*args, **kwargs)

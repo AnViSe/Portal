@@ -2,8 +2,8 @@ from django.db import models
 
 from apps.references.models.base import BaseRefModel, FlexType
 from apps.references.models.district import District
+from apps.references.models.street import Street
 from core.fields import CodeField, OBJ_TYPE_LOCATION
-from extensions.utils import limit_content_type
 
 
 class Location(BaseRefModel):
@@ -15,10 +15,13 @@ class Location(BaseRefModel):
     name_lct_full = models.CharField(max_length=150, db_index=True, editable=False,
                                      verbose_name='Наименование полное')
     district = models.ForeignKey(District, on_delete=models.SET_NULL, blank=True, null=True,
-                                 verbose_name='район')
+                                 verbose_name='Район')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to=OBJ_TYPE_LOCATION,
                                    verbose_name='Тип')
+    streets = models.ManyToManyField(Street, through='LocationStreets',
+                                     related_name='streets',
+                                     verbose_name='Улицы')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_location'
@@ -43,5 +46,21 @@ class Location(BaseRefModel):
         return self.name_lct
 
     def save(self, *args, **kwargs):
-        self.name_lct_full = f'{self.model_type.type_name} {self.name_lct}'
+        if not self.name_lct_full:
+            self.name_lct_full = f'{self.model_type.type_name} {self.name_lct}'
         super().save(*args, **kwargs)
+
+
+class LocationStreets(models.Model):
+    location = models.ForeignKey(Location, on_delete=models.CASCADE,
+                                 verbose_name='Населенный пункт')
+    street = models.ForeignKey(Street, on_delete=models.CASCADE,
+                               verbose_name='Улица')
+
+    class Meta:
+        app_label = 'references'
+        db_table = 'ref_location_streets'
+        verbose_name = 'Улица населенного пункта'
+        verbose_name_plural = 'Улицы населенных пунктов'
+        ordering = ['id']
+

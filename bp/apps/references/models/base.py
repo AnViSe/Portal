@@ -72,6 +72,8 @@ class FlexType(models.Model):
                                       verbose_name='Наименование полное')
     type_desc = models.CharField(max_length=255, blank=True, null=True,
                                  verbose_name='Описание')
+    type_value = models.CharField(max_length=15, blank=True, null=True,
+                                  verbose_name='Значение')
     type_object = models.ForeignKey(FlexObject, on_delete=models.SET_NULL, blank=True, null=True,
                                     verbose_name='Имя модели')
     status = StatusField()

@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
 
+from apps.references.views.address import AddressViewSet
+from apps.references.views.building import BuildingViewSet
 from apps.references.views.country import CountryViewSet
 from apps.references.views.district import DistrictViewSet
 from apps.references.views.employee import EmployeeViewSet
@@ -19,6 +21,8 @@ router.register(r'region', RegionViewSet)
 router.register(r'district', DistrictViewSet)
 router.register(r'location', LocationViewSet)
 router.register(r'street', StreetViewSet)
+router.register(r'building', BuildingViewSet)
+router.register(r'address', AddressViewSet)
 
 router.register(r'subdivision', SubdivisionViewSet)
 router.register(r'employee', EmployeeViewSet)

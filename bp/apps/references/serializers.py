@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.fields import ListField, SerializerMethodField
 from rest_framework_recursive.fields import RecursiveField
 
+from apps.references.models.address import Address
+from apps.references.models.building import Building
 from apps.references.models.country import Country
 from apps.references.models.district import District
 from apps.references.models.employee import Employee
@@ -11,6 +13,31 @@ from apps.references.models.phone import Phone
 from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    """Список адресов"""
+
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
+    class Meta:
+        model = Address
+        fields = ['id', 'code', 'name_adds_full', 'status']
+
+
+class BuildingSerializer(serializers.ModelSerializer):
+    """Список зданий"""
+
+    # district = serializers.StringRelatedField(source='district.name_dst',
+    #                                           default=None, read_only=True,
+    #                                           label='Район')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
+    class Meta:
+        model = Building
+        fields = ['id', 'code', 'name_bld_full', 'status']
 
 
 class DistrictSerializer(serializers.ModelSerializer):

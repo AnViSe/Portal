@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 
 from apps.references.views import index
+from apps.references.views.address import AddressList
+from apps.references.views.building import BuildingList
 from apps.references.views.country import CountryList
 from apps.references.views.district import DistrictList
 from apps.references.views.employee import EmployeeList, EmployeeCreate, EmployeeEdit, EmployeeView
@@ -44,4 +46,6 @@ urlpatterns = [
     path('districts/', login_required(DistrictList.as_view()), name='districts'),
     path('locations/', login_required(LocationList.as_view()), name='locations'),
     path('streets/', login_required(StreetList.as_view()), name='streets'),
+    path('buildings/', login_required(BuildingList.as_view()), name='buildings'),
+    path('addresses/', login_required(AddressList.as_view()), name='addresses'),
 ]

@@ -2,12 +2,15 @@ from django.db import models
 
 from mptt.models import MPTTModel, TreeForeignKey
 
-from apps.references.models.base import BaseRefModel
+from apps.references.models.base import BaseRefModel, FlexType
+from apps.references.models.employee import Employee
+from apps.references.models.location import Location
+from core.fields import OBJ_TYPE_SUBDIVISION, OBJ_TYPE_GEN_IZV, CodeField
 
 
 class Subdivision(BaseRefModel, MPTTModel):
     """Модель подразделения"""
-
+    code = CodeField()
     parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
                             related_name='children',
                             verbose_name='Родитель')
@@ -15,6 +18,27 @@ class Subdivision(BaseRefModel, MPTTModel):
                                verbose_name='Наименование')
     name_sd_full = models.CharField(max_length=255, blank=True, null=True,
                                     verbose_name='Наименование полное')
+    model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
+                                   limit_choices_to=OBJ_TYPE_SUBDIVISION,
+                                   related_name='model_type',
+                                   verbose_name='Тип')
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null=True,
+                                 verbose_name='Населенный пункт')
+    chief = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
+                              related_name='chief',
+                              verbose_name='Руководитель')
+    sub_chief = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
+                                  related_name='sub_chief',
+                                  verbose_name='Заместитель руководителя')
+    booker = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
+                               related_name='booker',
+                               verbose_name='Бухгалтер')
+    gi_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
+                                limit_choices_to=OBJ_TYPE_GEN_IZV,
+                                related_name='gi_type',
+                                verbose_name='Тип генерации извещений')
+    code_ext = CodeField(blank=True, null=True,
+                         verbose_name='Код синхронизации')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_subdivision'
