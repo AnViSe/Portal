@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'maintenancemode',
     'phonenumber_field',
     'crispy_forms',
-    # 'sitetree',
 
     'core',
     'apps.welcome',
@@ -54,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'maintenancemode.middleware.MaintenanceModeMiddleware',
 ]
 
@@ -240,10 +238,13 @@ MESSAGE_TAGS = {
 # Сдвиг веток в дереве (пиксели)
 MPTT_ADMIN_LEVEL_INDENT = 20
 
-
 DEFAULT_AVATAR_URL = ''
 
 try:
     from .local_settings import *
 except ImportError:
     from .prod_settings import *
+
+if DEBUG:
+    INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar']
+    MIDDLEWARE = MIDDLEWARE + ['debug_toolbar.middleware.DebugToolbarMiddleware']
