@@ -14,11 +14,30 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'default': {
-        # 'ENGINE': 'django.db.backends.oracle',
         'ENGINE': 'extensions.oracle',
         'NAME': 'ORCL',
         'USER': 'WWW',
         'PASSWORD': 'www_dba',
+        'HOST': '172.16.188.140',
+        'PORT': '1521',
+        # Сколько секунд удерживать соединение с БД
+        "CONN_MAX_AGE": 10
+    },
+    'ref': {
+        'ENGINE': 'extensions.oracle',
+        'NAME': 'ORCL',
+        'USER': 'REF',
+        'PASSWORD': 'ref_dba',
+        'HOST': '172.16.188.140',
+        'PORT': '1521',
+        # Сколько секунд удерживать соединение с БД
+        "CONN_MAX_AGE": 10
+    },
+    'nsi': {
+        'ENGINE': 'extensions.oracle',
+        'NAME': 'ORCL',
+        'USER': 'NSI',
+        'PASSWORD': 'nsi_dba',
         'HOST': '172.16.188.140',
         'PORT': '1521',
         # Сколько секунд удерживать соединение с БД
@@ -32,7 +51,7 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/1',
         'OPTIONS': {
-            # 'PASSWORD': 'XXXXXXXXXXX',
+            'PASSWORD': 'Y6y1Zx0KMreiVNLprUWjmxL2T+5W2v0gPne41g5Ck0yunf6z/nuaTjRyx/ubBSDIwrytuKRqljN6/v9/',
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     },
@@ -41,7 +60,7 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379/2',
         'TIMEOUT': 3000,
         'OPTIONS': {
-            # 'PASSWORD': 'XXXXXXXXXXX',
+            'PASSWORD': 'Y6y1Zx0KMreiVNLprUWjmxL2T+5W2v0gPne41g5Ck0yunf6z/nuaTjRyx/ubBSDIwrytuKRqljN6/v9/',
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }
@@ -65,6 +84,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-EMAIL_HOST = '172.16.190.190'
+EMAIL_HOST = '172.16.100.15'
 EMAIL_PORT = 25
 DEFAULT_FROM_EMAIL = "no_reply@belpost.by"

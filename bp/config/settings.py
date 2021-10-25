@@ -36,8 +36,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     # 'sitetree',
 
-    'debug_toolbar',
-
     'core',
     'apps.welcome',
     'apps.home',
