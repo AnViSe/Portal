@@ -22,7 +22,7 @@ class Phone(BaseRefModel):
         route_list = 'phones'
         route_list_api = 'phone-list'
         fields_list = [
-            {'data': 'id', 'title': 'Код'},
+            {'data': 'id', 'title': 'ID'},
             {'data': 'phone_number', 'title': 'Номер телефона'},
             {'data': 'model_type', 'title': 'Тип номера'},
             {'data': 'status', 'title': 'Статус'},

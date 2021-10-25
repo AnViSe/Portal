@@ -52,7 +52,8 @@ class Subdivision(BaseRefModel, MPTTModel):
         route_list = 'subdivisions'
         route_list_api = 'subdivision-list'
         fields_list = [
-            {'data': 'id', 'title': 'Код'},
+            {'data': 'id', 'title': 'ID'},
+            {'data': 'code', 'title': 'Код'},
             {'data': 'name_sd', 'title': 'Наименование'},
             {'data': 'parent', 'title': 'Родитель'},
             {'data': 'status', 'title': 'Статус'},

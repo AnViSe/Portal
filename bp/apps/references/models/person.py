@@ -42,7 +42,7 @@ class Person(BaseRefModel):
         route_list = 'persons'
         route_list_api = 'person-list'
         fields_list = [
-            {'data': 'id', 'title': 'Код'},
+            {'data': 'id', 'title': 'ID'},
             {'data': 'last_name', 'title': 'Фамилия'},
             {'data': 'first_name', 'title': 'Имя'},
             {'data': 'middle_name', 'title': 'Отчество'},

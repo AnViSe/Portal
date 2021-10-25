@@ -23,7 +23,7 @@ class Employee(BaseRefModel):
         route_list = 'employees'
         route_list_api = 'employee-list'
         fields_list = [
-            {'data': 'id', 'title': 'Код'},
+            {'data': 'id', 'title': 'ID'},
             {'data': 'tab_num', 'title': 'Табельный'},
             {'data': 'person', 'name': 'person.name_lfm', 'title': 'Физлицо'},
             {'data': 'subdivision', 'name': 'subdivision.name_sd', 'title': 'Подразделение'},
