@@ -92,7 +92,7 @@ class PersonAddresses(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE,
                                 verbose_name='Адрес')
     address_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                     limit_choices_to=OBJ_TYPE_ADDRESS,
+                                     limit_choices_to={'type_object_id': OBJ_TYPE_ADDRESS},
                                      verbose_name='Тип')
     address_desc = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Примечание')

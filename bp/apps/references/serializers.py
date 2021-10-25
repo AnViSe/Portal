@@ -65,7 +65,7 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ['id', 'code', 'name_lct', 'district', 'status']
+        fields = ['id', 'code', 'soato', 'name_lct_full', 'district', 'status']
 
 
 # class RecursiveSerializer(serializers.Serializer):

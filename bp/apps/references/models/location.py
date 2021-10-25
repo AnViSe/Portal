@@ -35,8 +35,9 @@ class Location(BaseRefModel):
         fields_list = [
             {'data': 'id', 'title': 'ID'},
             {'data': 'code', 'title': 'Код'},
-            {'data': 'model_type', 'title': 'Тип'},
-            {'data': 'name_lct', 'title': 'Наименование'},
+            {'data': 'soato', 'title': 'СОАТО'},
+            # {'data': 'model_type', 'name': 'model_type.', 'title': 'Тип'},
+            # {'data': 'name_lct', 'title': 'Наименование'},
             {'data': 'name_lct_full', 'title': 'Наименование полное'},
             {'data': 'district', 'name': 'district.name_dst', 'title': 'Район'},
             {'data': 'status', 'title': 'Статус'},
