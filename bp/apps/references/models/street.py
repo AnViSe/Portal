@@ -11,7 +11,7 @@ class Street(BaseRefModel):
     name_str_full = models.CharField(max_length=150, db_index=True, editable=False,
                                      verbose_name='Наименование полное')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                   limit_choices_to=OBJ_TYPE_STREET,
+                                   limit_choices_to={'type_object_id': OBJ_TYPE_STREET},
                                    verbose_name='Тип')
 
     class Meta(BaseRefModel.Meta):

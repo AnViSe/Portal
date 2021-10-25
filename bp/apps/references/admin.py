@@ -65,8 +65,16 @@ class LocationAdmin(ModelAdmin):
     list_select_related = ['district']
     search_fields = ['name_lct_full']
 
-    fields = ['code', 'soato', 'model_type', 'name_lct', 'district', 'status']
-    autocomplete_fields = ['district', 'model_type']
+    fields = ['code',
+              'soato',
+              'model_type',
+              'name_lct',
+              'district',
+              'status']
+    autocomplete_fields = [
+        'district',
+        # 'model_type'
+    ]
 
 
 # https://brainstorm.it/snippets/many-many-example-using-through-augment-m2m-relationships/
@@ -82,12 +90,16 @@ class PhoneAdmin(ModelAdmin):
                     'model_type',
                     # 'list_persons',
                     'status']
+    list_select_related = ['model_type']
     # list_prefetch_related = ['persons']
     list_display_links = ['phone_number']
     search_fields = ['phone_number']
     # inlines = [PersonForPhoneTabularInline, ]
 
-    fields = ['phone_number', 'model_type', 'status']
+    fields = [
+        'phone_number',
+        'model_type',
+        'status']
 
     # autocomplete_fields = ['person']
 
@@ -99,7 +111,7 @@ class PhoneAdmin(ModelAdmin):
             for person in obj.persons.all()
         ]))
 
-    list_persons.short_description = 'персоны'
+    # list_persons.short_description = 'персоны'
 
 
 # class PhoneTabularInline(admin.TabularInline):
@@ -152,7 +164,7 @@ class StreetAdmin(ModelAdmin):
     list_display_links = ['code']
     search_fields = ['name_str_full']
 
-    fields = ['code', 'name_str', 'status']
+    fields = ['code', 'model_type', 'name_str', 'status']
 
 
 @admin.register(Subdivision)
@@ -161,5 +173,7 @@ class SubdivisionAdmin(DraggableMPTTAdmin):
     list_display_links = ['indented_title', 'name_sd']
     search_fields = ['name_sd']
 
-    fields = ['name_sd', 'name_sd_full', 'parent', 'status']
-    autocomplete_fields = ['parent']
+    fields = ['code', 'name_sd', 'parent',
+              'model_type', 'location', 'chief', 'sub_chief', 'booker', 'gi_type',
+              'name_sd_full', 'code_ext', 'status']
+    autocomplete_fields = ['parent', 'location', 'chief']

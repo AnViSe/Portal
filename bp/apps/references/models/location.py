@@ -17,7 +17,7 @@ class Location(BaseRefModel):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, blank=True, null=True,
                                  verbose_name='Район')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                   limit_choices_to=OBJ_TYPE_LOCATION,
+                                   limit_choices_to={'type_object_id': OBJ_TYPE_LOCATION},
                                    verbose_name='Тип')
     streets = models.ManyToManyField(Street, through='LocationStreets',
                                      related_name='streets',
@@ -43,7 +43,7 @@ class Location(BaseRefModel):
         ]
 
     def __str__(self):
-        return self.name_lct
+        return self.name_lct_full
 
     def save(self, *args, **kwargs):
         if not self.name_lct_full:

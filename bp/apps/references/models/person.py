@@ -70,7 +70,7 @@ class PersonPhones(models.Model):
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE,
                               verbose_name='Телефон')
     phone_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                   limit_choices_to=OBJ_TYPE_PHONE,
+                                   limit_choices_to={'type_object_id': OBJ_TYPE_PHONE},
                                    verbose_name='Тип')
     phone_desc = models.CharField(max_length=100, blank=True, null=True,
                                   verbose_name='Примечание')

@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 count += 1
                 if count % 100 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
         print('Загрузка справочника областей...')
         sql = 'SELECT r.ID_REC, r.ID_CNT, r.NAME_RGN FROM REGIONS r WHERE r.STATUS = 1 AND r.ID_REC > 0 ORDER BY r.ID_REC'
@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 count += 1
                 if count % 100 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
         print('Загрузка справочника районов...')
         sql = 'SELECT d.ID_REC, d.ID_RGN, d.NAME_DST FROM DISTRICTS d WHERE d.STATUS = 1 AND d.ID_REC > 0 ORDER BY d.ID_REC'
@@ -69,7 +69,7 @@ class Command(BaseCommand):
                 count += 1
                 if count % 100 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
         print('Загрузка справочника населенных пунктов...')
         sql = 'SELECT l.ID_REC, l.ID_DST, l.ID_TYPE, l.SOATO, l.NAME_LOC, l.LOC_FULL FROM LOCATIONS l WHERE l.STATUS = 1 AND l.ID_REC < 23902 ORDER BY l.ID_REC'
@@ -84,9 +84,9 @@ class Command(BaseCommand):
                                         name_lct=res.NAME_LOC, name_lct_full=res.LOC_FULL,
                                         model_type_id=mt[str(res.ID_TYPE)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
         print('Загрузка справочника улиц...')
         sql = 'SELECT s.ID_REC, s.ID_TYPE, s.NAME_STR, s.STR_FULL FROM STREETS s WHERE s.STATUS = 1 ORDER BY s.ID_REC'
@@ -99,9 +99,9 @@ class Command(BaseCommand):
                 Street.objects.create(code=str(res.ID_REC), model_type_id=mt[str(res.ID_TYPE)],
                                       name_str=res.NAME_STR, name_str_full=res.STR_FULL)
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
         print('Загрузка справочника зданий...')
         sql = 'SELECT b.ID_REC, b.ID_LOC, b.ID_STR, b.HOUSE FROM BUILDINGS b  INNER JOIN LOCATIONS l ON l.ID_REC = b.ID_LOC AND l.STATUS = 1 INNER JOIN STREETS s ON s.ID_REC = b.ID_STR AND s.STATUS = 1 WHERE b.STATUS = 1 ORDER BY b.ID_REC'
@@ -114,30 +114,30 @@ class Command(BaseCommand):
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
                                         location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[5001:10001]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
                                         location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[10001:15001]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
                                         location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[15001:]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
                                         location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
         print('Загрузка справочника адресов...')
         sql = """SELECT a.ID_REC, a.ID_BUILDING, a.ROOM
@@ -154,37 +154,37 @@ class Command(BaseCommand):
                 Address.objects.create(code=str(res.ID_REC), name_adds=res.ROOM,
                                        building_id=d_bld[str(res.ID_BUILDING)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[5001:10001]:
                 Address.objects.create(code=str(res.ID_REC), name_adds=res.ROOM,
                                        building_id=d_bld[str(res.ID_BUILDING)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[10001:15001]:
                 Address.objects.create(code=str(res.ID_REC), name_adds=res.ROOM,
                                        building_id=d_bld[str(res.ID_BUILDING)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[15001:20001]:
                 Address.objects.create(code=str(res.ID_REC), name_adds=res.ROOM,
                                        building_id=d_bld[str(res.ID_BUILDING)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[20001:]:
                 Address.objects.create(code=str(res.ID_REC), name_adds=res.ROOM,
                                        building_id=d_bld[str(res.ID_BUILDING)])
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
+        print(f'Всего загружено: {count}')
 
 
         print('Загрузка справочника подразделений...')
@@ -214,8 +214,6 @@ class Command(BaseCommand):
                                                     status=res.STATUS)
                 d_sd[str(res.ID_REC)] = cur_sd.pk
                 count += 1
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
-        print(f'Всего загружно: {count}')
-
-
+        print(f'Всего загружено: {count}')

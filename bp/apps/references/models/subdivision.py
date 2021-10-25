@@ -19,7 +19,7 @@ class Subdivision(BaseRefModel, MPTTModel):
     name_sd_full = models.CharField(max_length=255, blank=True, null=True,
                                     verbose_name='Наименование полное')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                   limit_choices_to=OBJ_TYPE_SUBDIVISION,
+                                   limit_choices_to={'type_object_id': OBJ_TYPE_SUBDIVISION},
                                    related_name='model_type',
                                    verbose_name='Тип')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null=True,
@@ -34,11 +34,11 @@ class Subdivision(BaseRefModel, MPTTModel):
                                related_name='booker',
                                verbose_name='Бухгалтер')
     gi_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                limit_choices_to=OBJ_TYPE_GEN_IZV,
+                                limit_choices_to={'type_object_id': OBJ_TYPE_GEN_IZV},
                                 related_name='gi_type',
                                 verbose_name='Тип генерации извещений')
-    code_ext = CodeField(blank=True, null=True,
-                         verbose_name='Код синхронизации')
+    code_ext = models.CharField(max_length=15, blank=True, null=True,
+                                verbose_name='Внешний код')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_subdivision'

@@ -86,7 +86,7 @@ class Command(BaseCommand):
                                                       'object_app': 'references',
                                                       'object_model': 'subdivision'})
         FlexObject.objects.update_or_create(id=OBJ_TYPE_GEN_IZV,
-                                            defaults={'object_name': 'Подразделения',
+                                            defaults={'object_name': 'Извещения',
                                                       'object_app': 'references',
                                                       'object_model': 'gen_izv'})
 

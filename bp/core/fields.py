@@ -53,8 +53,8 @@ class CodeField(models.CharField):
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
-        del kwargs["verbose_name"]
-        del kwargs["max_length"]
+        del kwargs['verbose_name']
+        del kwargs['max_length']
         return name, path, args, kwargs
 
 
