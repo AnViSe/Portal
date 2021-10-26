@@ -23,8 +23,8 @@ def load_env(path: Path):
     path = path.resolve()
 
     if os.name != 'nt':
-        if path.stat().st_mode != 0o100640:
-            raise FilePermissionError(f"Insecure environment file permissions for {path}! Make it 640")
+        if path.stat().st_mode != 0o100644:
+            raise FilePermissionError(f"Insecure environment file permissions for {path}! Make it 644")
 
     content = path.read_text()
 
