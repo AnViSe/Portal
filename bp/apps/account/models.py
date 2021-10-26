@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.cache import cache
 from django.db import models
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
 
 from apps.account.gravatar import email_to_gravatar
 from apps.references.models.employee import Employee
@@ -50,3 +53,13 @@ class CustomUser(AbstractUser):
 
     def avatar_exists(self):
         return self.avatar and self.avatar.storage.exists(self.avatar.name)
+
+
+@receiver(post_save, sender=CustomUser)
+def user_save(sender, instance, **kwargs):
+    cache.delete(f'user_perms_{sender.id}')
+
+
+@receiver(pre_delete, sender=CustomUser)
+def user_delete(sender, instance, **kwargs):
+    cache.delete(f'user_perms_{sender.id}')

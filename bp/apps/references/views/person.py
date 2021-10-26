@@ -2,6 +2,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import viewsets
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from apps.references.forms import PersonForm
 from apps.references.models.person import Person
@@ -10,11 +12,18 @@ from apps.references.utils import RefTableMixin
 
 
 class PersonViewSet(viewsets.ModelViewSet):
+    """Список персон"""
+
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
 
 
 class PersonList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник персон"""
+
     permission_required = 'references.view_person'
     model = Person
 
@@ -25,7 +34,10 @@ class PersonList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
 
 
 class PersonCreate(PermissionRequiredMixin, generic.CreateView):
+    """Создание персоны"""
+
     permission_required = 'references.add_person'
+
     form_class = PersonForm
     template_name = 'references/ref_add.html'
     success_url = reverse_lazy('persons')
@@ -37,7 +49,10 @@ class PersonCreate(PermissionRequiredMixin, generic.CreateView):
 
 
 class PersonEdit(PermissionRequiredMixin, generic.UpdateView):
+    """Изменение персоны"""
+
     permission_required = 'references.change_person'
+
     model = Person
     form_class = PersonForm
     template_name = 'references/ref_edit.html'

@@ -6,6 +6,8 @@ from core.fields import CodeField
 
 
 class Region(BaseRefModel):
+    """Область"""
+
     code = CodeField(unique=True)
     name_rgn = models.CharField(max_length=60, db_index=True,
                                 verbose_name='Наименование')

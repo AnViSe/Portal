@@ -6,6 +6,8 @@ from core.fields import CodeField
 
 
 class Address(BaseRefModel):
+    """Адрес"""
+
     code = CodeField(unique=True)
     name_adds = models.CharField(max_length=10, blank=True, null=True,
                                  verbose_name='Квартира')

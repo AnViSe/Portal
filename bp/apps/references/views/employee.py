@@ -2,6 +2,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import viewsets
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from apps.references.forms import EmployeeForm
 from apps.references.models.employee import Employee
@@ -10,12 +12,20 @@ from apps.references.utils import RefTableMixin
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
+    """Список сотрудников"""
+
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     queryset = Employee.objects.select_related('person', 'subdivision').all()
     serializer_class = EmployeeSerializer
 
 
 class EmployeeList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник сотрудников"""
+
     permission_required = 'references.view_employee'
+
     model = Employee
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -24,20 +34,17 @@ class EmployeeList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
 
 
 class EmployeeView(generic.DetailView):
+    """Просмотр сотрудника"""
+
     model = Employee
     template_name = 'references/ref_view.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-        # fields = get_columns(self.model)
-        # for field in fields:
-        #     field['value'] = self.model.serializable_value(self, field['name'])
-        # context['fields'] = fields
-        # return context
-
 
 class EmployeeCreate(PermissionRequiredMixin, generic.CreateView):
+    """Создание сотрудника"""
+
     permission_required = 'references.add_employee'
+
     form_class = EmployeeForm
     template_name = 'references/ref_add.html'
     success_url = reverse_lazy('employees')
@@ -49,12 +56,19 @@ class EmployeeCreate(PermissionRequiredMixin, generic.CreateView):
 
 
 class EmployeeEdit(PermissionRequiredMixin, generic.UpdateView):
+    """Изменение сотрудника"""
+
     permission_required = 'references.change_employee'
+
     model = Employee
     form_class = EmployeeForm
     template_name = 'references/ref_edit.html'
     success_url = reverse_lazy(model.Params.route_list)
 
 
-class EmployeeDelete(generic.DeleteView):
+class EmployeeDelete(PermissionRequiredMixin, generic.DeleteView):
+    """Удаление сотрудника"""
+
+    permission_required = 'references.delete_employee'
+
     model = Employee

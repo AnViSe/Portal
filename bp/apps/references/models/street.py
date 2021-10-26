@@ -5,6 +5,8 @@ from core.fields import CodeField, OBJ_TYPE_STREET
 
 
 class Street(BaseRefModel):
+    """Улица"""
+
     code = CodeField(unique=True)
     name_str = models.CharField(max_length=100,
                                 verbose_name='Наименование')

@@ -8,12 +8,17 @@ from apps.references.utils import RefTableMixin
 
 
 class CountryViewSet(viewsets.ModelViewSet):
+    """Список стран"""
+
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
 
 
 class CountryList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник стран"""
+
     permission_required = 'references.view_country'
+
     model = Country
 
     def get_context_data(self, *, object_list=None, **kwargs):

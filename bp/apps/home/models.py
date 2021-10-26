@@ -5,7 +5,6 @@ from django.dispatch import receiver
 from mptt.models import MPTTModel, TreeForeignKey
 
 from core.fields import StatusField
-from extensions.service import build_tree_menu
 
 
 class Menu(MPTTModel):

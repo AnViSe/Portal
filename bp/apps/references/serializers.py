@@ -40,6 +40,17 @@ class BuildingSerializer(serializers.ModelSerializer):
         fields = ['id', 'code', 'name_bld_full', 'latitude', 'longitude', 'status']
 
 
+class CountrySerializer(serializers.ModelSerializer):
+    """Список стран"""
+
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус')
+
+    class Meta:
+        model = Country
+        fields = ['id', 'code', 'name_cnt', 'alpha2', 'alpha3', 'status']
+
+
 class DistrictSerializer(serializers.ModelSerializer):
     """Список районов"""
 
@@ -52,6 +63,19 @@ class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
         model = District
         fields = ['id', 'code', 'name_dst', 'region', 'status']
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    """Список сотрудников"""
+
+    person = serializers.StringRelatedField(source='person.name_lfm', read_only=True)
+    subdivision = serializers.StringRelatedField(source='subdivision.name_sd', read_only=True,
+                                                 default=None)
+    status = serializers.CharField(source='get_status_display', label='Статус')
+
+    class Meta:
+        model = Employee
+        fields = ['id', 'tab_num', 'person', 'subdivision', 'status']
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -103,30 +127,6 @@ class PhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Phone
         fields = ['id', 'phone_number', 'phone_type', 'model_type', 'status']
-
-
-class EmployeeSerializer(serializers.ModelSerializer):
-    """Список сотрудников"""
-
-    person = serializers.StringRelatedField(source='person.name_lfm', read_only=True)
-    subdivision = serializers.StringRelatedField(source='subdivision.name_sd', read_only=True,
-                                                 default=None)
-    status = serializers.CharField(source='get_status_display', label='Статус')
-
-    class Meta:
-        model = Employee
-        fields = ['id', 'tab_num', 'person', 'subdivision', 'status']
-
-
-class CountrySerializer(serializers.ModelSerializer):
-    """Список стран"""
-
-    status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
-
-    class Meta:
-        model = Country
-        fields = ['id', 'code', 'name_cnt', 'alpha2', 'alpha3', 'status']
 
 
 class RegionSerializer(serializers.ModelSerializer):

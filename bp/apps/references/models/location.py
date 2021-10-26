@@ -7,6 +7,8 @@ from core.fields import CodeField, OBJ_TYPE_LOCATION
 
 
 class Location(BaseRefModel):
+    """Населенный пункт"""
+
     code = CodeField(unique=True)
     soato = models.BigIntegerField(unique=True,
                                    verbose_name='СОАТО')
@@ -53,6 +55,8 @@ class Location(BaseRefModel):
 
 
 class LocationStreets(models.Model):
+    """Улицы населенного пункта"""
+
     location = models.ForeignKey(Location, on_delete=models.CASCADE,
                                  verbose_name='Населенный пункт')
     street = models.ForeignKey(Street, on_delete=models.CASCADE,

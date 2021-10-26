@@ -5,12 +5,14 @@ from .person import Person
 
 
 class Employee(BaseRefModel):
-    """Модель сотрудника"""
+    """Сотрудник"""
+
     tab_num = models.PositiveIntegerField(unique=True,
                                           verbose_name='Табельный')
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, blank=True, null=True,
                                verbose_name='Персона')
-    subdivision = models.ForeignKey(to='references.Subdivision', on_delete=models.SET_NULL, blank=True, null=True,
+    subdivision = models.ForeignKey(to='references.Subdivision', on_delete=models.SET_NULL,
+                                    blank=True, null=True,
                                     verbose_name='Подразделение')
 
     class Meta(BaseRefModel.Meta):

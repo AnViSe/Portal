@@ -8,12 +8,17 @@ from apps.references.utils import RefTableMixin
 
 
 class StreetViewSet(viewsets.ModelViewSet):
+    """Список улиц"""
+
     queryset = Street.objects.all()
     serializer_class = StreetSerializer
 
 
 class StreetList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник улиц"""
+
     permission_required = 'references.view_street'
+
     model = Street
 
     def get_context_data(self, *, object_list=None, **kwargs):

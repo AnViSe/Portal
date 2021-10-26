@@ -8,12 +8,17 @@ from apps.references.utils import RefTableMixin
 
 
 class PhoneViewSet(viewsets.ModelViewSet):
+    """Список телефонов"""
+
     queryset = Phone.objects.all()
     serializer_class = PhoneSerializer
 
 
 class PhoneList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник телефонов"""
+
     permission_required = 'references.view_phone'
+
     model = Phone
 
     # todo Попробовать сделать через mixin

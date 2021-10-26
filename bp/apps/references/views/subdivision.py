@@ -2,6 +2,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import decorators, mixins, status, viewsets
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.references.forms import SubdivisionForm
@@ -26,7 +28,11 @@ from apps.references.utils import RefTableMixin
 
 
 class SubdivisionViewSet(viewsets.ModelViewSet):
-    # queryset = Subdivision.objects.all()
+    """Список подразделений"""
+
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     queryset = Subdivision.objects.select_related('parent').all()
     serializer_class = SubdivisionSerializer
 
@@ -39,7 +45,10 @@ class SubdivisionViewSet(viewsets.ModelViewSet):
 
 
 class SubdivisionList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник подразделений"""
+
     permission_required = 'references.view_subdivision'
+
     model = Subdivision
 
     # todo Попробовать сделать через mixin
@@ -49,7 +58,10 @@ class SubdivisionList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
 
 
 class SubdivisionCreate(PermissionRequiredMixin, generic.CreateView):
+    """Создание подразделения"""
+
     permission_required = 'references.add_subdivision'
+
     form_class = SubdivisionForm
     template_name = 'references/ref_add.html'
     success_url = reverse_lazy('subdivisions')
@@ -61,7 +73,10 @@ class SubdivisionCreate(PermissionRequiredMixin, generic.CreateView):
 
 
 class SubdivisionEdit(PermissionRequiredMixin, generic.UpdateView):
+    """Изменение подразделения"""
+
     permission_required = 'references.change_subdivision'
+
     model = Subdivision
     form_class = SubdivisionForm
     template_name = 'references/ref_edit.html'

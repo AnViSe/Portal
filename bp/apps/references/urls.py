@@ -39,7 +39,7 @@ urlpatterns = [
     # path('subdivisions/', include([
     #     path('create/', login_required(SubdivisionCreate.as_view()), name='add_subdivision'),
     #     path('<int:pk>/', login_required(SubdivisionEdit.as_view()), name='edit_subdivision'),
-        # path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
+    #     path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
     # ])),
     path('countries/', login_required(CountryList.as_view()), name='countries'),
     path('regions/', login_required(RegionList.as_view()), name='regions'),

@@ -8,12 +8,17 @@ from apps.references.utils import RefTableMixin
 
 
 class AddressViewSet(viewsets.ModelViewSet):
+    """Список адресов"""
+
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
 
 class AddressList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник адресов"""
+
     permission_required = 'references.view_address'
+
     model = Address
 
     def get_context_data(self, *, object_list=None, **kwargs):

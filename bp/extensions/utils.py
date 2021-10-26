@@ -1,9 +1,21 @@
-from apps.references.models.base import FlexObject
+def get_lfm(last_name, first_name=None, middle_name=None) -> str:
+    """Из фаМиЛИя иМя ОтчЕство возвращает Фамилия И.О."""
+    result = ''
+    if last_name:
+        result = last_name.capitalize()
+        if first_name:
+            result += ' ' + first_name[0].upper() + '.'
+            if middle_name:
+                result += middle_name[0].upper() + '.'
+    return result
 
 
-def limit_content_type(app, model):
-    try:
-        to_pk = FlexObject.objects.get(object_app=app, object_model=model).pk
-    except:
-        to_pk = 0
-    return {'type_object': to_pk}
+def get_fml(last_name, first_name=None, middle_name=None) -> str:
+    """Из фаМиЛИя иМя ОтчЕство возвращает И.О. Фамилия"""
+    result = ''
+    if last_name:
+        if first_name:
+            result = first_name[0].upper() + '.'
+            if middle_name:
+                result += middle_name[0].upper() + '. ' + last_name.capitalize()
+    return result

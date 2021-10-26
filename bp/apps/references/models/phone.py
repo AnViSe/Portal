@@ -5,9 +5,10 @@ from core.fields import OBJ_TYPE_PHONE
 
 
 class Phone(BaseRefModel):
+    """Телефон"""
+
     phone_number = models.CharField(max_length=15, db_index=True,
                                     verbose_name='Номер телефона')
-
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_PHONE},
                                    verbose_name='Тип')

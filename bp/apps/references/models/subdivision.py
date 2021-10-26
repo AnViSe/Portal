@@ -9,8 +9,9 @@ from core.fields import OBJ_TYPE_SUBDIVISION, OBJ_TYPE_GEN_IZV, CodeField
 
 
 class Subdivision(BaseRefModel, MPTTModel):
-    """Модель подразделения"""
-    code = CodeField()
+    """Подразделение"""
+
+    code = CodeField(unique=True)
     parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
                             related_name='children',
                             verbose_name='Родитель')

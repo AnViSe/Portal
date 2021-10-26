@@ -8,12 +8,17 @@ from apps.references.utils import RefTableMixin
 
 
 class BuildingViewSet(viewsets.ModelViewSet):
+    """Список зданий"""
+
     queryset = Building.objects.all()
     serializer_class = BuildingSerializer
 
 
 class BuildingList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+    """Справочник зданий"""
+
     permission_required = 'references.view_building'
+
     model = Building
 
     def get_context_data(self, *, object_list=None, **kwargs):

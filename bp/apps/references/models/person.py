@@ -3,12 +3,12 @@ from django.db import models
 from apps.references.models.address import Address
 from apps.references.models.phone import Phone
 from core.fields import GenderField, OBJ_TYPE_PHONE, StatusField, OBJ_TYPE_ADDRESS
-from extensions.service import get_fml, get_lfm
 from apps.references.models.base import BaseRefModel, FlexType
+from extensions.utils import get_fml, get_lfm
 
 
 class Person(BaseRefModel):
-    """Модель персоны"""
+    """Персона"""
 
     last_name = models.CharField(max_length=100,
                                  verbose_name='Фамилия')
@@ -65,6 +65,8 @@ class Person(BaseRefModel):
 
 
 class PersonPhones(models.Model):
+    """Телефоны персоны"""
+
     person = models.ForeignKey(Person, on_delete=models.CASCADE,
                                verbose_name='Персона')
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE,
@@ -87,6 +89,8 @@ class PersonPhones(models.Model):
 
 
 class PersonAddresses(models.Model):
+    """Адреса персоны"""
+
     person = models.ForeignKey(Person, on_delete=models.CASCADE,
                                verbose_name='Персона')
     address = models.ForeignKey(Address, on_delete=models.CASCADE,
