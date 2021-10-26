@@ -34,6 +34,8 @@ class Building(BaseRefModel):
             {'data': 'id', 'title': 'ID'},
             {'data': 'code', 'title': 'Код'},
             {'data': 'name_bld_full', 'title': 'Здание'},
+            {'data': 'latitude', 'title': 'Широта'},
+            {'data': 'longitude', 'title': 'Долгота'},
             {'data': 'status', 'title': 'Статус'},
         ]
 

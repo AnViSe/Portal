@@ -37,7 +37,7 @@ class BuildingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Building
-        fields = ['id', 'code', 'name_bld_full', 'status']
+        fields = ['id', 'code', 'name_bld_full', 'latitude', 'longitude', 'status']
 
 
 class DistrictSerializer(serializers.ModelSerializer):
