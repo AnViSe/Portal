@@ -1,19 +1,23 @@
+import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
+from .utils import load_env
+
+get_env = os.environ.get
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+load_env(BASE_DIR / 'config/.env')
+
+SECRET_KEY = get_env('DJANGO_SECRET_KEY')
+DEBUG = get_env('DEBUG', False)
 
 # Application definition
 PROJECT_NAME = 'Бизнес-портал'
 PROJECT_DOMAIN = 'http://bp.belpost.by'
 
 INSTALLED_APPS = [
-    # General use templates & template tags (should appear first)
-    # 'adminlte3',
-    # Optional: Django admin theme (must be before django.contrib.admin)
-    # 'adminlte3_theme',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +48,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'apps_account.CustomUser'
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,9 +98,6 @@ USE_TZ = True
 
 LOCALE_PATHS = ['core/locale']
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR.joinpath('static')
 STATICFILES_DIRS = [
@@ -102,9 +106,6 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -233,12 +234,15 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
 }
 
-
 # MPTT
 # Сдвиг веток в дереве (пиксели)
 MPTT_ADMIN_LEVEL_INDENT = 20
 
 DEFAULT_AVATAR_URL = ''
+
+EMAIL_HOST = get_env('EMAIL_HOST')
+EMAIL_PORT = get_env('EMAIL_PORT')
+DEFAULT_FROM_EMAIL = get_env('DEFAULT_FROM_EMAIL')
 
 try:
     from .local_settings import *
@@ -246,5 +250,6 @@ except ImportError:
     from .prod_settings import *
 
 if DEBUG:
+    INTERNAL_IPS = ['127.0.0.1', ]
     INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar']
     MIDDLEWARE = MIDDLEWARE + ['debug_toolbar.middleware.DebugToolbarMiddleware']
