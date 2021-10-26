@@ -63,9 +63,9 @@ MIDDLEWARE = [
     'maintenancemode.middleware.MaintenanceModeMiddleware',
 ]
 
-MIDDLEWARE_CLASSES = [
-     'django.middleware.locale.LocaleMiddleware',
-]
+# MIDDLEWARE_CLASSES = [
+#      'django.middleware.locale.LocaleMiddleware',
+# ]
 
 ROOT_URLCONF = 'config.urls'
 

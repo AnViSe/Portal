@@ -56,10 +56,11 @@ class CustomUser(AbstractUser):
 
 
 @receiver(post_save, sender=CustomUser)
-def user_save(sender, instance, **kwargs):
-    cache.delete(f'user_perms_{sender.id}')
+def user_save(sender, instance, created, **kwargs):
+    if not created:
+        cache.delete(f'user_perms_{instance.id}')
 
 
 @receiver(pre_delete, sender=CustomUser)
 def user_delete(sender, instance, **kwargs):
-    cache.delete(f'user_perms_{sender.id}')
+    cache.delete(f'user_perms_{instance.id}')

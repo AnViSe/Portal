@@ -4,10 +4,10 @@ from core.fields import StatusField
 
 
 class Module(models.Model):
-    """Модель описания модуля"""
+    """Модуль"""
 
     id = models.BigAutoField(primary_key=True,
-                             verbose_name='Идентификатор')
+                             verbose_name='ID')
     name = models.CharField(max_length=100,
                             verbose_name='Наименование')
     desc = models.CharField(max_length=255, blank=True, null=True,
@@ -27,13 +27,6 @@ class Module(models.Model):
         verbose_name = 'модуль'
         verbose_name_plural = 'модули'
         abstract = True
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'модуль'
-        verbose_name_plural = 'модули'
 
     def __str__(self):
         return self.name
