@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_env(BASE_DIR / 'config/.env')
 
 SECRET_KEY = get_env('DJANGO_SECRET_KEY')
-DEBUG = get_env('DEBUG', False)
+DEBUG = get_env('DEBUG', 'False') == 'True'
 
 # Application definition
 PROJECT_NAME = 'Бизнес-портал'
@@ -241,7 +241,7 @@ MPTT_ADMIN_LEVEL_INDENT = 20
 DEFAULT_AVATAR_URL = ''
 
 EMAIL_HOST = get_env('EMAIL_HOST')
-EMAIL_PORT = get_env('EMAIL_PORT')
+EMAIL_PORT = int(get_env('EMAIL_PORT'))
 DEFAULT_FROM_EMAIL = get_env('DEFAULT_FROM_EMAIL')
 
 try:
