@@ -7,7 +7,7 @@ from apps.references.models.base import FlexObject, FlexType
 
 from config import settings
 from core.fields import OBJ_TYPE_NONE, OBJ_TYPE_LOCATION, OBJ_TYPE_STREET, OBJ_TYPE_PHONE, \
-    OBJ_TYPE_ADDRESS, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_GEN_IZV
+    OBJ_TYPE_ADDRESS, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, OBJ_TYPE_POSTCODE
 
 
 class Command(BaseCommand):
@@ -84,10 +84,14 @@ class Command(BaseCommand):
                                             defaults={'object_name': 'Подразделения',
                                                       'object_app': 'references',
                                                       'object_model': 'subdivision'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_GEN_IZV,
+        FlexObject.objects.update_or_create(id=OBJ_TYPE_NOTICE,
                                             defaults={'object_name': 'Извещения',
                                                       'object_app': 'references',
-                                                      'object_model': 'gen_izv'})
+                                                      'object_model': 'notice'})
+        FlexObject.objects.update_or_create(id=OBJ_TYPE_POSTCODE,
+                                            defaults={'object_name': 'Извещения',
+                                                      'object_app': 'references',
+                                                      'object_model': 'postcode'})
 
         _count = FlexObject.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Видов сущностей: {_count}"))
@@ -190,7 +194,7 @@ class Command(BaseCommand):
             FlexType.objects.create(type_code='6', type_name='Цех', type_object_id=fo_pk,
                                     type_name_full='Цех')
             FlexType.objects.create(type_code='3', type_name='РУПС', type_object_id=fo_pk,
-                                    type_name_full='Районный узел почтовой связи')
+                                    type_name_full='Региональный узел почтовой связи')
             FlexType.objects.create(type_code='4', type_name='УПС', type_object_id=fo_pk,
                                     type_name_full='Участок почтовой связи')
             FlexType.objects.create(type_code='5', type_name='ОПС', type_object_id=fo_pk,
@@ -206,7 +210,7 @@ class Command(BaseCommand):
             FlexType.objects.create(type_code='22', type_name='Сектор', type_object_id=fo_pk,
                                     type_name_full='', status=0)
 
-            fo_pk = OBJ_TYPE_GEN_IZV
+            fo_pk = OBJ_TYPE_NOTICE
             FlexType.objects.filter(type_object_id=fo_pk).delete()
             FlexType.objects.create(type_code='0', type_name='Сквозная нумерация',
                                     type_object_id=fo_pk,
@@ -220,6 +224,26 @@ class Command(BaseCommand):
                                     type_value='6')
             FlexType.objects.create(type_code='4', type_name='Каждый год', type_object_id=fo_pk,
                                     type_value='12')
+
+            fo_pk = OBJ_TYPE_POSTCODE
+            FlexType.objects.filter(type_object_id=fo_pk).delete()
+            FlexType.objects.create(type_code='0', type_name='Не указано',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='19', type_name='Сельское', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='20', type_name='Городское', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='21', type_name='Передвижное', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='22', type_name='Пункт связи', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='23', type_name='Прочие', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='24', type_name='Участок', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='25', type_name='Цех', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='26', type_name='РУПС', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='27', type_name='Область (для сортировки)',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='204', type_name='Администрация', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='215', type_name='Союзпечать', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='216', type_name='Филиал', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='283', type_name='Служба', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='287', type_name='Мотодоставка', type_object_id=fo_pk)
 
         _count = FlexType.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Типов сущностей: {_count}"))

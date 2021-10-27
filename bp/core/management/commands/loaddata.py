@@ -12,7 +12,7 @@ from apps.references.models.location import Location
 from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
-from core.fields import OBJ_TYPE_STREET, OBJ_TYPE_LOCATION, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_GEN_IZV
+from core.fields import OBJ_TYPE_STREET, OBJ_TYPE_LOCATION, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE
 
 
 class Command(BaseCommand):
@@ -196,7 +196,7 @@ class Command(BaseCommand):
                   START WITH s.ID_REC = 0
                   ORDER SIBLINGS BY s.ID_SD_TYPE, s.NAME_SD_SHORT"""
         mt_sd = {res['type_code']: res['id'] for res in FlexType.objects.filter(type_object_id=OBJ_TYPE_SUBDIVISION).values('type_code', 'id')}
-        mt_gi = {res['type_code']: res['id'] for res in FlexType.objects.filter(type_object_id=OBJ_TYPE_GEN_IZV).values('type_code', 'id')}
+        mt_gi = {res['type_code']: res['id'] for res in FlexType.objects.filter(type_object_id=OBJ_TYPE_NOTICE).values('type_code', 'id')}
 
         d_lct = {res['code']: res['id'] for res in Location.objects.values('code', 'id')}
         d_sd = {'-1': None}
