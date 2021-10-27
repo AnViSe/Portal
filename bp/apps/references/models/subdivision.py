@@ -21,7 +21,7 @@ class Subdivision(BaseRefModel, MPTTModel):
                                     verbose_name='Наименование полное')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_SUBDIVISION},
-                                   related_name='model_type',
+                                   # related_name='model_type',
                                    verbose_name='Тип')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null=True,
                                  verbose_name='Населенный пункт')
