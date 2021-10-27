@@ -5,7 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from apps.references.models.base import BaseRefModel, FlexType
 from apps.references.models.employee import Employee
 from apps.references.models.location import Location
-from core.fields import OBJ_TYPE_SUBDIVISION, OBJ_TYPE_GEN_IZV, CodeField
+from core.fields import OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, CodeField
 
 
 class Subdivision(BaseRefModel, MPTTModel):
@@ -34,10 +34,10 @@ class Subdivision(BaseRefModel, MPTTModel):
     booker = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
                                related_name='booker',
                                verbose_name='Бухгалтер')
-    gi_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                limit_choices_to={'type_object_id': OBJ_TYPE_GEN_IZV},
-                                related_name='gi_type',
-                                verbose_name='Тип генерации извещений')
+    notice_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
+                                    limit_choices_to={'type_object_id': OBJ_TYPE_NOTICE},
+                                    related_name='notice_type',
+                                    verbose_name='Тип генерации извещений')
     code_ext = models.CharField(max_length=15, blank=True, null=True,
                                 verbose_name='Внешний код')
 
