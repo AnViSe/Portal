@@ -10,6 +10,7 @@ from apps.references.models.employee import Employee
 from apps.references.models.location import Location
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
+from apps.references.models.postoffice import PostOffice
 from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
@@ -118,7 +119,7 @@ class PersonSerializer(serializers.ModelSerializer):
 class PhoneSerializer(serializers.ModelSerializer):
     """Список телефонных номеров"""
 
-    phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
+    # phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
     model_type = serializers.StringRelatedField(source='model_type.type_name', read_only=True,
                                                 default=None,
                                                 label='Тип')
@@ -126,7 +127,21 @@ class PhoneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Phone
-        fields = ['id', 'phone_number', 'phone_type', 'model_type', 'status']
+        fields = ['id', 'phone_number', 'model_type', 'status']
+
+
+class PostOfficeSerializer(serializers.ModelSerializer):
+    """Список почтовых отделений"""
+
+    # phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
+    # model_type = serializers.StringRelatedField(source='model_type.type_name', read_only=True,
+    #                                             default=None,
+    #                                             label='Тип')
+    status = serializers.CharField(source='get_status_display', label='Статус')
+
+    class Meta:
+        model = PostOffice
+        fields = ['id', 'code', 'zipcode', 'name_post', 'status']
 
 
 class RegionSerializer(serializers.ModelSerializer):

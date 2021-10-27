@@ -5,26 +5,28 @@ from mptt.models import MPTTModel
 from apps.references.models.address import Address
 from apps.references.models.base import BaseRefModel, FlexType
 from apps.references.models.phone import Phone
-from core.fields import CodeField, OBJ_TYPE_PHONE, OBJ_TYPE_POSTCODE, StatusField
+from core.fields import CodeField, OBJ_TYPE_PHONE, OBJ_TYPE_POST_OFFICE, StatusField
 
 
-class Postcode(BaseRefModel, MPTTModel):
+class PostOffice(BaseRefModel, MPTTModel):
     """Почтовое отделение"""
 
     code = CodeField(unique=True)
+    zipcode = models.DecimalField(max_digits=6, decimal_places=0, unique=True,
+                                  verbose_name='Индекс')
     parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
                             related_name='children',
                             verbose_name='Родитель')
     name_post = models.CharField(max_length=100,
                                  verbose_name='Наименование')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                   limit_choices_to={'type_object_id': OBJ_TYPE_POSTCODE},
-                                   related_name='model_type',
+                                   limit_choices_to={'type_object_id': OBJ_TYPE_POST_OFFICE},
+                                   # related_name='model_type',
                                    verbose_name='Тип')
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True,
                                 verbose_name='Адрес')
     phones = models.ManyToManyField(Phone, through='PostPhones',
-                                    related_name='postcodes',
+                                    related_name='post_offices',
                                     verbose_name='Телефоны')
     schedule_post = models.CharField(max_length=200, blank=True, null=True,
                                      verbose_name='График работы')
@@ -32,7 +34,7 @@ class Postcode(BaseRefModel, MPTTModel):
                                     verbose_name='Выходные дни')
 
     class Meta(BaseRefModel.Meta):
-        db_table = 'ref_postcode'
+        db_table = 'ref_post_office'
         verbose_name = 'почтовое отделение'
         verbose_name_plural = 'почтовые отделения'
 
@@ -40,11 +42,12 @@ class Postcode(BaseRefModel, MPTTModel):
         order_insertion_by = ['id']
 
     class Params(BaseRefModel.Params):
-        route_list = 'postcodes'
-        route_list_api = 'postcode-list'
+        route_list = 'post_offices'
+        route_list_api = 'post_office-list'
         fields_list = [
             {'data': 'id', 'title': 'ID'},
             {'data': 'code', 'title': 'Код'},
+            {'data': 'zipcode', 'title': 'Индекс'},
             {'data': 'name_post', 'title': 'Наименование'},
             {'data': 'parent', 'title': 'Родитель'},
             {'data': 'status', 'title': 'Статус'},
@@ -57,8 +60,8 @@ class Postcode(BaseRefModel, MPTTModel):
 class PostPhones(models.Model):
     """Телефоны почтового отделения"""
 
-    postcode = models.ForeignKey(Postcode, on_delete=models.CASCADE,
-                                 verbose_name='Почтовое отделение')
+    post_office = models.ForeignKey(PostOffice, on_delete=models.CASCADE,
+                                    verbose_name='Почтовое отделение')
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE,
                               verbose_name='Телефон')
     phone_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
