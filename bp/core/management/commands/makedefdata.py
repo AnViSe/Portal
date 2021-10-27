@@ -7,7 +7,7 @@ from apps.references.models.base import FlexObject, FlexType
 
 from config import settings
 from core.fields import OBJ_TYPE_NONE, OBJ_TYPE_LOCATION, OBJ_TYPE_STREET, OBJ_TYPE_PHONE, \
-    OBJ_TYPE_ADDRESS, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, OBJ_TYPE_POSTCODE
+    OBJ_TYPE_ADDRESS, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, OBJ_TYPE_POST_OFFICE
 
 
 class Command(BaseCommand):
@@ -88,7 +88,7 @@ class Command(BaseCommand):
                                             defaults={'object_name': 'Извещения',
                                                       'object_app': 'references',
                                                       'object_model': 'notice'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_POSTCODE,
+        FlexObject.objects.update_or_create(id=OBJ_TYPE_POST_OFFICE,
                                             defaults={'object_name': 'Извещения',
                                                       'object_app': 'references',
                                                       'object_model': 'postcode'})
@@ -225,7 +225,7 @@ class Command(BaseCommand):
             FlexType.objects.create(type_code='4', type_name='Каждый год', type_object_id=fo_pk,
                                     type_value='12')
 
-            fo_pk = OBJ_TYPE_POSTCODE
+            fo_pk = OBJ_TYPE_POST_OFFICE
             FlexType.objects.filter(type_object_id=fo_pk).delete()
             FlexType.objects.create(type_code='0', type_name='Не указано',
                                     type_object_id=fo_pk)
@@ -247,3 +247,5 @@ class Command(BaseCommand):
 
         _count = FlexType.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Типов сущностей: {_count}"))
+
+

@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from apps.references.models.phone import Phone
+from apps.references.models.postoffice import PostOffice
 from config import settings
 from apps.references.models.person import Person
 from apps.references.models.employee import Employee
@@ -52,6 +53,13 @@ class Command(BaseCommand):
         count = Phone.objects.all().count()
         return count
 
+    def append_postoffice(self, count):
+        PostOffice.objects.create(code='220000', zipcode=220000, name_post='Белпочта')
+        PostOffice.objects.create(code='230000', zipcode=230000, name_post='Гродно')
+
+        count = PostOffice.objects.all().count()
+        return count
+
     def handle(self, *args, **kwargs):
         model_name = kwargs['model']
         record_count = kwargs['count']
@@ -66,4 +74,8 @@ class Command(BaseCommand):
 
         if model_name == 'phone':
             result = self.append_phones(record_count)
+            self.stdout.write(self.style.SUCCESS(f"Всего телефонов: {result}"))
+
+        if model_name == 'postoffice':
+            result = self.append_postoffice(record_count)
             self.stdout.write(self.style.SUCCESS(f"Всего телефонов: {result}"))
