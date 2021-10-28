@@ -1,5 +1,4 @@
 {% load static %}
-<!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -39,6 +38,7 @@
                 </form>
             </div>
         </li>
+        {% if user.is_authenticated %}
         {% block info %}
         {% include 'inc/_navbar_info.html' %}
         {% endblock %}
@@ -50,6 +50,6 @@
                 <span class="d-none d-md-inline">{{ user.person_name }}</span>
             </a>
         </li>
+        {% endif %}
     </ul>
 </nav>
-<!-- /.navbar -->

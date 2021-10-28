@@ -37,11 +37,12 @@ class BaseSelect2Widget(s2forms.ModelSelect2Widget):
     def build_attrs(self, base_attrs, extra_attrs=None):
         base_attrs = super().build_attrs(base_attrs, extra_attrs)
         base_attrs.update(
-            {"data-minimum-input-length": 3,
-             # "data-minimum-results-for-search": "Infinity",
-             "data-placeholder": self.empty_label,
-             "data-theme": "bootstrap4",
-             "data-ajax--delay": 250,
+            {
+                "data-minimum-input-length": 0,
+                "data-minimum-results-for-search": 25,
+                "data-placeholder": self.empty_label,
+                "data-theme": "bootstrap4",
+                "data-ajax--delay": 250,
              })
         return base_attrs
 

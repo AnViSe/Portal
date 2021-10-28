@@ -56,6 +56,9 @@ class Command(BaseCommand):
         Menu.objects.create(title='Подразделения', parent=parent_menu,
                             perm='references.view_subdivision', route='subdivisions',
                             icon='fas fa-house-laptop')
+        Menu.objects.create(title='Почтовые коды', parent=parent_menu,
+                            perm='references.view_postoffice', route='postoffices',
+                            icon='fas fa-envelopes-bulk')
 
         _count = Menu.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))

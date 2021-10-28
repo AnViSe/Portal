@@ -37,6 +37,16 @@ DATABASES = {
         # Сколько секунд удерживать соединение с БД
         "CONN_MAX_AGE": 10
     },
+    'ptks': {
+        'ENGINE': 'extensions.oracle',
+        'NAME': 'tracksys',
+        'USER': 'TRACKSYS_VIEW',
+        'PASSWORD': get_env('DATABASE_PTKS_PASS'),
+        'HOST': '172.16.100.24',
+        'PORT': '1521',
+        # Сколько секунд удерживать соединение с БД
+        "CONN_MAX_AGE": 10
+    },
     '_default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
