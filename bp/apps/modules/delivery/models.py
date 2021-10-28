@@ -32,10 +32,14 @@ class Mailing(models.Model):
     def __str__(self):
         return self.barcode
 
+    # def clean_fields(self, exclude=None):
+    #     pass
+
     # def save(self, *args, **kwargs):
     #     if not self.notice_number:
-    #         self.notice_number = self.get_notice_number
+    #         self.notice_number = self.get_notice_number(500)
     #     super().save(*args, **kwargs)
 
-    # def get_notice_number(self):
-    #     return 0
+    # @staticmethod
+    # def get_notice_number(arg):
+    #     return arg

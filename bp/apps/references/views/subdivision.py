@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import decorators, mixins, status, viewsets
@@ -7,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.references.forms import SubdivisionForm
+from apps.references.models.employee import Employee
 from apps.references.models.subdivision import Subdivision
 from apps.references.serializers import SubdivisionTreeSerializer, SubdivisionSerializer
 from apps.references.utils import RefTableMixin
@@ -66,10 +68,15 @@ class SubdivisionCreate(PermissionRequiredMixin, generic.CreateView):
     template_name = 'references/ref_add.html'
     success_url = reverse_lazy('subdivisions')
 
+    extra_context = {'my_var': 'My Value'}
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['obj_name'] = Subdivision._meta.verbose_name
         return context
+
+    def my_var(self):
+        return get_object_or_404(Employee, id=self.kwargs.get('chief_id'))
 
 
 class SubdivisionEdit(PermissionRequiredMixin, generic.UpdateView):
