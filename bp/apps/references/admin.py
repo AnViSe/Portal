@@ -3,16 +3,31 @@ from django.contrib.admin import ModelAdmin
 from django.utils.safestring import mark_safe
 from mptt.admin import DraggableMPTTAdmin
 
+from apps.references.models.address import Address
 from apps.references.models.base import FlexType
+from apps.references.models.building import Building
 from apps.references.models.country import Country
 from apps.references.models.district import District
 from apps.references.models.employee import Employee
 from apps.references.models.location import Location
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
+from apps.references.models.postoffice import PostOffice
 from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
+
+
+@admin.register(Address)
+class AddressAdmin(ModelAdmin):
+    list_display = ['code', 'name_adds_full', 'status']
+    search_fields = ['name_adds_full']
+
+
+@admin.register(Building)
+class BuildingAdmin(ModelAdmin):
+    list_display = ['code', 'name_bld_full', 'status']
+    search_fields = ['name_bld_full']
 
 
 @admin.register(Country)
@@ -77,6 +92,33 @@ class LocationAdmin(ModelAdmin):
     ]
 
 
+@admin.register(Person)
+class PersonAdmin(ModelAdmin):
+    list_display = ['name_lfm', 'last_name', 'first_name', 'middle_name',
+                    'pers_num',
+                    # 'list_phones',
+                    'status']
+    # list_prefetch_related = ['phones']
+    list_display_links = ['name_lfm']
+    search_fields = ['name_lfm']
+    # list_filter = ('status',)
+    # inlines = [PhoneTabularInline, ]
+
+    fields = ['last_name', 'first_name', 'middle_name',
+              'pers_num', 'birth_date', 'gender', 'status']
+
+    # autocomplete_fields = ['phones']
+
+    def list_phones(self, obj):
+        return mark_safe(', '.join([
+            # f'<a href="{phone.get_admin_url()}">{str(phone)}</a>'
+            str(phone)
+            for phone in obj.phones.all()
+        ]))
+
+    list_phones.short_description = 'телефоны'
+
+
 # https://brainstorm.it/snippets/many-many-example-using-through-augment-m2m-relationships/
 # class PersonForPhoneTabularInline(admin.TabularInline):
 #     model = Phone.persons.through
@@ -119,32 +161,15 @@ class PhoneAdmin(ModelAdmin):
 #     extra = 0
 #     autocomplete_fields = ['phone', ]
 
+@admin.register(PostOffice)
+class PostOfficeAdmin(DraggableMPTTAdmin):
+    list_display = ['tree_actions', 'indented_title', 'zipcode', 'name_post']
+    list_display_links = ['indented_title', 'name_post']
+    search_fields = ['name_post']
 
-@admin.register(Person)
-class PersonAdmin(ModelAdmin):
-    list_display = ['name_lfm', 'last_name', 'first_name', 'middle_name',
-                    'pers_num',
-                    # 'list_phones',
-                    'status']
-    # list_prefetch_related = ['phones']
-    list_display_links = ['name_lfm']
-    search_fields = ['name_lfm']
-    # list_filter = ('status',)
-    # inlines = [PhoneTabularInline, ]
-
-    fields = ['last_name', 'first_name', 'middle_name',
-              'pers_num', 'birth_date', 'gender', 'status']
-
-    # autocomplete_fields = ['phones']
-
-    def list_phones(self, obj):
-        return mark_safe(', '.join([
-            # f'<a href="{phone.get_admin_url()}">{str(phone)}</a>'
-            str(phone)
-            for phone in obj.phones.all()
-        ]))
-
-    list_phones.short_description = 'телефоны'
+    fields = ['zipcode', 'name_post', 'parent',
+              'model_type', 'address', 'schedule_post', 'holiday_post', 'status']
+    autocomplete_fields = ['parent', 'address']
 
 
 @admin.register(Region)

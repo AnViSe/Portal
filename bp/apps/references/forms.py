@@ -1,3 +1,5 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
 
 from apps.references.models.employee import Employee
@@ -29,6 +31,19 @@ class EmployeeForm(forms.ModelForm):
             'subdivision': SubdivisionWidget,
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('tab_num', css_class='form-group col-md-4 mb-0'),
+                Column('person', css_class='form-group col-md-8 mb-0'),
+            ),
+            'subdivision',
+            'status',
+            Submit('submit', 'Сохранить')
+        )
+
 
 class PersonForm(forms.ModelForm):
 
@@ -39,6 +54,24 @@ class PersonForm(forms.ModelForm):
         widgets = {
             'birth_date': forms.TextInput(attrs={'type': 'date'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('last_name', css_class='form-group col-md-4 mb-0'),
+                Column('first_name', css_class='form-group col-md-4 mb-0'),
+                Column('middle_name', css_class='form-group col-md-4 mb-0'),
+            ),
+            Row(
+                Column('pers_num', css_class='form-group col-md-4 mb-0'),
+                Column('birth_date', css_class='form-group col-md-4 mb-0'),
+                Column('gender', css_class='form-group col-md-4 mb-0'),
+            ),
+            'status',
+            Submit('submit', 'Сохранить')
+        )
 
     # def clean(self):
     #     super().clean()

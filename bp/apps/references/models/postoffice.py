@@ -21,7 +21,6 @@ class PostOffice(BaseRefModel, MPTTModel):
                                  verbose_name='Наименование')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_POST_OFFICE},
-                                   # related_name='model_type',
                                    verbose_name='Тип')
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True,
                                 verbose_name='Адрес')
@@ -42,14 +41,15 @@ class PostOffice(BaseRefModel, MPTTModel):
         order_insertion_by = ['id']
 
     class Params(BaseRefModel.Params):
-        route_list = 'post_offices'
-        route_list_api = 'post_office-list'
+        route_list = 'postoffices'
+        route_list_api = 'postoffice-list'
         fields_list = [
             {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
+            # {'data': 'code', 'title': 'Код'},
             {'data': 'zipcode', 'title': 'Индекс'},
             {'data': 'name_post', 'title': 'Наименование'},
-            {'data': 'parent', 'title': 'Родитель'},
+            # {'data': 'parent', 'name': 'parent.name_post', 'title': 'Родитель'},
+            {'data': 'address', 'name': 'address.name_adds_full', 'title': 'Адрес'},
             {'data': 'status', 'title': 'Статус'},
         ]
 

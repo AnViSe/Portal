@@ -56,7 +56,7 @@ class Subdivision(BaseRefModel, MPTTModel):
             {'data': 'id', 'title': 'ID'},
             {'data': 'code', 'title': 'Код'},
             {'data': 'name_sd', 'title': 'Наименование'},
-            {'data': 'parent', 'title': 'Родитель'},
+            {'data': 'parent', 'name': 'parent.name_sd', 'title': 'Родитель'},
             {'data': 'status', 'title': 'Статус'},
         ]
 

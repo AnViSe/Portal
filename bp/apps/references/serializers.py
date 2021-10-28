@@ -25,6 +25,7 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ['id', 'code', 'name_adds_full', 'status']
+        read_only_fields = fields
 
 
 class BuildingSerializer(serializers.ModelSerializer):
@@ -39,6 +40,7 @@ class BuildingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Building
         fields = ['id', 'code', 'name_bld_full', 'latitude', 'longitude', 'status']
+        read_only_fields = fields
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -50,13 +52,14 @@ class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = ['id', 'code', 'name_cnt', 'alpha2', 'alpha3', 'status']
+        read_only_fields = fields
 
 
 class DistrictSerializer(serializers.ModelSerializer):
     """Список районов"""
 
     region = serializers.StringRelatedField(source='region.name_rgn',
-                                            default=None, read_only=True,
+                                            default=None,
                                             label='Область')
     status = serializers.CharField(source='get_status_display',
                                    label='Статус')
@@ -64,26 +67,29 @@ class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
         model = District
         fields = ['id', 'code', 'name_dst', 'region', 'status']
+        read_only_fields = fields
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
     """Список сотрудников"""
 
-    person = serializers.StringRelatedField(source='person.name_lfm', read_only=True)
-    subdivision = serializers.StringRelatedField(source='subdivision.name_sd', read_only=True,
+    person = serializers.StringRelatedField(source='person.name_lfm',
+                                            default=None)
+    subdivision = serializers.StringRelatedField(source='subdivision.name_sd',
                                                  default=None)
     status = serializers.CharField(source='get_status_display', label='Статус')
 
     class Meta:
         model = Employee
         fields = ['id', 'tab_num', 'person', 'subdivision', 'status']
+        read_only_fields = fields
 
 
 class LocationSerializer(serializers.ModelSerializer):
     """Список населенных пунктов"""
 
     district = serializers.StringRelatedField(source='district.name_dst',
-                                              default=None, read_only=True,
+                                              default=None,
                                               label='Район')
     status = serializers.CharField(source='get_status_display',
                                    label='Статус')
@@ -91,6 +97,7 @@ class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ['id', 'code', 'soato', 'name_lct_full', 'district', 'status']
+        read_only_fields = fields
 
 
 # class RecursiveSerializer(serializers.Serializer):
@@ -111,6 +118,7 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ['id', 'last_name', 'first_name', 'middle_name', 'name_lfm',
                   'gender', 'birth_date', 'pers_num', 'status']
+        read_only_fields = fields
 
     # def get_status(self, obj):
     #     return obj.get_status_display()
@@ -120,7 +128,7 @@ class PhoneSerializer(serializers.ModelSerializer):
     """Список телефонных номеров"""
 
     # phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
-    model_type = serializers.StringRelatedField(source='model_type.type_name', read_only=True,
+    model_type = serializers.StringRelatedField(source='model_type.type_name',
                                                 default=None,
                                                 label='Тип')
     status = serializers.CharField(source='get_status_display', label='Статус')
@@ -128,27 +136,29 @@ class PhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Phone
         fields = ['id', 'phone_number', 'model_type', 'status']
+        read_only_fields = fields
 
 
 class PostOfficeSerializer(serializers.ModelSerializer):
     """Список почтовых отделений"""
 
-    # phone_type = serializers.CharField(source='get_phone_type_display', label='Тип')
-    # model_type = serializers.StringRelatedField(source='model_type.type_name', read_only=True,
-    #                                             default=None,
-    #                                             label='Тип')
-    status = serializers.CharField(source='get_status_display', label='Статус')
+    parent = serializers.StringRelatedField(source='parent.name_post', default=None)
+    address = serializers.CharField(source='address.name_adds_full', default=None)
+    model_type = serializers.StringRelatedField(source='model_type.type_name', default=None)
+    status = serializers.CharField(source='get_status_display')
 
     class Meta:
         model = PostOffice
-        fields = ['id', 'code', 'zipcode', 'name_post', 'status']
+        fields = ['id', 'zipcode', 'model_type', 'name_post', 'parent',
+                  'address', 'schedule_post', 'holiday_post', 'status']
+        read_only_fields = fields
 
 
 class RegionSerializer(serializers.ModelSerializer):
     """Список областей"""
 
     country = serializers.StringRelatedField(source='country.name_cnt',
-                                             default=None, read_only=True,
+                                             default=None,
                                              label='Страна')
     status = serializers.CharField(source='get_status_display',
                                    label='Статус')
@@ -156,6 +166,7 @@ class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
         fields = ['id', 'code', 'name_rgn', 'country', 'status']
+        read_only_fields = fields
 
 
 class StreetSerializer(serializers.ModelSerializer):
@@ -170,6 +181,7 @@ class StreetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Street
         fields = ['id', 'code', 'name_str_full', 'status']
+        read_only_fields = fields
 
 
 # class FilterSubdivisionListSerializer(serializers.ListSerializer):
@@ -184,7 +196,7 @@ class StreetSerializer(serializers.ModelSerializer):
 class SubdivisionSerializer(serializers.ModelSerializer):
     """Список подразделений"""
 
-    parent = serializers.StringRelatedField(source='parent.name_sd', read_only=True, default=None)
+    parent = serializers.StringRelatedField(source='parent.name_sd', default=None)
     status = serializers.CharField(source='get_status_display', label='Статус')
 
     # children = RecursiveSerializer(many=True)
@@ -194,7 +206,8 @@ class SubdivisionSerializer(serializers.ModelSerializer):
         # list_serializer_class = FilterSubdivisionListSerializer
 
         model = Subdivision
-        fields = ('id', 'code', 'name_sd', 'parent', 'status')
+        fields = ['id', 'code', 'name_sd', 'parent', 'status']
+        read_only_fields = fields
 
 
 class SubdivisionTreeSerializer(serializers.ModelSerializer):
@@ -204,14 +217,16 @@ class SubdivisionTreeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subdivision
-        fields = ('id', 'name', 'children', 'status')
+        fields = ['id', 'name', 'children', 'status']
+        read_only_fields = fields
 
 
 class SubdivisionTreeSerializer1(serializers.ModelSerializer):
     children = SerializerMethodField(source='get_children')
 
     class Meta:
-        fields = ('children',)  # add here rest of the fields from model
+        fields = ['children',]  # add here rest of the fields from model
+        read_only_fields = fields
 
     def get_children(self, obj):
         children = self.context['children'].get(obj.id, [])
