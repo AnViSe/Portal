@@ -26,7 +26,6 @@ class Module(models.Model):
     class Meta:
         verbose_name = 'модуль'
         verbose_name_plural = 'модули'
-        abstract = True
 
     def __str__(self):
         return self.name

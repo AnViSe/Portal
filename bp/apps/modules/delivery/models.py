@@ -29,8 +29,6 @@ class Mailing(models.Model):
         verbose_name = 'отправление'
         verbose_name_plural = 'отправления'
 
-        abstract = True
-
     def __str__(self):
         return self.barcode
 

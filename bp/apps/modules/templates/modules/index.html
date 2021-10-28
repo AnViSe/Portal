@@ -43,15 +43,19 @@
             <div class="container-fluid">
                 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                     {% for mod in mods_list %}
+                    {% if mod.status == 1 %}
                     <div class="col">
                         <a href="{% url mod.route %}" class="info-box shadow">
-                            <span class="info-box-icon bg-primary"><i class="{{ mod.icon }}"></i></span>
+                            <span class="info-box-icon bg-primary">
+                                <i class="{{ mod.icon }}"></i>
+                            </span>
                             <div class="info-box-content">
                                 <span class="info-box-number">{{ mod.name }}</span>
                                 <span class="info-box-text">{{ mod.desc }}</span>
                             </div>
                         </a>
                     </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -60,7 +64,8 @@
     {% block control %}
     {% include 'inc/_sidebar_control.html' %}
     {% endblock %}
-    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button"
+       aria-label="Scroll to top">
         <i class="fas fa-chevron-up"></i>
     </a>
     {% block footer %}
