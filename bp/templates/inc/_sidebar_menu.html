@@ -4,7 +4,6 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
         data-accordion="false">
         {% recursetree menus %}
-        {% if not node.perm or node.perm in perms  %}
         <li class="nav-item{% if not node.is_leaf_node %}{% if node.route in cur_url %} menu-is-opening menu-open{% endif %}{% endif %}">
             <a href="{% if node.route %}{% url node.route %}{% else %}#{% endif %}"
                class="nav-link{% if node.route in cur_url or node.route == 'home' and cur_url == '/' %} active{% endif %}">
@@ -24,7 +23,6 @@
             </ul>
             {% endif %}
         </li>
-        {% endif %}
         {% endrecursetree %}
     </ul>
 </nav>
