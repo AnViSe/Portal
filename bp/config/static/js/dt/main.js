@@ -15,10 +15,13 @@ var dt_dom = "<'card-header'"+
              "<'card-footer'"+
                 "<'row'"+
 //                "<'d-flex justify-content-between'"+
-                    "<'col-lg-3 col-md-6 footer_left pt-2'l>"+
-                    "<'col-lg-3 footer_center d-none d-lg-block'i>"+
-                    "<'col-lg-6 col-md-6 footer_right'p>"+
+                    "<'col-md-2 footer_left pt-2'l>"+
+                    "<'col-md-4 footer_center'i>"+
+                    "<'col-md-6 footer_right'p>"+
                 ">"+
+//                "<'row'"+
+//                    "<'col-md-12 footer_center'i>"+
+//                ">"+
              ">"
 var table = $('#ref-table').DataTable({
         language: {
