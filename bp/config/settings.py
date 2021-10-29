@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'mptt',
     'maintenancemode',
-    'phonenumber_field',
+    # 'phonenumber_field',
     'crispy_forms',
 
     'core',
