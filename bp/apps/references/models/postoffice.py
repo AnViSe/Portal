@@ -48,7 +48,8 @@ class PostOffice(BaseRefModel, MPTTModel):
             # {'data': 'code', 'title': 'Код'},
             {'data': 'zipcode', 'title': 'Индекс'},
             {'data': 'name_post', 'title': 'Наименование'},
-            # {'data': 'parent', 'name': 'parent.name_post', 'title': 'Родитель'},
+            {'data': 'model_type', 'name': 'model_type.type_name', 'title': 'Тип'},
+            {'data': 'parent', 'name': 'parent.name_post', 'title': 'Родитель'},
             {'data': 'address', 'name': 'address.name_adds_full', 'title': 'Адрес'},
             {'data': 'status', 'title': 'Статус'},
         ]
@@ -74,6 +75,7 @@ class PostPhones(models.Model):
     class Meta:
         app_label = 'references'
         db_table = 'ref_post_phones'
+        unique_together = ['post_office', 'phone']
         verbose_name = 'Телефон отделения'
         verbose_name_plural = 'Телефоны отделения'
 

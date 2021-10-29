@@ -8,12 +8,13 @@ from apps.references.models.base import FlexType
 from apps.references.models.building import Building
 from apps.references.models.country import Country
 from apps.references.models.district import District
-from apps.references.models.location import Location
+from apps.references.models.location import Location, LocationStreets
 from apps.references.models.postoffice import PostOffice
 from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
-from core.fields import OBJ_TYPE_STREET, OBJ_TYPE_LOCATION, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, OBJ_TYPE_POST_OFFICE
+from core.fields import OBJ_TYPE_STREET, OBJ_TYPE_LOCATION, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, \
+    OBJ_TYPE_POST_OFFICE
 
 
 class Command(BaseCommand):
@@ -31,49 +32,66 @@ class Command(BaseCommand):
             results = self.named_tuple_fetch_all(cursor)
         return results
 
-    def handle(self, *args, **kwargs):
+    def get_country(self):
+        print('Загрузка справочника стран...')
+        sql = """SELECT c.ID_REC, c.NAME_CNT, c.ALPHA2, c.ALPHA3 
+                   FROM COUNTRIES c 
+                  WHERE c.STATUS = 1 AND c.ID_REC > 0 
+                  ORDER BY c.ID_REC"""
+        results = self.get_custom_data('ref', sql)
+        count = 0
+        with transaction.atomic():
+            for res in results:
+                Country.objects.create(code=str(res.ID_REC), name_cnt=res.NAME_CNT,
+                                       alpha2=res.ALPHA2,
+                                       alpha3=res.ALPHA3)
+                count += 1
+                if count % 100 == 0:
+                    print(count)
+        print(f'Всего загружено: {count}')
 
-        # print('Загрузка справочника стран...')
-        # sql = 'SELECT c.ID_REC, c.NAME_CNT, c.ALPHA2, c.ALPHA3 FROM COUNTRIES c WHERE c.STATUS = 1 AND c.ID_REC > 0 ORDER BY c.ID_REC'
-        # results = self.get_custom_data('ref', sql)
-        # count = 0
-        # with transaction.atomic():
-        #     for res in results:
-        #         Country.objects.create(code=str(res.ID_REC), name_cnt=res.NAME_CNT, alpha2=res.ALPHA2,
-        #                                alpha3=res.ALPHA3)
-        #         count += 1
-        #         if count % 100 == 0:
-        #             print(count)
-        # print(f'Всего загружено: {count}')
-
+    def get_region(self):
         print('Загрузка справочника областей...')
-        sql = 'SELECT r.ID_REC, r.ID_CNT, r.NAME_RGN FROM REGIONS r WHERE r.STATUS = 1 AND r.ID_REC > 0 ORDER BY r.ID_REC'
+        sql = """SELECT r.ID_REC, r.ID_CNT, r.NAME_RGN 
+                   FROM REGIONS r 
+                  WHERE r.STATUS = 1 AND r.ID_REC > 0 
+                  ORDER BY r.ID_REC"""
         cnt = {res['code']: res['id'] for res in Country.objects.values('code', 'id')}
         results = self.get_custom_data('ref', sql)
         count = 0
         with transaction.atomic():
             for res in results:
-                Region.objects.create(code=str(res.ID_REC), name_rgn=res.NAME_RGN, country_id=cnt[str(res.ID_CNT)])
+                Region.objects.create(code=str(res.ID_REC), name_rgn=res.NAME_RGN,
+                                      country_id=cnt[str(res.ID_CNT)])
                 count += 1
                 if count % 100 == 0:
                     print(count)
         print(f'Всего загружено: {count}')
 
+    def get_district(self):
         print('Загрузка справочника районов...')
-        sql = 'SELECT d.ID_REC, d.ID_RGN, d.NAME_DST FROM DISTRICTS d WHERE d.STATUS = 1 AND d.ID_REC > 0 ORDER BY d.ID_REC'
+        sql = """SELECT d.ID_REC, d.ID_RGN, d.NAME_DST 
+                   FROM DISTRICTS d 
+                  WHERE d.STATUS = 1 AND d.ID_REC > 0 
+                  ORDER BY d.ID_REC"""
         rgn = {res['code']: res['id'] for res in Region.objects.values('code', 'id')}
         results = self.get_custom_data('ref', sql)
         count = 0
         with transaction.atomic():
             for res in results:
-                District.objects.create(code=str(res.ID_REC), name_dst=res.NAME_DST, region_id=rgn[str(res.ID_RGN)])
+                District.objects.create(code=str(res.ID_REC), name_dst=res.NAME_DST,
+                                        region_id=rgn[str(res.ID_RGN)])
                 count += 1
                 if count % 100 == 0:
                     print(count)
         print(f'Всего загружено: {count}')
 
+    def get_location(self):
         print('Загрузка справочника населенных пунктов...')
-        sql = 'SELECT l.ID_REC, l.ID_DST, l.ID_TYPE, l.SOATO, l.NAME_LOC, l.LOC_FULL FROM LOCATIONS l WHERE l.STATUS = 1 AND l.ID_REC < 23902 ORDER BY l.ID_REC'
+        sql = """SELECT l.ID_REC, l.ID_DST, l.ID_TYPE, l.SOATO, l.NAME_LOC, l.LOC_FULL 
+                   FROM LOCATIONS l 
+                  WHERE l.STATUS = 1 AND l.ID_REC < 23902 
+                  ORDER BY l.ID_REC"""
         mt = {res['type_code']: res['id'] for res in
               FlexType.objects.filter(type_object_id=OBJ_TYPE_LOCATION).values('type_code', 'id')}
         dst = {res['code']: res['id'] for res in District.objects.values('code', 'id')}
@@ -81,7 +99,8 @@ class Command(BaseCommand):
         count = 0
         with transaction.atomic():
             for res in results:
-                Location.objects.create(code=str(res.ID_REC), soato=res.SOATO, district_id=dst[str(res.ID_DST)],
+                Location.objects.create(code=str(res.ID_REC), soato=res.SOATO,
+                                        district_id=dst[str(res.ID_DST)],
                                         name_lct=res.NAME_LOC, name_lct_full=res.LOC_FULL,
                                         model_type_id=mt[str(res.ID_TYPE)])
                 count += 1
@@ -89,8 +108,12 @@ class Command(BaseCommand):
                     print(count)
         print(f'Всего загружено: {count}')
 
+    def get_streets(self):
         print('Загрузка справочника улиц...')
-        sql = 'SELECT s.ID_REC, s.ID_TYPE, s.NAME_STR, s.STR_FULL FROM STREETS s WHERE s.STATUS = 1 ORDER BY s.ID_REC'
+        sql = """SELECT s.ID_REC, s.ID_TYPE, s.NAME_STR, s.STR_FULL 
+                   FROM STREETS s 
+                  WHERE s.STATUS = 1 
+                  ORDER BY s.ID_REC"""
         mt = {res['type_code']: res['id'] for res in
               FlexType.objects.filter(type_object_id=OBJ_TYPE_STREET).values('type_code', 'id')}
         results = self.get_custom_data('ref', sql)
@@ -104,8 +127,14 @@ class Command(BaseCommand):
                     print(count)
         print(f'Всего загружено: {count}')
 
+    def get_buildings(self):
         print('Загрузка справочника зданий...')
-        sql = 'SELECT b.ID_REC, b.ID_LOC, b.ID_STR, b.HOUSE FROM BUILDINGS b  INNER JOIN LOCATIONS l ON l.ID_REC = b.ID_LOC AND l.STATUS = 1 INNER JOIN STREETS s ON s.ID_REC = b.ID_STR AND s.STATUS = 1 WHERE b.STATUS = 1 ORDER BY b.ID_REC'
+        sql = """SELECT b.ID_REC, b.ID_LOC, b.ID_STR, b.HOUSE 
+                   FROM BUILDINGS b  
+                  INNER JOIN LOCATIONS l ON l.ID_REC = b.ID_LOC AND l.STATUS = 1 
+                  INNER JOIN STREETS s ON s.ID_REC = b.ID_STR AND s.STATUS = 1 
+                  WHERE b.STATUS = 1 
+                  ORDER BY b.ID_REC"""
         d_lct = {res['code']: res['id'] for res in Location.objects.values('code', 'id')}
         d_str = {res['code']: res['id'] for res in Street.objects.values('code', 'id')}
         results = self.get_custom_data('ref', sql)
@@ -113,33 +142,59 @@ class Command(BaseCommand):
         with transaction.atomic():
             for res in results[:5001]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
-                                        location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
+                                        location_id=d_lct[str(res.ID_LOC)],
+                                        street_id=d_str[str(res.ID_STR)])
+
+                LocationStreets.objects.update_or_create(
+                    location_id=d_lct[str(res.ID_LOC)],
+                    street_id=d_str[str(res.ID_STR)],
+                    defaults={'location_id': d_lct[str(res.ID_LOC)],
+                              'street_id': d_str[str(res.ID_STR)]})
                 count += 1
                 if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[5001:10001]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
-                                        location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
+                                        location_id=d_lct[str(res.ID_LOC)],
+                                        street_id=d_str[str(res.ID_STR)])
+                LocationStreets.objects.update_or_create(
+                    location_id=d_lct[str(res.ID_LOC)],
+                    street_id=d_str[str(res.ID_STR)],
+                    defaults={'location_id': d_lct[str(res.ID_LOC)],
+                              'street_id': d_str[str(res.ID_STR)]})
                 count += 1
                 if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[10001:15001]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
-                                        location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
+                                        location_id=d_lct[str(res.ID_LOC)],
+                                        street_id=d_str[str(res.ID_STR)])
+                LocationStreets.objects.update_or_create(
+                    location_id=d_lct[str(res.ID_LOC)],
+                    street_id=d_str[str(res.ID_STR)],
+                    defaults={'location_id': d_lct[str(res.ID_LOC)],
+                              'street_id': d_str[str(res.ID_STR)]})
                 count += 1
                 if count % 1000 == 0:
                     print(count)
         with transaction.atomic():
             for res in results[15001:]:
                 Building.objects.create(code=str(res.ID_REC), name_bld=res.HOUSE,
-                                        location_id=d_lct[str(res.ID_LOC)], street_id=d_str[str(res.ID_STR)])
+                                        location_id=d_lct[str(res.ID_LOC)],
+                                        street_id=d_str[str(res.ID_STR)])
+                LocationStreets.objects.update_or_create(
+                    location_id=d_lct[str(res.ID_LOC)],
+                    street_id=d_str[str(res.ID_STR)],
+                    defaults={'location_id': d_lct[str(res.ID_LOC)],
+                              'street_id': d_str[str(res.ID_STR)]})
                 count += 1
                 if count % 1000 == 0:
                     print(count)
         print(f'Всего загружено: {count}')
 
+    def get_addresses(self):
         print('Загрузка справочника адресов...')
         sql = """SELECT a.ID_REC, a.ID_BUILDING, a.ROOM
                    FROM ADDRESSES a
@@ -150,6 +205,7 @@ class Command(BaseCommand):
         d_bld = {res['code']: res['id'] for res in Building.objects.values('code', 'id')}
         results = self.get_custom_data('ref', sql)
         count = 0
+        print('Начинаем загрузку...')
         with transaction.atomic():
             for res in results[:5001]:
                 Address.objects.create(code=str(res.ID_REC), name_adds=res.ROOM,
@@ -187,16 +243,18 @@ class Command(BaseCommand):
                     print(count)
         print(f'Всего загружено: {count}')
 
+    def get_subdivisions(self):
         print('Загрузка справочника подразделений...')
-        sql = """ SELECT s.ID_REC, NVL(s.ID_PARENT, -1) AS ID_PARENT, S.NAME_SD_SHORT, S.NAME_SD_FULL,
-                         NVL(S.ID_SD_TYPE,0) AS ID_SD_TYPE, NVL(S.ID_LOCATION, 0) AS ID_LOCATION,
-                         NVL(S.ID_GIT,0) AS ID_GIT, S.STATUS
+        sql = """SELECT s.ID_REC, NVL(s.ID_PARENT, -1) AS ID_PARENT, S.NAME_SD_SHORT, S.NAME_SD_FULL,
+                        NVL(S.ID_SD_TYPE,0) AS ID_SD_TYPE, NVL(S.ID_LOCATION, 0) AS ID_LOCATION,
+                        NVL(S.ID_GIT,0) AS ID_GIT, S.STATUS
                    FROM NSI_SUBDIVISION s
                 CONNECT BY (s.ID_PARENT = PRIOR s.ID_REC)
                   START WITH s.ID_REC = 0
                   ORDER SIBLINGS BY s.ID_SD_TYPE, s.NAME_SD_SHORT"""
         mt_sd = {res['type_code']: res['id'] for res in
-                 FlexType.objects.filter(type_object_id=OBJ_TYPE_SUBDIVISION).values('type_code', 'id')}
+                 FlexType.objects.filter(type_object_id=OBJ_TYPE_SUBDIVISION).values('type_code',
+                                                                                     'id')}
         mt_gi = {res['type_code']: res['id'] for res in
                  FlexType.objects.filter(type_object_id=OBJ_TYPE_NOTICE).values('type_code', 'id')}
 
@@ -208,8 +266,10 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             for res in results:
-                cur_sd = Subdivision.objects.create(code=str(res.ID_REC), parent_id=d_sd[str(res.ID_PARENT)],
-                                                    name_sd=res.NAME_SD_SHORT, name_sd_full=res.NAME_SD_FULL,
+                cur_sd = Subdivision.objects.create(code=str(res.ID_REC),
+                                                    parent_id=d_sd[str(res.ID_PARENT)],
+                                                    name_sd=res.NAME_SD_SHORT,
+                                                    name_sd_full=res.NAME_SD_FULL,
                                                     model_type_id=mt_sd[str(res.ID_SD_TYPE)],
                                                     notice_type_id=mt_gi[str(res.ID_GIT)],
                                                     # location_id=d_lct[str(res.ID_LOCATION)],
@@ -220,31 +280,46 @@ class Command(BaseCommand):
                     print(count)
         print(f'Всего загружено: {count}')
 
-        # print('Загрузка справочника почтовых отделений...')
-        # sql = """SELECT o.ZIPCODE, NVL(o.ZC_PARENT_ID, -1) AS ZC_PARENT_ID, o.ORG_NAME,
-        #                 o.ORG_TP, o.ORG_SCHEDULE, o.ORG_HOLIDAY
-        #            FROM TRACKSYS.ORG_ZIPCODE@PTKS o
-        #           WHERE o.F_ACTIVE = 1
-        #         CONNECT BY (o.ZC_PARENT_ID = PRIOR o.ZIPCODE)
-        #           START WITH o.ZIPCODE = 200000
-        #           ORDER SIBLINGS BY o.ZIPCODE"""
-        # mt_po = {res['type_code']: res['id'] for res in
-        #          FlexType.objects.filter(type_object_id=OBJ_TYPE_POST_OFFICE).values('type_code', 'id')}
-        # d_po = {'-1': None}
-        #
-        # results = self.get_custom_data('ref', sql)
-        # count = 0
-        #
-        # with transaction.atomic():
-        #     for res in results:
-        #         if res.ZC_PARENT_ID == -1 or str(res.ZC_PARENT_ID) != '246339':
-        #             cur_po = PostOffice.objects.create(code=str(res.ZIPCODE), parent_id=d_po[str(res.ZC_PARENT_ID)],
-        #                                                zipcode=res.ZIPCODE, name_post=res.ORG_NAME,
-        #                                                model_type_id=mt_po[str(res.ORG_TP)],
-        #                                                schedule_post=res.ORG_SCHEDULE,
-        #                                                holiday_post=res.ORG_HOLIDAY)
-        #             d_po[str(res.ZIPCODE)] = cur_po.pk
-        #             count += 1
-        #         if count % 1000 == 0:
-        #             print(count)
-        # print(f'Всего загружено: {count}')
+    def get_postoffices(self):
+        print('Загрузка справочника почтовых отделений...')
+        sql = """SELECT o.ZIPCODE, NVL(o.ZC_PARENT_ID, -1) AS ZC_PARENT_ID, o.ORG_NAME,
+                        o.ORG_TP, o.ORG_SCHEDULE, o.ORG_HOLIDAY
+                   FROM TRACKSYS.ORG_ZIPCODE@PTKS o
+                  WHERE o.F_ACTIVE = 1
+                CONNECT BY (o.ZC_PARENT_ID = PRIOR o.ZIPCODE)
+                  START WITH o.ZIPCODE = 200000
+                  ORDER SIBLINGS BY o.ZIPCODE"""
+        mt_po = {res['type_code']: res['id'] for res in
+                 FlexType.objects.filter(type_object_id=OBJ_TYPE_POST_OFFICE).values('type_code',
+                                                                                     'id')}
+        d_po = {'-1': None}
+
+        results = self.get_custom_data('ref', sql)
+        count = 0
+
+        with transaction.atomic():
+            for res in results:
+                if res.ZC_PARENT_ID == -1 or str(res.ZC_PARENT_ID) != '246339':
+                    cur_po = PostOffice.objects.create(code=str(res.ZIPCODE),
+                                                       parent_id=d_po[str(res.ZC_PARENT_ID)],
+                                                       zipcode=res.ZIPCODE, name_post=res.ORG_NAME,
+                                                       model_type_id=mt_po[str(res.ORG_TP)],
+                                                       schedule_post=res.ORG_SCHEDULE,
+                                                       holiday_post=res.ORG_HOLIDAY)
+                    d_po[str(res.ZIPCODE)] = cur_po.pk
+                    count += 1
+                if count % 1000 == 0:
+                    print(count)
+        print(f'Всего загружено: {count}')
+
+    def handle(self, *args, **kwargs):
+
+        # self.get_country()
+        # self.get_region()
+        # self.get_district()
+        # self.get_location()
+        # self.get_streets()
+        # self.get_buildings()
+        self.get_addresses()
+        # self.get_subdivisions()
+        # self.get_postoffices()

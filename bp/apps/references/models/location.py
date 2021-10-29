@@ -65,6 +65,7 @@ class LocationStreets(models.Model):
     class Meta:
         app_label = 'references'
         db_table = 'ref_location_streets'
+        unique_together = ['location', 'street']
         verbose_name = 'Улица населенного пункта'
         verbose_name_plural = 'Улицы населенных пунктов'
         ordering = ['id']

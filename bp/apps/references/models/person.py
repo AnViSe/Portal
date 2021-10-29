@@ -81,6 +81,7 @@ class PersonPhones(models.Model):
     class Meta:
         app_label = 'references'
         db_table = 'ref_person_phones'
+        unique_together = ['person', 'phone']
         verbose_name = 'Телефон персоны'
         verbose_name_plural = 'Телефоны персоны'
 
@@ -105,6 +106,7 @@ class PersonAddresses(models.Model):
     class Meta:
         app_label = 'references'
         db_table = 'ref_person_addresses'
+        unique_together = ['person', 'address']
         verbose_name = 'Адрес персоны'
         verbose_name_plural = 'Адреса персоны'
 

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.account',
     'apps.references',
     'apps.modules',
+    'apps.modules.delivery',
 ]
 
 AUTH_USER_MODEL = 'apps_account.CustomUser'
@@ -222,7 +223,7 @@ ACCOUNT_SESSION_REMEMBER = None
 # ACCOUNT_SIGNUP_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 # Список имен пользователей, которые пользователи не могут использовать
-ACCOUNT_USERNAME_BLACKLIST = ['admin, Admin']
+ACCOUNT_USERNAME_BLACKLIST = ['admin, Admin', 'administrator', 'Administrator']
 
 # Уникальность адресов электронной почты
 ACCOUNT_UNIQUE_EMAIL = True

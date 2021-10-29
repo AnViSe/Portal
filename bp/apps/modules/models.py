@@ -24,6 +24,8 @@ class Module(models.Model):
     status = StatusField()
 
     class Meta:
+        app_label = 'modules'
+        db_table = 'mdl_module'
         verbose_name = 'модуль'
         verbose_name_plural = 'модули'
 

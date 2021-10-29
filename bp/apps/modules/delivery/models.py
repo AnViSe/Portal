@@ -24,7 +24,7 @@ class Mailing(models.Model):
     dt_up = UpdateDateTimeField()
 
     class Meta:
-        app_label = 'modules'
+        app_label = 'delivery'
         db_table = 'mdl_dlv_mailing'
         verbose_name = 'отправление'
         verbose_name_plural = 'отправления'

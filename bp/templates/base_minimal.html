@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title%}Заголовок{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/fontawesome/6/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+</head>
+<body>
+<section class="content pt-5">
+    <div class="error-page">
+        {% block content %}
+        Контент
+        {% endblock %}
+    </div>
+</section>
+</body>
+</html>
