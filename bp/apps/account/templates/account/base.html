@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Бизнес-портал | Вход</title>
+    <title>{% block title %}Бизнес-портал{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/fontawesome/6/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap/icheck/icheck-bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
@@ -19,5 +19,6 @@
 <script src="{% static 'js/bootstrap/4/bootstrap.bundle.js' %}"></script>
 <script src="{% static 'js/adminlte/adminlte.js' %}"></script>
 <script>$('.toast').toast('show');</script>
+{% block extra_body %}{% endblock %}
 </body>
 </html>
