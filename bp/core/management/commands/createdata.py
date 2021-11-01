@@ -1,6 +1,7 @@
 from optparse import make_option
 
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from faker import Faker
 
 from apps.references.models.phone import Phone
@@ -19,28 +20,30 @@ class Command(BaseCommand):
 
     def append_persons(self, count):
         faker = Faker([settings.LANGUAGE_CODE])
-        for i in range(count):
-            if i % 2 == 0:
-                l = faker.last_name_male()
-                m = faker.middle_name_male()
-                f = faker.first_name_male()
-                s = 1
-            else:
-                l = faker.last_name_female()
-                m = faker.middle_name_female()
-                f = faker.first_name_female()
-                s = 2
-            b = faker.date_of_birth()
+        with transaction.atomic():
+            for i in range(count):
+                if i % 2 == 0:
+                    l = faker.last_name_male()
+                    m = faker.middle_name_male()
+                    f = faker.first_name_male()
+                    s = 1
+                else:
+                    l = faker.last_name_female()
+                    m = faker.middle_name_female()
+                    f = faker.first_name_female()
+                    s = 2
+                b = faker.date_of_birth()
 
-            Person.objects.create(last_name=l, middle_name=m, first_name=f, gender=s, birth_date=b)
+                Person.objects.create(last_name=l, middle_name=m, first_name=f, gender=s, birth_date=b)
 
         count = Person.objects.all().count()
         return count
 
     def append_employees(self, count):
         faker = Faker([settings.LANGUAGE_CODE])
-        for p in Person.objects.all():
-            Employee.objects.create(tab_num=faker.unique.random_int(10, 99999), person=p)
+        with transaction.atomic():
+            for p in Person.objects.all():
+                Employee.objects.create(tab_num=faker.unique.random_int(10, 99999), person=p)
         count = Employee.objects.all().count()
         return count
 

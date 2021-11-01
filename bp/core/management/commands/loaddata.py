@@ -314,12 +314,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        # self.get_country()
-        # self.get_region()
-        # self.get_district()
-        # self.get_location()
-        # self.get_streets()
-        # self.get_buildings()
+        self.get_country()
+        self.get_region()
+        self.get_district()
+        self.get_location()
+        self.get_streets()
+        self.get_buildings()
         self.get_addresses()
         # self.get_subdivisions()
         # self.get_postoffices()
