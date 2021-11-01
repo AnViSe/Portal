@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'debug_toolbar',
+
     'rest_framework',
     'rest_framework_datatables',
     'django_filters',
@@ -36,7 +38,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'mptt',
     'maintenancemode',
-    # 'phonenumber_field',
     'crispy_forms',
 
     'core',
@@ -50,8 +51,8 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'apps_account.CustomUser'
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'maintenancemode.middleware.MaintenanceModeMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 # MIDDLEWARE_CLASSES = [
@@ -90,6 +92,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
 LANGUAGE_CODE = 'ru'
 
@@ -235,8 +238,8 @@ MAINTENANCE_503_TEMPLATE = 'errors/503.html'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-PHONENUMBER_DEFAULT_REGION = 'BY'
-PHONENUMBER_DEFAULT_FORMAT = 'E164'
+# PHONENUMBER_DEFAULT_REGION = 'BY'
+# PHONENUMBER_DEFAULT_FORMAT = 'E164'
 
 # Для переопределения меток в сообщениях
 MESSAGE_TAGS = {
@@ -263,6 +266,6 @@ except ImportError:
     from .prod_settings import *
 
 if DEBUG:
-    INTERNAL_IPS = ['127.0.0.1', ]
-    INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar']
-    MIDDLEWARE = MIDDLEWARE + ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    INTERNAL_IPS = ['127.0.0.1', '172.16.190.61', ]
+    # INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar']
+    # MIDDLEWARE = MIDDLEWARE + ['debug_toolbar.middleware.DebugToolbarMiddleware']
