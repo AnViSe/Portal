@@ -27,7 +27,7 @@ def get_menu_tree(cur_user=None, cur_url=None):
 
     menus = []
     for menu in menu_items:
-        if menu.perm is None or menu.perm in perms:
+        if not menu.perm or menu.perm in perms:
             menus.append(menu)
 
     return {'menus': menus, 'cur_url': cur_url}

@@ -55,15 +55,15 @@ DATABASES = {
 
 # Кеширование
 CACHES = {
-    'default': {
+    '_default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': BASE_DIR.joinpath('cache'),
     },
-    'select2': {
+    '_select2': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': BASE_DIR.joinpath('select2'),
     },
-    '_default': {
+    'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/1',
         'OPTIONS': {
@@ -71,7 +71,7 @@ CACHES = {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     },
-    '_select2': {
+    'select2': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/2',
         'TIMEOUT': 3000,
