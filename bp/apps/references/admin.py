@@ -199,6 +199,6 @@ class SubdivisionAdmin(DraggableMPTTAdmin):
     search_fields = ['name_sd']
 
     fields = ['code', 'name_sd', 'parent',
-              'model_type', 'location', 'chief', 'sub_chief', 'booker', 'gi_type',
+              'model_type', 'location', 'chief', 'sub_chief', 'booker',
               'name_sd_full', 'code_ext', 'status']
     autocomplete_fields = ['parent', 'location', 'chief']
