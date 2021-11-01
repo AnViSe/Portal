@@ -18,8 +18,6 @@ from apps.references.views.subdivision import SubdivisionList, SubdivisionCreate
 urlpatterns = [
     path('', login_required(index), name='refs'),
 
-
-
     path('employees/', login_required(EmployeeList.as_view()), name='employees'),
     path('employees/', include([
         path('create/', login_required(EmployeeCreate.as_view()), name='add_employee'),
@@ -27,21 +25,20 @@ urlpatterns = [
         path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_employee'),
     ])),
 
-
-    path('persons/', PersonList.as_view(), name='persons'),
+    path('persons/', login_required(PersonList.as_view()), name='persons'),
     path('persons/', include([
-        path('create/', PersonCreate.as_view(), name='add_person'),
-        path('<int:pk>/', PersonEdit.as_view(), name='edit_person'),
+        path('create/', login_required(PersonCreate.as_view()), name='add_person'),
+        path('<int:pk>/', login_required(PersonEdit.as_view()), name='edit_person'),
     ])),
 
-    path('phones/', PhoneList.as_view(), name='phones'),
-    path('postoffices/', PostOfficeList.as_view(), name='postoffices'),
-    path('subdivisions/', SubdivisionList.as_view(), name='subdivisions'),
-    # path('subdivisions/', include([
-    #     path('create/', login_required(SubdivisionCreate.as_view()), name='add_subdivision'),
-    #     path('<int:pk>/', login_required(SubdivisionEdit.as_view()), name='edit_subdivision'),
-    #     path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
-    # ])),
+    path('phones/', login_required(PhoneList.as_view()), name='phones'),
+    path('postoffices/', login_required(PostOfficeList.as_view()), name='postoffices'),
+    path('subdivisions/', login_required(SubdivisionList.as_view()), name='subdivisions'),
+    path('subdivisions/', include([
+        path('create/', login_required(SubdivisionCreate.as_view()), name='add_subdivision'),
+        path('<int:pk>/', login_required(SubdivisionEdit.as_view()), name='edit_subdivision'),
+        path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
+    ])),
     path('countries/', login_required(CountryList.as_view()), name='countries'),
     path('regions/', login_required(RegionList.as_view()), name='regions'),
     path('districts/', login_required(DistrictList.as_view()), name='districts'),

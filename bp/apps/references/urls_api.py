@@ -14,8 +14,8 @@ from apps.references.views.region import RegionViewSet
 from apps.references.views.street import StreetViewSet
 from apps.references.views.subdivision import SubdivisionViewSet
 
-# router = routers.DefaultRouter()
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
+# router = routers.SimpleRouter()
 # routerTree = routers.DefaultRouter()
 
 router.register(r'country', CountryViewSet)
