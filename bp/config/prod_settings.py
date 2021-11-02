@@ -15,7 +15,10 @@ DATABASES = {
         'HOST': '172.16.188.140',
         'PORT': '1521',
         # Сколько секунд удерживать соединение с БД
-        "CONN_MAX_AGE": 10
+        'CONN_MAX_AGE': 10,
+        'OPTIONS': {
+            'threaded': True,
+        },
     },
     'ref': {
         'ENGINE': 'extensions.oracle',
@@ -25,7 +28,7 @@ DATABASES = {
         'HOST': '172.16.188.140',
         'PORT': '1521',
         # Сколько секунд удерживать соединение с БД
-        "CONN_MAX_AGE": 10
+        'CONN_MAX_AGE': 10
     },
     'nsi': {
         'ENGINE': 'extensions.oracle',
@@ -35,7 +38,7 @@ DATABASES = {
         'HOST': '172.16.188.140',
         'PORT': '1521',
         # Сколько секунд удерживать соединение с БД
-        "CONN_MAX_AGE": 10
+        'CONN_MAX_AGE': 10
     },
     'ptks': {
         'ENGINE': 'extensions.oracle',
@@ -45,7 +48,7 @@ DATABASES = {
         'HOST': '172.16.100.24',
         'PORT': '1521',
         # Сколько секунд удерживать соединение с БД
-        "CONN_MAX_AGE": 10
+        'CONN_MAX_AGE': 10
     },
     '_default': {
         'ENGINE': 'django.db.backends.sqlite3',
