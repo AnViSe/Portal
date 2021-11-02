@@ -22,6 +22,16 @@ def get_list_url(obj):
         return '#'
 
 
+@register.filter(name='fields')
+def verbose_name(obj):
+    return obj._meta.fields
+
+
 @register.filter
 def field_label(field):
     return field.verbose_name
+
+
+@register.filter
+def field_value(obj, field):
+    return getattr(obj, field)

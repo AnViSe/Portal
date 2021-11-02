@@ -12,7 +12,22 @@
     </div>
 </div>
 <div class="card-body">
-    {{ object }}
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="thead-light">
+        <tr>
+            <th style="width: 15%;">Параметр</th>
+            <th>Значение</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for field in object|fields %}
+            <tr>
+                <td>{{ field|field_label }}</td>
+                <td>{{ object|field_value:field.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 <div class="card-footer">
     Подвал

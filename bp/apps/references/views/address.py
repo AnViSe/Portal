@@ -6,17 +6,17 @@ from rest_framework import viewsets
 from apps.references.forms import AddressForm
 from apps.references.models.address import Address
 from apps.references.serializers import AddressSerializer
-from apps.references.utils import RefTableMixin
+from apps.references.utils import *
 
 
-class AddressViewSet(viewsets.ModelViewSet):
+class AddressViewSet(RefModelViewMixin, viewsets.ModelViewSet):
     """Список адресов"""
 
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
 
-class AddressList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+class AddressList(PermissionRequiredMixin, RefListViewMixin, generic.ListView):
     """Справочник адресов"""
 
     permission_required = 'references.view_address'
@@ -28,13 +28,13 @@ class AddressList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
         return context
 
 
-class AddressCreate(PermissionRequiredMixin, generic.CreateView):
+class AddressCreate(PermissionRequiredMixin, RefCreateViewMixin, generic.CreateView):
     """Создание адреса"""
 
     permission_required = 'references.add_address'
 
     form_class = AddressForm
-    template_name = 'references/ref_add.html'
+
     success_url = reverse_lazy('addresses')
 
     def get_context_data(self, **kwargs):
@@ -43,12 +43,19 @@ class AddressCreate(PermissionRequiredMixin, generic.CreateView):
         return context
 
 
-class AddressEdit(PermissionRequiredMixin, generic.UpdateView):
+class AddressEdit(PermissionRequiredMixin, RefUpdateViewMixin, generic.UpdateView):
     """Изменение адреса"""
 
     permission_required = 'references.change_employee'
 
     model = Address
     form_class = AddressForm
-    template_name = 'references/ref_edit.html'
+
     success_url = reverse_lazy(model.Params.route_list)
+
+
+class AddressView(RefDetailViewMixin, generic.DetailView):
+    """Просмотр адреса"""
+
+    model = Address
+    queryset = Address.objects.select_related('building')
