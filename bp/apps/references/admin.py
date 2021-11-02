@@ -3,6 +3,7 @@ from django.contrib.admin import ModelAdmin
 from django.utils.safestring import mark_safe
 from mptt.admin import DraggableMPTTAdmin
 
+from apps.references.forms import LocationAdminForm
 from apps.references.models.address import Address
 from apps.references.models.base import FlexType
 from apps.references.models.building import Building
@@ -80,16 +81,17 @@ class LocationAdmin(ModelAdmin):
     list_select_related = ['district']
     search_fields = ['name_lct_full']
 
-    fields = ['code',
-              'soato',
-              'model_type',
-              'name_lct',
-              'district',
-              'status']
-    autocomplete_fields = [
-        'district',
+    form = LocationAdminForm
+    # fields = ['code',
+    #           'soato',
+    #           'model_type',
+    #           'name_lct',
+    #           'district',
+    #           'status']
+    # autocomplete_fields = [
+    #     'district',
         # 'model_type'
-    ]
+    # ]
 
 
 @admin.register(Person)

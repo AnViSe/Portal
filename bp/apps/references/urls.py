@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 
 from apps.references.views import index
-from apps.references.views.address import AddressList, AddressCreate, AddressEdit
-from apps.references.views.building import BuildingList
+from apps.references.views.address import AddressList, AddressCreate, AddressEdit, AddressView
+from apps.references.views.building import BuildingCreate, BuildingEdit, BuildingList, BuildingView
 from apps.references.views.country import CountryList
 from apps.references.views.district import DistrictList
 from apps.references.views.employee import EmployeeList, EmployeeCreate, EmployeeEdit, EmployeeView
-from apps.references.views.location import LocationList
+from apps.references.views.location import LocationCreate, LocationEdit, LocationList, LocationView
 from apps.references.views.person import PersonList, PersonCreate, PersonEdit
 from apps.references.views.phone import PhoneList
 from apps.references.views.postoffice import PostOfficeList
@@ -18,11 +18,32 @@ from apps.references.views.subdivision import SubdivisionList, SubdivisionCreate
 urlpatterns = [
     path('', login_required(index), name='refs'),
 
+    path('addresses/', include([
+        path('', login_required(AddressList.as_view()), name='addresses'),
+        path('create/', login_required(AddressCreate.as_view()), name='add_address'),
+        path('<int:pk>/', login_required(AddressEdit.as_view()), name='edit_address'),
+        path('<int:pk>/view/', login_required(AddressView.as_view()), name='view_address'),
+    ])),
+
+    path('buildings/', include([
+        path('', login_required(BuildingList.as_view()), name='buildings'),
+        path('create/', login_required(BuildingCreate.as_view()), name='add_building'),
+        path('<int:pk>/', login_required(BuildingEdit.as_view()), name='edit_building'),
+        path('<int:pk>/view/', login_required(BuildingView.as_view()), name='view_building'),
+    ])),
+
     path('employees/', include([
         path('', login_required(EmployeeList.as_view()), name='employees'),
         path('create/', login_required(EmployeeCreate.as_view()), name='add_employee'),
         path('<int:pk>/', login_required(EmployeeEdit.as_view()), name='edit_employee'),
         path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_employee'),
+    ])),
+
+    path('locations/', include([
+        path('', login_required(LocationList.as_view()), name='locations'),
+        path('create/', login_required(LocationCreate.as_view()), name='add_location'),
+        path('<int:pk>/', login_required(LocationEdit.as_view()), name='edit_location'),
+        path('<int:pk>/view/', login_required(LocationView.as_view()), name='view_location'),
     ])),
 
     path('persons/', include([
@@ -53,22 +74,8 @@ urlpatterns = [
         path('', login_required(DistrictList.as_view()), name='districts'),
     ])),
 
-    path('locations/', include([
-        path('', login_required(LocationList.as_view()), name='locations'),
-    ])),
-
     path('streets/', include([
         path('', login_required(StreetList.as_view()), name='streets'),
     ])),
 
-    path('buildings/', include([
-        path('', login_required(BuildingList.as_view()), name='buildings'),
-    ])),
-
-    path('addresses/', include([
-        path('', login_required(AddressList.as_view()), name='addresses'),
-        path('create/', login_required(AddressCreate.as_view()), name='add_address'),
-        path('<int:pk>/', login_required(AddressEdit.as_view()), name='edit_address'),
-        # path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
-    ])),
 ]

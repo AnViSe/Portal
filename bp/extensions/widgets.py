@@ -61,3 +61,38 @@ class BaseSelect2Widget(s2forms.ModelSelect2Widget):
             js=select2_js + i18n_file + ("django_select2/django_select2.js",),
             css={"screen": select2_css + ("django_select2/django_select2.css",)},
         )
+
+
+class BaseSelect2MultipleWidget(s2forms.Select2MultipleWidget):
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.attrs = {"style": "width: 100%"}
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        base_attrs = super().build_attrs(base_attrs, extra_attrs)
+        base_attrs.update(
+            {
+                # "data-minimum-input-length": 0,
+                # "data-minimum-results-for-search": 25,
+                "data-placeholder": self.empty_label,
+                "data-theme": "bootstrap4",
+                "data-ajax--delay": 250,
+             })
+        return base_attrs
+
+    @property
+    def media(self):
+        select2_js = settings.SELECT2_JS if settings.SELECT2_JS else ()
+        select2_css = settings.SELECT2_CSS if settings.SELECT2_CSS else ()
+
+        i18n_file = ()
+        if self.i18n_name in settings.SELECT2_I18N_AVAILABLE_LANGUAGES:
+            i18n_file = (
+                ("%s/%s.js" % (settings.SELECT2_I18N_PATH, self.i18n_name),)
+            )
+
+        return forms.Media(
+            js=select2_js + i18n_file + ("django_select2/django_select2.js",),
+            css={"screen": select2_css + ("django_select2/django_select2.css",)},
+        )

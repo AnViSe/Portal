@@ -1,3 +1,7 @@
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
 class RefTableMixin(object):
     # url_list = ''
     # field_list = []
@@ -44,3 +48,39 @@ class RefTableMixin(object):
         if self.action_field not in result['fields_list']:
             result['fields_list'].append(self.action_field)
         return result
+
+
+class RefModelViewMixin(object):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+class RefDetailViewMixin(object):
+    template_name = 'references/ref_view.html'
+
+
+class RefListViewMixin(object):
+    template_name = 'references/ref_list.html'
+    action_field = {'data': '_', 'title': 'Операции'}
+
+    def update_context_data(self, context):
+        result = context
+        result['route_list_api'] = self.model.Params.route_list_api
+        result['fields_list'] = self.model.Params.fields_list
+        if self.action_field not in result['fields_list']:
+            result['fields_list'].append(self.action_field)
+        return result
+
+
+class RefCreateViewMixin(object):
+    template_name = 'references/ref_add.html'
+
+
+class RefUpdateViewMixin(object):
+    template_name = 'references/ref_edit.html'
+
+    # success_url = reverse_lazy(object.model.Params.route_list)
+
+
+
+
