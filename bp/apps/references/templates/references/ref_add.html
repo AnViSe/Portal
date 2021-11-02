@@ -1,6 +1,11 @@
 {% extends 'references/index.html' %}
 {% load crispy_forms_tags %}
 
+{% block stylesheet %}
+{{ block.super }}
+{% include 'references/_select2_style.html' %}
+{% endblock %}
+
 {% block content %}
 <div class="card-header">
     <h4 class="card-title mt-1">Создание объекта: {{ obj_name }}</h4>
@@ -17,4 +22,9 @@
 <div class="card-footer">
     Подвал
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% include 'references/_select2_scripts.html' %}
 {% endblock %}

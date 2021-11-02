@@ -58,12 +58,12 @@ class BaseSelect2Widget(s2forms.ModelSelect2Widget):
             )
 
         return forms.Media(
-            js=select2_js + i18n_file + ("django_select2/django_select2.js",),
-            css={"screen": select2_css + ("django_select2/django_select2.css",)},
+            # js=select2_js + i18n_file + ("django_select2/django_select2.js",),
+            # css={"screen": select2_css + ("django_select2/django_select2.css",)},
         )
 
 
-class BaseSelect2MultipleWidget(s2forms.Select2MultipleWidget):
+class BaseSelect2MultipleWidget(s2forms.HeavySelect2MultipleWidget):
 
     def __init__(self, **kwargs):
         super().__init__(kwargs)
@@ -75,7 +75,7 @@ class BaseSelect2MultipleWidget(s2forms.Select2MultipleWidget):
             {
                 # "data-minimum-input-length": 0,
                 # "data-minimum-results-for-search": 25,
-                "data-placeholder": self.empty_label,
+                # "data-placeholder": self.empty_label,
                 "data-theme": "bootstrap4",
                 "data-ajax--delay": 250,
              })
@@ -93,6 +93,6 @@ class BaseSelect2MultipleWidget(s2forms.Select2MultipleWidget):
             )
 
         return forms.Media(
-            js=select2_js + i18n_file + ("django_select2/django_select2.js",),
-            css={"screen": select2_css + ("django_select2/django_select2.css",)},
+            # js=select2_js + i18n_file + ("django_select2/django_select2.js",),
+            # css={"screen": select2_css + ("django_select2/django_select2.css",)},
         )

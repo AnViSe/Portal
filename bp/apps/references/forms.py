@@ -3,7 +3,7 @@ from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import CheckboxSelectMultiple, SelectMultiple
-from django_select2.forms import Select2MultipleWidget
+from django_select2 import forms as s2forms
 
 from apps.references.models.address import Address
 from apps.references.models.building import Building
@@ -52,6 +52,34 @@ class StreetMultipleWidget(BaseSelect2MultipleWidget):
     search_fields = ('name_str_full__icontains',)
     # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
     queryset = Street.objects.all().order_by('name_str_full')
+
+
+class StreetModelMultipleWidget(s2forms.ModelSelect2MultipleWidget):
+    # empty_label = '-- Выберите улицу --'
+    search_fields = ('name_str_full__icontains',)
+    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
+    # queryset = Street.objects.all().order_by('name_str_full')
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.attrs = {"style": "width: 100%"}
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        base_attrs = super().build_attrs(base_attrs, extra_attrs)
+        base_attrs.update(
+            {
+                # "data-minimum-input-length": 0,
+                # "data-minimum-results-for-search": 25,
+                # "data-placeholder": self.empty_label,
+                "data-theme": "bootstrap4",
+                "data-ajax--delay": 250,
+             })
+        return base_attrs
+
+    @property
+    def media(self):
+        return forms.Media(
+        )
 
 
 class SubdivisionWidget(BaseSelect2Widget):
@@ -153,7 +181,8 @@ class LocationForm(forms.ModelForm):
         widgets = {
             'code': forms.TextInput(attrs={'autofocus': True}),
             'district': DistrictWidget,
-            'streets': StreetMultipleWidget,
+            # 'streets': StreetMultipleWidget,
+            'streets': StreetModelMultipleWidget,
         }
 
     def __init__(self, *args, **kwargs):
