@@ -321,5 +321,5 @@ class Command(BaseCommand):
         self.get_streets()
         self.get_buildings()
         self.get_addresses()
-        # self.get_subdivisions()
-        # self.get_postoffices()
+        self.get_subdivisions()
+        self.get_postoffices()
