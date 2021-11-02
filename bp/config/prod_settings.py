@@ -1,19 +1,15 @@
-from pathlib import Path
-
-from config.settings import get_env
-
-BASE_DIR = Path(__file__).resolve().parent.parent
+import os
 
 ALLOWED_HOSTS = ['bp.belpost.by', '172.16.100.227', 'localhost', '127.0.0.1']
 
 DATABASES = {
     'default': {
         'ENGINE': 'extensions.oracle',
-        'NAME': 'ORCL',
-        'USER': 'WWW',
-        'PASSWORD': get_env('DATABASE_DEF_PASS'),
-        'HOST': '172.16.188.140',
-        'PORT': '1521',
+        'NAME': os.environ.get('DATABASE_DEF_NAME'),
+        'USER': os.environ.get('DATABASE_DEF_USER'),
+        'PASSWORD': os.environ.get('DATABASE_DEF_PASS'),
+        'HOST': os.environ.get('DATABASE_DEF_HOST'),
+        'PORT': 1521,
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10,
         'OPTIONS': {
@@ -22,64 +18,52 @@ DATABASES = {
     },
     'ref': {
         'ENGINE': 'extensions.oracle',
-        'NAME': 'ORCL',
-        'USER': 'REF',
-        'PASSWORD': get_env('DATABASE_REF_PASS'),
-        'HOST': '172.16.188.140',
-        'PORT': '1521',
+        'NAME': os.environ.get('DATABASE_REF_NAME'),
+        'USER': os.environ.get('DATABASE_REf_USER'),
+        'PASSWORD': os.environ.get('DATABASE_REF_PASS'),
+        'HOST': os.environ.get('DATABASE_REF_HOST'),
+        'PORT': 1521,
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10
     },
     'nsi': {
         'ENGINE': 'extensions.oracle',
-        'NAME': 'ORCL',
-        'USER': 'NSI',
-        'PASSWORD': get_env('DATABASE_NSI_PASS'),
-        'HOST': '172.16.188.140',
-        'PORT': '1521',
+        'NAME': os.environ.get('DATABASE_NSI_NAME'),
+        'USER': os.environ.get('DATABASE_NSI_USER'),
+        'PASSWORD': os.environ.get('DATABASE_NSI_PASS'),
+        'HOST': os.environ.get('DATABASE_NSI_HOST'),
+        'PORT': 1521,
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10
     },
     'ptks': {
         'ENGINE': 'extensions.oracle',
-        'NAME': 'tracksys',
-        'USER': 'TRACKSYS_VIEW',
-        'PASSWORD': get_env('DATABASE_PTKS_PASS'),
-        'HOST': '172.16.100.24',
-        'PORT': '1521',
+        'NAME': os.environ.get('DATABASE_PTKS_NAME'),
+        'USER': os.environ.get('DATABASE_PTKS_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PTKS_PASS'),
+        'HOST': os.environ.get('DATABASE_PTKS_HOST'),
+        'PORT': 1521,
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10
-    },
-    '_default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
     },
 }
 
 # Кеширование
 CACHES = {
-    '_default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR.joinpath('cache'),
-    },
-    '_select2': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR.joinpath('select2'),
-    },
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': os.environ.get('REDIS_LOCATION') + '/1',
         'OPTIONS': {
-            'PASSWORD': get_env('REDIS_PASS'),
+            'PASSWORD': os.environ.get('REDIS_PASS'),
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     },
     'select2': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/2',
+        'LOCATION': os.environ.get('REDIS_LOCATION') + '/2',
         'TIMEOUT': 3000,
         'OPTIONS': {
-            'PASSWORD': get_env('REDIS_PASS'),
+            'PASSWORD': os.environ.get('REDIS_PASS'),
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }

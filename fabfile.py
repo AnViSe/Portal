@@ -4,25 +4,17 @@
 # https://github.com/fabtools/fabtools
 # https://jenyay.net/Programming/Fabric
 import os
-from pathlib import Path
 
+from dotenv import load_dotenv
 from fabric.api import run, env, task, prefix, cd, sudo
-
-from utils import load_env
-
-get_env = os.environ.get
-
-BASE_DIR = Path(__file__).resolve().parent
-
-load_env(BASE_DIR / 'bp/config/.env')
 
 
 def production_env():
-    print(BASE_DIR)
-    env.user = get_env('UNIX_USER')
-    env.password = get_env('UNIX_PASS')
+    load_dotenv()
+    env.user = os.environ.get('UNIX_USER')
+    env.password = os.environ.get('UNIX_PASS')
     # env.shell = 'sh -c'
-    env.host_string = get_env('UNIX_HOST')
+    env.host_string = os.environ.get('UNIX_HOST')
     # Путь до каталога с проектами (на сервере)
     env.portal_root = '/var/www/sites/portal'
     # Путь до каталога проекта (на сервере)
@@ -53,6 +45,7 @@ def pip_list():
         run('deactivate')
 
 
+# fab pip_install:'Django'
 @task
 def pip_install(package=None):
     """Установка пакета по имени"""

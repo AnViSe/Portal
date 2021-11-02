@@ -2,20 +2,14 @@ import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
-from .utils import load_env
-
-get_env = os.environ.get
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_env(BASE_DIR / 'config/.env')
-
-SECRET_KEY = get_env('DJANGO_SECRET_KEY')
-DEBUG = get_env('DEBUG', 'False') == 'True'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+DEBUG = str(os.environ.get('DEBUG', 'False')) == 'True'
 
 # Application definition
-PROJECT_NAME = 'Бизнес-портал'
-PROJECT_DOMAIN = 'http://bp.belpost.by'
+PROJECT_NAME = os.environ.get('PROJECT_NAME')
+PROJECT_DOMAIN = os.environ.get('PROJECT_DOMAIN')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,8 +19,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
-    'debug_toolbar',
 
     'rest_framework',
     'rest_framework_datatables',
@@ -63,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'maintenancemode.middleware.MaintenanceModeMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 # MIDDLEWARE_CLASSES = [
@@ -256,9 +248,9 @@ MPTT_ADMIN_LEVEL_INDENT = 20
 
 DEFAULT_AVATAR_URL = ''
 
-EMAIL_HOST = get_env('EMAIL_HOST')
-EMAIL_PORT = int(get_env('EMAIL_PORT'))
-DEFAULT_FROM_EMAIL = get_env('DEFAULT_FROM_EMAIL')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 try:
     from .local_settings import *
@@ -267,5 +259,5 @@ except ImportError:
 
 if DEBUG:
     INTERNAL_IPS = ['127.0.0.1', '172.16.190.61', ]
-    # INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar']
-    # MIDDLEWARE = MIDDLEWARE + ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
