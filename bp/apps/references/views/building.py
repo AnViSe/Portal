@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from apps.references.forms import BuildingForm
 from apps.references.models.building import Building
 from apps.references.serializers import BuildingSerializer
-from apps.references.utils import *
+from apps.references.mixins import *
 
 
 class BuildingViewSet(RefModelViewMixin, viewsets.ModelViewSet):
@@ -58,4 +58,4 @@ class BuildingView(RefDetailViewMixin, generic.DetailView):
     """Просмотр здания"""
 
     model = Building
-    queryset = Building.objects.select_related('location', 'street')
+    queryset = Building.objects.select_related('region')

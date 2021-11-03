@@ -11,7 +11,7 @@ from apps.references.forms import SubdivisionForm
 from apps.references.models.employee import Employee
 from apps.references.models.subdivision import Subdivision
 from apps.references.serializers import SubdivisionTreeSerializer, SubdivisionSerializer
-from apps.references.utils import RefTableMixin
+from apps.references.mixins import *
 
 
 # class SubdivisionTreeViewSet(viewsets.ModelViewSet):

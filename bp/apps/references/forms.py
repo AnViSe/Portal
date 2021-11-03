@@ -2,90 +2,24 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.forms import CheckboxSelectMultiple, SelectMultiple
-from django_select2 import forms as s2forms
 
 from apps.references.models.address import Address
 from apps.references.models.building import Building
+from apps.references.models.country import Country
 from apps.references.models.district import District
 from apps.references.models.employee import Employee
-from apps.references.models.location import Location, LocationStreets
+from apps.references.models.location import Location
 from apps.references.models.person import Person
+from apps.references.models.phone import Phone
+from apps.references.models.postoffice import PostOffice
+from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
-from extensions.widgets import BaseSelect2MultipleWidget, BaseSelect2Widget
-
-
-class BuildingWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите здание --'
-    search_fields = ('name_bld_full__icontains',)
-    queryset = Building.objects.all().order_by('name_bld_full')
-
-
-class DistrictWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите район --'
-    search_fields = ('name_dst__icontains',)
-    queryset = District.objects.all().order_by('name_dst')
-
-
-class LocationWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите населенный пункт --'
-    search_fields = ('name_lct_full__icontains',)
-    queryset = Location.objects.all().order_by('name_lct_full')
-
-
-class PersonWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите персону --'
-    search_fields = ('name_lfm__icontains',)
-    queryset = Person.objects.all().order_by('name_lfm')
-
-
-class StreetWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите улицу --'
-    search_fields = ('name_str_full__icontains',)
-    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
-    queryset = Street.objects.all().order_by('name_str_full')
-
-
-class StreetMultipleWidget(BaseSelect2MultipleWidget):
-    # empty_label = '-- Выберите улицу --'
-    search_fields = ('name_str_full__icontains',)
-    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
-    queryset = Street.objects.all().order_by('name_str_full')
-
-
-class StreetModelMultipleWidget(s2forms.ModelSelect2MultipleWidget):
-    # empty_label = '-- Выберите улицу --'
-    search_fields = ('name_str_full__icontains',)
-    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
-    # queryset = Street.objects.all().order_by('name_str_full')
-
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-        self.attrs = {"style": "width: 100%"}
-
-    def build_attrs(self, base_attrs, extra_attrs=None):
-        base_attrs = super().build_attrs(base_attrs, extra_attrs)
-        base_attrs.update(
-            {
-                # "data-minimum-input-length": 0,
-                # "data-minimum-results-for-search": 25,
-                # "data-placeholder": self.empty_label,
-                "data-theme": "bootstrap4",
-                "data-ajax--delay": 250,
-             })
-        return base_attrs
-
-    @property
-    def media(self):
-        return forms.Media(
-        )
-
-
-class SubdivisionWidget(BaseSelect2Widget):
-    empty_label = '-- Выберите подразделение --'
-    search_fields = ('name_sd__icontains',)
-    queryset = Subdivision.objects.all().order_by('name_sd')
+from extensions.widgets import AddressWidget, BuildingWidget, CountryWidget, DistrictWidget, \
+    LocationWidget, \
+    PersonWidget, \
+    PostOfficeWidget, RegionWidget, StreetModelMultipleWidget, StreetWidget, \
+    SubdivisionWidget
 
 
 class AddressForm(forms.ModelForm):
@@ -135,6 +69,54 @@ class BuildingForm(forms.ModelForm):
                 Column('latitude', css_class='form-group col-md-6 mb-0'),
                 Column('longitude', css_class='form-group col-md-6 mb-0'),
             ),
+            'status',
+            Submit('submit', 'Сохранить')
+        )
+
+
+class CountryForm(forms.ModelForm):
+    class Meta:
+        model = Country
+        fields = ['code', 'name_cnt', 'alpha2', 'alpha3', 'status']
+        widgets = {
+            'code': forms.TextInput(attrs={'autofocus': True}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('code', css_class='form-group col-md-2 mb-0'),
+                Column('name_cnt', css_class='form-group col-md-10 mb-0'),
+            ),
+            Row(
+                Column('alpha2', css_class='form-group col-md-6 mb-0'),
+                Column('alpha3', css_class='form-group col-md-6 mb-0'),
+            ),
+            'status',
+            Submit('submit', 'Сохранить')
+        )
+
+
+class DistrictForm(forms.ModelForm):
+    class Meta:
+        model = District
+        fields = ['code', 'name_dst', 'region', 'status']
+        widgets = {
+            'code': forms.TextInput(attrs={'autofocus': True}),
+            'region': RegionWidget,
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('code', css_class='form-group col-md-2 mb-0'),
+                Column('name_dst', css_class='form-group col-md-10 mb-0'),
+            ),
+            'region',
             'status',
             Submit('submit', 'Сохранить')
         )
@@ -237,6 +219,104 @@ class PersonForm(forms.ModelForm):
     #     result = validate_ident_num_2012(value)
     #     if result is not None:
     #         self.add_error('ident_num', result)
+
+
+class PhoneForm(forms.ModelForm):
+    class Meta:
+        model = Phone
+        fields = ['phone_number', 'model_type', 'status']
+        widgets = {
+            'phone_number': forms.TextInput(attrs={'autofocus': True}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('phone_number', css_class='form-group col-md-6 mb-0'),
+                Column('model_type', css_class='form-group col-md-6 mb-0'),
+            ),
+            'status',
+            Submit('submit', 'Сохранить')
+        )
+
+
+class PostOfficeForm(forms.ModelForm):
+    class Meta:
+        model = PostOffice
+        fields = ['code', 'zipcode', 'name_post', 'parent', 'model_type', 'address',
+                  'schedule_post', 'holiday_post', 'status']
+        widgets = {
+            'code': forms.TextInput(attrs={'autofocus': True}),
+            'parent': PostOfficeWidget,
+            'address': AddressWidget,
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('code', css_class='form-group col-md-2 mb-0'),
+                Column('zipcode', css_class='form-group col-md-2 mb-0'),
+                Column('model_type', css_class='form-group col-md-2 mb-0'),
+                Column('name_post', css_class='form-group col-md-6 mb-0'),
+            ),
+            'parent',
+            'address',
+            Row(
+                Column('schedule_post', css_class='form-group col-md-7 mb-0'),
+                Column('holiday_post', css_class='form-group col-md-5 mb-0'),
+            ),
+            'status',
+            Submit('submit', 'Сохранить')
+        )
+
+
+class RegionForm(forms.ModelForm):
+    class Meta:
+        model = Region
+        fields = ['code', 'name_rgn', 'country', 'status']
+        widgets = {
+            'code': forms.TextInput(attrs={'autofocus': True}),
+            'country': CountryWidget,
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('code', css_class='form-group col-md-2 mb-0'),
+                Column('name_rgn', css_class='form-group col-md-10 mb-0'),
+            ),
+            'country',
+            'status',
+            Submit('submit', 'Сохранить')
+        )
+
+
+class StreetForm(forms.ModelForm):
+    class Meta:
+        model = Street
+        fields = ['code', 'name_str', 'model_type', 'status']
+        widgets = {
+            'code': forms.TextInput(attrs={'autofocus': True}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('code', css_class='form-group col-md-2 mb-0'),
+                Column('model_type', css_class='form-group col-md-3 mb-0'),
+                Column('name_str', css_class='form-group col-md-7 mb-0'),
+            ),
+            'status',
+            Submit('submit', 'Сохранить')
+        )
 
 
 class SubdivisionForm(forms.ModelForm):

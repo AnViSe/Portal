@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from apps.references.forms import LocationAdminForm, LocationForm
 from apps.references.models.location import Location
 from apps.references.serializers import LocationSerializer
-from apps.references.utils import *
+from apps.references.mixins import *
 
 
 class LocationViewSet(RefModelViewMixin, viewsets.ModelViewSet):
@@ -49,7 +49,6 @@ class LocationEdit(PermissionRequiredMixin, RefUpdateViewMixin, generic.UpdateVi
     permission_required = 'references.change_location'
 
     model = Location
-    # form_class = LocationAdminForm
     form_class = LocationForm
 
     success_url = reverse_lazy(model.Params.route_list)

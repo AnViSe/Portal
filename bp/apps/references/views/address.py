@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from apps.references.forms import AddressForm
 from apps.references.models.address import Address
 from apps.references.serializers import AddressSerializer
-from apps.references.utils import *
+from apps.references.mixins import *
 
 
 class AddressViewSet(RefModelViewMixin, viewsets.ModelViewSet):

@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from apps.references.forms import EmployeeForm
 from apps.references.models.employee import Employee
 from apps.references.serializers import EmployeeSerializer
-from apps.references.utils import *
+from apps.references.mixins import *
 
 
 class EmployeeViewSet(RefModelViewMixin, viewsets.ModelViewSet):
@@ -26,13 +26,6 @@ class EmployeeList(PermissionRequiredMixin, RefListViewMixin, generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = self.update_context_data(super().get_context_data(**kwargs))
         return context
-
-
-class EmployeeView(RefDetailViewMixin, generic.DetailView):
-    """Просмотр сотрудника"""
-
-    model = Employee
-    queryset = Employee.objects.select_related('subdivision')
 
 
 class EmployeeCreate(PermissionRequiredMixin, RefCreateViewMixin, generic.CreateView):
@@ -59,6 +52,13 @@ class EmployeeEdit(PermissionRequiredMixin, RefUpdateViewMixin, generic.UpdateVi
     form_class = EmployeeForm
 
     success_url = reverse_lazy(model.Params.route_list)
+
+
+class EmployeeView(RefDetailViewMixin, generic.DetailView):
+    """Просмотр сотрудника"""
+
+    model = Employee
+    queryset = Employee.objects.select_related('person', 'subdivision')
 
 
 class EmployeeDelete(PermissionRequiredMixin, generic.DeleteView):
