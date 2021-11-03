@@ -33,6 +33,8 @@ class SubdivisionViewSet(RefModelViewMixin, viewsets.ModelViewSet):
     serializer_class = SubdivisionSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return super().get_queryset()
         if self.request.user.subdivision:
             sd_parent = Subdivision.objects.get(pk=self.request.user.subdivision.pk)
             qs = sd_parent.get_descendants(include_self=True).select_related('parent')
