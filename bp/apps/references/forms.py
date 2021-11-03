@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from mptt.exceptions import InvalidMove
 
 from apps.references.models.address import Address
 from apps.references.models.building import Building
@@ -340,6 +341,23 @@ class SubdivisionForm(forms.ModelForm):
             'status',
             Submit('submit', 'Сохранить')
         )
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     prnt = cleaned_data.get('parent')
+    #     if prnt is None:
+    #         self.add_error('parent', 'Должно быть не пусто')
+
+    # def save(self, commit=True):
+    #     instance = super(SubdivisionForm, self).save(commit=False)
+    #     try:
+    #         if commit:
+    #             instance.save()
+    #             self.save_m2m()
+    #         return instance
+    #     except InvalidMove:
+    #         from django.http import HttpResponseRedirect
+    #         return HttpResponseRedirect(self.success_url)
 
 
 class LocationAdminForm(forms.ModelForm):
