@@ -5,6 +5,17 @@ from django.forms import widgets
 from django.template import loader
 from django.utils.safestring import mark_safe
 
+from apps.references.models.address import Address
+from apps.references.models.building import Building
+from apps.references.models.country import Country
+from apps.references.models.district import District
+from apps.references.models.location import Location
+from apps.references.models.person import Person
+from apps.references.models.postoffice import PostOffice
+from apps.references.models.region import Region
+from apps.references.models.street import Street
+from apps.references.models.subdivision import Subdivision
+
 
 class DateInputWidget(forms.DateInput):
     input_type = 'date'
@@ -96,3 +107,99 @@ class BaseSelect2MultipleWidget(s2forms.HeavySelect2MultipleWidget):
             # js=select2_js + i18n_file + ("django_select2/django_select2.js",),
             # css={"screen": select2_css + ("django_select2/django_select2.css",)},
         )
+
+
+class AddressWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите адрес --'
+    search_fields = ('name_adds_full__icontains',)
+    queryset = Address.objects.all().order_by('name_adds_full')
+
+
+class BuildingWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите здание --'
+    search_fields = ('name_bld_full__icontains',)
+    queryset = Building.objects.all().order_by('name_bld_full')
+
+
+class CountryWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите страну --'
+    search_fields = ('name_cnt__icontains',)
+    queryset = Country.objects.all().order_by('name_cnt')
+
+
+class DistrictWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите район --'
+    search_fields = ('name_dst__icontains',)
+    queryset = District.objects.all().order_by('name_dst')
+
+
+class LocationWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите населенный пункт --'
+    search_fields = ('name_lct_full__icontains',)
+    queryset = Location.objects.all().order_by('name_lct_full')
+
+
+class PersonWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите персону --'
+    search_fields = ('name_lfm__icontains',)
+    queryset = Person.objects.all().order_by('name_lfm')
+
+
+class PostOfficeWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите почтовый код --'
+    search_fields = ('name_post__icontains',)
+    queryset = PostOffice.objects.all().order_by('name_post')
+
+
+class RegionWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите область --'
+    search_fields = ('name_rgn__icontains',)
+    queryset = Region.objects.all().order_by('name_rgn')
+
+
+class StreetWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите улицу --'
+    search_fields = ('name_str_full__icontains',)
+    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
+    queryset = Street.objects.all().order_by('name_str_full')
+
+
+class StreetMultipleWidget(BaseSelect2MultipleWidget):
+    # empty_label = '-- Выберите улицу --'
+    search_fields = ('name_str_full__icontains',)
+    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
+    queryset = Street.objects.all().order_by('name_str_full')
+
+
+class StreetModelMultipleWidget(s2forms.ModelSelect2MultipleWidget):
+    # empty_label = '-- Выберите улицу --'
+    search_fields = ('name_str_full__icontains',)
+    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
+    # queryset = Street.objects.all().order_by('name_str_full')
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.attrs = {"style": "width: 100%"}
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        base_attrs = super().build_attrs(base_attrs, extra_attrs)
+        base_attrs.update(
+            {
+                # "data-minimum-input-length": 0,
+                # "data-minimum-results-for-search": 25,
+                # "data-placeholder": self.empty_label,
+                "data-theme": "bootstrap4",
+                "data-ajax--delay": 250,
+             })
+        return base_attrs
+
+    @property
+    def media(self):
+        return forms.Media(
+        )
+
+
+class SubdivisionWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите подразделение --'
+    search_fields = ('name_sd__icontains',)
+    queryset = Subdivision.objects.all().order_by('name_sd')
