@@ -14,8 +14,8 @@ from apps.references.views.postoffice import PostOfficeCreate, PostOfficeEdit, P
     PostOfficeView
 from apps.references.views.region import RegionCreate, RegionEdit, RegionList, RegionView
 from apps.references.views.street import StreetCreate, StreetEdit, StreetList, StreetView
-from apps.references.views.subdivision import SubdivisionList, SubdivisionCreate, SubdivisionEdit
-
+from apps.references.views.subdivision import SubdivisionList, SubdivisionCreate, SubdivisionEdit, \
+    SubdivisionView
 
 urlpatterns = [
     path('', login_required(index), name='refs'),
@@ -101,7 +101,7 @@ urlpatterns = [
         path('', login_required(SubdivisionList.as_view()), name='subdivisions'),
         path('create/', login_required(SubdivisionCreate.as_view()), name='add_subdivision'),
         path('<int:pk>/', login_required(SubdivisionEdit.as_view()), name='edit_subdivision'),
-        path('<int:pk>/view/', login_required(EmployeeView.as_view()), name='view_subdivision'),
+        path('<int:pk>/view/', login_required(SubdivisionView.as_view()), name='view_subdivision'),
     ])),
 
 ]

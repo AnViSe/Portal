@@ -203,4 +203,12 @@ class SubdivisionAdmin(DraggableMPTTAdmin):
     fields = ['code', 'name_sd', 'parent',
               'model_type', 'location', 'chief', 'sub_chief', 'booker',
               'name_sd_full', 'code_ext', 'status']
-    autocomplete_fields = ['parent', 'location', 'chief']
+    autocomplete_fields = ['parent', 'location', 'chief', 'sub_chief', 'booker']
+
+    def get_queryset(self, request):
+        if request.user.subdivision:
+            sd_parent = Subdivision.objects.filter(pk=request.user.subdivision.pk)
+            qs = sd_parent.get_descendants(include_self=True)
+        else:
+            qs = super().get_queryset(request)
+        return qs

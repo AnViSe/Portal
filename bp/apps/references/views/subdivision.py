@@ -2,10 +2,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
-from rest_framework import decorators, mixins, status, viewsets
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+from rest_framework import viewsets
 
 from apps.references.forms import SubdivisionForm
 from apps.references.models.employee import Employee
@@ -29,24 +26,22 @@ from apps.references.mixins import *
     #     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-class SubdivisionViewSet(viewsets.ModelViewSet):
+class SubdivisionViewSet(RefModelViewMixin, viewsets.ModelViewSet):
     """Список подразделений"""
-
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
 
     queryset = Subdivision.objects.select_related('parent').all()
     serializer_class = SubdivisionSerializer
 
-    # @decorators.list_route(methods=['get'])
-    # def tree(self, *args, **kwargs):
-    #
-    #     subdivisions = SB.objects.filter(level=0).all()
-    #     serializer = SubdivisionTreeSerializer(subdivisions, many=True)
-    #     return Response(status=status.HTTP_200_OK, data=serializer.data)
+    def get_queryset(self):
+        if self.request.user.subdivision:
+            sd_parent = Subdivision.objects.get(pk=self.request.user.subdivision.pk)
+            qs = sd_parent.get_descendants(include_self=True).select_related('parent')
+        else:
+            qs = super().get_queryset()
+        return qs
 
 
-class SubdivisionList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
+class SubdivisionList(PermissionRequiredMixin, RefListViewMixin, generic.ListView):
     """Справочник подразделений"""
 
     permission_required = 'references.view_subdivision'
@@ -59,13 +54,13 @@ class SubdivisionList(PermissionRequiredMixin, RefTableMixin, generic.ListView):
         return context
 
 
-class SubdivisionCreate(PermissionRequiredMixin, generic.CreateView):
+class SubdivisionCreate(PermissionRequiredMixin, RefCreateViewMixin, generic.CreateView):
     """Создание подразделения"""
 
     permission_required = 'references.add_subdivision'
 
     form_class = SubdivisionForm
-    template_name = 'references/ref_add.html'
+
     success_url = reverse_lazy('subdivisions')
 
     extra_context = {'my_var': 'My Value'}
@@ -79,12 +74,18 @@ class SubdivisionCreate(PermissionRequiredMixin, generic.CreateView):
         return get_object_or_404(Employee, id=self.kwargs.get('chief_id'))
 
 
-class SubdivisionEdit(PermissionRequiredMixin, generic.UpdateView):
+class SubdivisionEdit(PermissionRequiredMixin, RefUpdateViewMixin, generic.UpdateView):
     """Изменение подразделения"""
 
     permission_required = 'references.change_subdivision'
 
     model = Subdivision
     form_class = SubdivisionForm
-    template_name = 'references/ref_edit.html'
+
     success_url = reverse_lazy(model.Params.route_list)
+
+
+class SubdivisionView(RefDetailViewMixin, generic.DetailView):
+    """Просмотр улицы"""
+
+    model = Subdivision
