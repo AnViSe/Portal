@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from apps.home.models import Menu
+from apps.modules.models import Module
 from apps.references.models.base import FlexObject, FlexType
 
 from config import settings
@@ -59,6 +60,9 @@ class Command(BaseCommand):
         Menu.objects.create(title='Почтовые коды', parent=parent_menu,
                             perm='references.view_postoffice', route='postoffices',
                             icon='fas fa-envelopes-bulk')
+        Menu.objects.create(title='Номера телефонов', parent=parent_menu,
+                            perm='references.view_phone', route='phones',
+                            icon='fas fa-square-phone')
 
         _count = Menu.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))
@@ -251,4 +255,7 @@ class Command(BaseCommand):
         _count = FlexType.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Типов сущностей: {_count}"))
 
+        Module.objects.create(name='Доставка ПО', desc='Создание и контроль доставки ПО',
+                              route='deliveries', perm='modules.view_mailing',
+                              icon='fas fa-envelope')
 
