@@ -202,4 +202,4 @@ class StreetModelMultipleWidget(s2forms.ModelSelect2MultipleWidget):
 class SubdivisionWidget(BaseSelect2Widget):
     empty_label = '-- Выберите подразделение --'
     search_fields = ('name_sd__icontains',)
-    queryset = Subdivision.objects.all().order_by('name_sd')
+    queryset = Subdivision.objects.all().order_by('level', 'name_sd')
