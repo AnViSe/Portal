@@ -77,7 +77,7 @@ class CustomUserAdmin(UserAdmin):
         return form
 
     def get_queryset(self, request):
-        qs = super(CustomUserAdmin, self).get_queryset(request)
+        qs = super().get_queryset(request)
         # Обычные пользователи не могут видеть суперпользователей
         if not request.user.is_superuser:
             qs = qs.filter(is_superuser=0)
