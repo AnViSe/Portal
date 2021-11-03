@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import Group
+from django.db.models import Q
 
 from .forms import CustomGroupAdminForm, CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
@@ -39,10 +40,21 @@ class CustomUserAdmin(UserAdmin):
 
         if not is_superuser:
             disabled_fields |= {
-                'username',
                 'is_superuser',
-                # 'user_permissions',
             }
+            if obj is not None:
+                disabled_fields |= {
+                    'username',
+                }
+                if obj.is_superuser:
+                    disabled_fields |= {
+                        'is_active',
+                        'is_staff',
+                        'groups',
+                        'user_permissions',
+                        'employee',
+                        'subdivision',
+                    }
 
         # Запретить пользователям, не являющимся суперпользователями,
         # редактировать свои собственные разрешения
@@ -63,6 +75,15 @@ class CustomUserAdmin(UserAdmin):
                 form.base_fields[f].disabled = True
 
         return form
+
+    def get_queryset(self, request):
+        qs = super(CustomUserAdmin, self).get_queryset(request)
+        # Обычные пользователи не могут видеть суперпользователей
+        if not request.user.is_superuser:
+            qs = qs.filter(is_superuser=0)
+            if request.user.subdivision:
+                qs = qs.filter(Q(subdivision=request.user.subdivision) | Q(subdivision=None))
+        return qs
 
 
 admin.site.unregister(Group)

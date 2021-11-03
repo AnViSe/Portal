@@ -5,7 +5,8 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
-from extensions.widgets import BaseSelect2Widget
+from apps.references.models.subdivision import Subdivision
+from extensions.widgets import BaseSelect2Widget, SubdivisionWidget
 from apps.account.models import CustomUser
 # from apps.references.models.employee import Employee
 # from apps.references.models.subdivision import Subdivision
@@ -27,8 +28,15 @@ from apps.account.models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
+
+    # subdivision = forms.ModelChoiceField(
+    #     widget=SubdivisionWidget(
+    #         queryset=Subdivision.objects.all().order_by('name_sd'))
+    # )
+
     class Meta:
         model = CustomUser
+        # fields = ('subdivision',)
         exclude = []
 
 
