@@ -68,6 +68,8 @@ class CustomUserAdmin(UserAdmin):
                 'is_superuser',
                 'groups',
                 'user_permissions',
+                'employee',
+                'subdivision',
             }
 
         for f in disabled_fields:
@@ -82,7 +84,9 @@ class CustomUserAdmin(UserAdmin):
         if not request.user.is_superuser:
             qs = qs.filter(is_superuser=0)
             if request.user.subdivision:
-                qs = qs.filter(Q(subdivision=request.user.subdivision) | Q(subdivision=None))
+                qs = qs.filter(Q(subdivision=request.user.subdivision) |
+                               # Q(subdivision__in=request.user.subdivision.get_children) |
+                               Q(subdivision=None))
         return qs
 
 
