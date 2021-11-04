@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Column, Layout, Row, Submit
+from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from mptt.exceptions import InvalidMove
@@ -17,7 +17,7 @@ from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
 from extensions.widgets import AddressWidget, BuildingWidget, CountryWidget, DistrictWidget, \
-    LocationWidget, \
+    EmployeeWidget, LocationWidget, \
     PersonWidget, \
     PostOfficeWidget, RegionWidget, StreetModelMultipleWidget, StreetWidget, \
     SubdivisionWidget
@@ -252,6 +252,8 @@ class PostOfficeForm(forms.ModelForm):
             'code': forms.TextInput(attrs={'autofocus': True}),
             'parent': PostOfficeWidget,
             'address': AddressWidget,
+            'schedule_post': forms.TextInput(attrs={'placeholder': 'Укажите время работы'}),
+            'holiday_post': forms.TextInput(attrs={'placeholder': 'Укажите выходные дни'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -264,8 +266,7 @@ class PostOfficeForm(forms.ModelForm):
                 Column('model_type', css_class='form-group col-md-2 mb-0'),
                 Column('name_post', css_class='form-group col-md-6 mb-0'),
             ),
-            'parent',
-            'address',
+            'parent', 'address',
             Row(
                 Column('schedule_post', css_class='form-group col-md-7 mb-0'),
                 Column('holiday_post', css_class='form-group col-md-5 mb-0'),
@@ -323,10 +324,14 @@ class StreetForm(forms.ModelForm):
 class SubdivisionForm(forms.ModelForm):
     class Meta:
         model = Subdivision
-        fields = ['code', 'name_sd', 'name_sd_full', 'parent', 'status']
+        fields = ['code', 'model_type', 'name_sd', 'name_sd_full', 'parent',
+                  'location', 'chief', 'sub_chief', 'booker', 'notice_type', 'status']
         widgets = {
             'code': forms.TextInput(attrs={'autofocus': True}),
             'parent': SubdivisionWidget,
+            'chief': EmployeeWidget,
+            'sub_chief': EmployeeWidget,
+            'booker': EmployeeWidget,
         }
 
     def __init__(self, *args, **kwargs):
@@ -335,10 +340,17 @@ class SubdivisionForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column('code', css_class='form-group col-md-2 mb-0'),
-                Column('name_sd', css_class='form-group col-md-10 mb-0'),
+                Column('model_type', css_class='form-group col-md-3 mb-0'),
+                Column('name_sd', css_class='form-group col-md-7 mb-0'),
             ),
             'name_sd_full',
             'parent',
+            Row(
+                Column('chief', css_class='form-group col-md-4 mb-0'),
+                Column('sub_chief', css_class='form-group col-md-4 mb-0'),
+                Column('booker', css_class='form-group col-md-4 mb-0'),
+            ),
+            'notice_type',
             'status',
             Submit('submit', 'Сохранить')
         )

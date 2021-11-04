@@ -9,6 +9,7 @@ from apps.references.models.address import Address
 from apps.references.models.building import Building
 from apps.references.models.country import Country
 from apps.references.models.district import District
+from apps.references.models.employee import Employee
 from apps.references.models.location import Location
 from apps.references.models.person import Person
 from apps.references.models.postoffice import PostOffice
@@ -131,6 +132,12 @@ class DistrictWidget(BaseSelect2Widget):
     empty_label = '-- Выберите район --'
     search_fields = ('name_dst__icontains',)
     queryset = District.objects.all().order_by('name_dst')
+
+
+class EmployeeWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите сотрудника --'
+    search_fields = ('tab_num__icontains', 'person__name_lfm__icontains')
+    queryset = Employee.objects.select_related('person').all().order_by('person__name_lfm')
 
 
 class LocationWidget(BaseSelect2Widget):
