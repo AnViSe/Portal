@@ -20,7 +20,7 @@ class AddressSerializer(serializers.ModelSerializer):
     """Список адресов"""
 
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Address
@@ -35,7 +35,7 @@ class BuildingSerializer(serializers.ModelSerializer):
     #                                           default=None, read_only=True,
     #                                           label='Район')
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Building
@@ -47,7 +47,7 @@ class CountrySerializer(serializers.ModelSerializer):
     """Список стран"""
 
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Country
@@ -62,7 +62,7 @@ class DistrictSerializer(serializers.ModelSerializer):
                                             default=None,
                                             label='Область')
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = District
@@ -77,7 +77,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
                                             default=None)
     subdivision = serializers.StringRelatedField(source='subdivision.name_sd',
                                                  default=None)
-    status = serializers.CharField(source='get_status_display', label='Статус')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Employee
@@ -92,7 +93,7 @@ class LocationSerializer(serializers.ModelSerializer):
                                               default=None,
                                               label='Район')
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Location
@@ -111,8 +112,9 @@ class LocationSerializer(serializers.ModelSerializer):
 class PersonSerializer(serializers.ModelSerializer):
     """Список личностей (персон)"""
 
-    gender = serializers.CharField(source='get_gender_display', label='Пол')
-    status = serializers.CharField(source='get_status_display', label='Статус')
+    gender = serializers.CharField(source='get_gender_display', label='Пол', read_only=True)
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Person
@@ -131,7 +133,8 @@ class PhoneSerializer(serializers.ModelSerializer):
     model_type = serializers.StringRelatedField(source='model_type.type_name',
                                                 default=None,
                                                 label='Тип')
-    status = serializers.CharField(source='get_status_display', label='Статус')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Phone
@@ -143,9 +146,10 @@ class PostOfficeSerializer(serializers.ModelSerializer):
     """Список почтовых отделений"""
 
     parent = serializers.StringRelatedField(source='parent.name_post', default=None)
-    address = serializers.CharField(source='address.name_adds_full', default=None)
+    address = serializers.CharField(source='address.name_adds_full', default=None, read_only=True)
     model_type = serializers.StringRelatedField(source='model_type.type_name', default=None)
-    status = serializers.CharField(source='get_status_display')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = PostOffice
@@ -161,7 +165,7 @@ class RegionSerializer(serializers.ModelSerializer):
                                              default=None,
                                              label='Страна')
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Region
@@ -176,7 +180,7 @@ class StreetSerializer(serializers.ModelSerializer):
     #                                          default=None, read_only=True,
     #                                          label='Страна')
     status = serializers.CharField(source='get_status_display',
-                                   label='Статус')
+                                   label='Статус', read_only=True)
 
     class Meta:
         model = Street
@@ -197,7 +201,8 @@ class SubdivisionSerializer(serializers.ModelSerializer):
     """Список подразделений"""
 
     parent = serializers.StringRelatedField(source='parent.name_sd', default=None)
-    status = serializers.CharField(source='get_status_display', label='Статус')
+    status = serializers.CharField(source='get_status_display',
+                                   label='Статус', read_only=True)
 
     # children = RecursiveSerializer(many=True)
     # next = RecursiveField(allow_null=True)
