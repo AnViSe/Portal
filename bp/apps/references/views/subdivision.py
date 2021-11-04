@@ -88,6 +88,6 @@ class SubdivisionEdit(PermissionRequiredMixin, RefUpdateViewMixin, generic.Updat
 
 
 class SubdivisionView(RefDetailViewMixin, generic.DetailView):
-    """Просмотр улицы"""
+    """Просмотр подразделения"""
 
     model = Subdivision
