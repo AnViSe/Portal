@@ -36,7 +36,7 @@ class PhoneCreate(PermissionRequiredMixin, RefCreateViewMixin, generic.CreateVie
 
     form_class = PhoneForm
 
-    success_url = reverse_lazy('districts')
+    success_url = reverse_lazy('phones')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -59,4 +59,3 @@ class PhoneView(RefDetailViewMixin, generic.DetailView):
     """Просмотр телефона"""
 
     model = Phone
-    # queryset = Phone.objects.select_related('country')
