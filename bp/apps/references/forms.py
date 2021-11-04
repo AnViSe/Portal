@@ -323,7 +323,7 @@ class StreetForm(forms.ModelForm):
 class SubdivisionForm(forms.ModelForm):
     class Meta:
         model = Subdivision
-        fields = ['code', 'name_sd', 'parent', 'status']
+        fields = ['code', 'name_sd', 'name_sd_full', 'parent', 'status']
         widgets = {
             'code': forms.TextInput(attrs={'autofocus': True}),
             'parent': SubdivisionWidget,
@@ -337,6 +337,7 @@ class SubdivisionForm(forms.ModelForm):
                 Column('code', css_class='form-group col-md-2 mb-0'),
                 Column('name_sd', css_class='form-group col-md-10 mb-0'),
             ),
+            'name_sd_full',
             'parent',
             'status',
             Submit('submit', 'Сохранить')

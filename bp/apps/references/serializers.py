@@ -206,7 +206,7 @@ class SubdivisionSerializer(serializers.ModelSerializer):
         # list_serializer_class = FilterSubdivisionListSerializer
 
         model = Subdivision
-        fields = ['id', 'code', 'name_sd', 'parent', 'status']
+        fields = ['id', 'code', 'name_sd', 'name_sd_full', 'parent', 'status']
         read_only_fields = fields
 
 
