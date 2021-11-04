@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.cache import cache
 from django.db import models
 from django.db.models.signals import post_save, pre_delete
@@ -15,6 +15,11 @@ def _user_directory_path(instance, filename):
     return f'profiles/{instance.username}/{filename}'
 
 
+class PersonManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().select_related('employee', 'employee__person', 'subdivision')
+
+
 class CustomUser(AbstractUser):
     avatar = models.ImageField(upload_to=_user_directory_path,
                                default='avatars/default.png',
@@ -24,8 +29,11 @@ class CustomUser(AbstractUser):
                                  verbose_name='Сотрудник')
     subdivision = models.ForeignKey(Subdivision, on_delete=models.SET_NULL, blank=True, null=True,
                                     verbose_name='Подразделение')
+    # items = UserManager()
+    objects = PersonManager()
 
     class Meta:
+        # default_manager_name = 'items'
         db_table = 'auth_user'
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
