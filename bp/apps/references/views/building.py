@@ -58,4 +58,4 @@ class BuildingView(RefDetailViewMixin, generic.DetailView):
     """Просмотр здания"""
 
     model = Building
-    queryset = Building.objects.select_related('region')
+    queryset = Building.objects.select_related('location', 'street')
