@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -7,8 +8,9 @@ from apps.modules.models import Module
 from apps.references.models.base import FlexObject, FlexType
 
 from config import settings
-from core.fields import OBJ_TYPE_NONE, OBJ_TYPE_LOCATION, OBJ_TYPE_STREET, OBJ_TYPE_PHONE, \
-    OBJ_TYPE_ADDRESS, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE, OBJ_TYPE_POST_OFFICE
+from core.fields import (OBJ_TYPE_NONE, OBJ_TYPE_LOCATION, OBJ_TYPE_STREET, OBJ_TYPE_PHONE,
+                         OBJ_TYPE_ADDRESS, OBJ_TYPE_SUBDIVISION, OBJ_TYPE_NOTICE,
+                         OBJ_TYPE_POST_OFFICE, OBJ_TYPE_PHONE_OPERATOR)
 
 
 class Command(BaseCommand):
@@ -23,82 +25,99 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 f'Проект: "{settings.PROJECT_NAME}" по адресу: "{settings.PROJECT_DOMAIN}"'))
 
-        Menu.objects.all().delete()
-        Menu.objects.create(title='Главная', route='home', icon='fas fa-home')
-        parent_menu = Menu.objects.create(title='Справочники',
-                                          route='refs', icon='fas fa-th-list')
-        Menu.objects.create(title='Страны', parent=parent_menu,
-                            perm='references.view_country', route='countries',
-                            icon='fas fa-globe')
-        Menu.objects.create(title='Области', parent=parent_menu,
-                            perm='references.view_region', route='regions',
-                            icon='fas fa-map')
-        Menu.objects.create(title='Районы', parent=parent_menu,
-                            perm='references.view_district', route='districts',
-                            icon='fas fa-map-location-dot')
-        Menu.objects.create(title='Населенные пункты', parent=parent_menu,
-                            perm='references.view_location', route='locations',
-                            icon='fas fa-city')
-        Menu.objects.create(title='Улицы', parent=parent_menu,
-                            perm='references.view_street', route='streets',
-                            icon='fas fa-road')
-        Menu.objects.create(title='Здания', parent=parent_menu,
-                            perm='references.view_building', route='buildings',
-                            icon='fas fa-building')
-        Menu.objects.create(title='Адреса', parent=parent_menu,
-                            perm='references.view_address', route='addresses',
-                            icon='fas fa-location-dot')
-        Menu.objects.create(title='Персоны', parent=parent_menu,
-                            perm='references.view_person', route='persons',
-                            icon='fas fa-person')
-        Menu.objects.create(title='Сотрудники', parent=parent_menu,
-                            perm='references.view_employee', route='employees',
-                            icon='fas fa-user-tie')
-        Menu.objects.create(title='Подразделения', parent=parent_menu,
-                            perm='references.view_subdivision', route='subdivisions',
-                            icon='fas fa-house-laptop')
-        Menu.objects.create(title='Почтовые коды', parent=parent_menu,
-                            perm='references.view_postoffice', route='postoffices',
-                            icon='fas fa-envelopes-bulk')
-        Menu.objects.create(title='Номера телефонов', parent=parent_menu,
-                            perm='references.view_phone', route='phones',
-                            icon='fas fa-square-phone')
+        with transaction.atomic():
+            Group.objects.all().delete()
+            Group.objects.create(name='Обычный пользователь')
+            Group.objects.create(name='Администратор')
+            Group.objects.create(name='Администратор филиала')
+            Group.objects.create(name='Администратор РУПС')
+            Group.objects.create(name='Администратор УПС')
+
+        _count = Group.objects.all().count()
+        self.stdout.write(self.style.SUCCESS(f"Групп пользователей: {_count}"))
+
+        with transaction.atomic():
+            Menu.objects.all().delete()
+            Menu.objects.create(title='Главная', route='home', icon='fas fa-home')
+            parent_menu = Menu.objects.create(title='Справочники',
+                                              route='refs', icon='fas fa-th-list')
+            Menu.objects.create(title='Страны', parent=parent_menu,
+                                perm='references.view_country', route='countries',
+                                icon='fas fa-globe')
+            Menu.objects.create(title='Области', parent=parent_menu,
+                                perm='references.view_region', route='regions',
+                                icon='fas fa-map')
+            Menu.objects.create(title='Районы', parent=parent_menu,
+                                perm='references.view_district', route='districts',
+                                icon='fas fa-map-location-dot')
+            Menu.objects.create(title='Населенные пункты', parent=parent_menu,
+                                perm='references.view_location', route='locations',
+                                icon='fas fa-city')
+            Menu.objects.create(title='Улицы', parent=parent_menu,
+                                perm='references.view_street', route='streets',
+                                icon='fas fa-road')
+            Menu.objects.create(title='Здания', parent=parent_menu,
+                                perm='references.view_building', route='buildings',
+                                icon='fas fa-building')
+            Menu.objects.create(title='Адреса', parent=parent_menu,
+                                perm='references.view_address', route='addresses',
+                                icon='fas fa-location-dot')
+            Menu.objects.create(title='Персоны', parent=parent_menu,
+                                perm='references.view_person', route='persons',
+                                icon='fas fa-person')
+            Menu.objects.create(title='Сотрудники', parent=parent_menu,
+                                perm='references.view_employee', route='employees',
+                                icon='fas fa-user-tie')
+            Menu.objects.create(title='Подразделения', parent=parent_menu,
+                                perm='references.view_subdivision', route='subdivisions',
+                                icon='fas fa-house-laptop')
+            Menu.objects.create(title='Почтовые коды', parent=parent_menu,
+                                perm='references.view_postoffice', route='postoffices',
+                                icon='fas fa-envelopes-bulk')
+            Menu.objects.create(title='Номера телефонов', parent=parent_menu,
+                                perm='references.view_phone', route='phones',
+                                icon='fas fa-square-phone')
 
         _count = Menu.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Пунктов меню: {_count}"))
 
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_NONE,
-                                            defaults={'object_name': 'Не указано',
-                                                      'object_app': 'none',
-                                                      'object_model': 'none'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_LOCATION,
-                                            defaults={'object_name': 'Населенные пункты',
-                                                      'object_app': 'references',
-                                                      'object_model': 'location'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_STREET,
-                                            defaults={'object_name': 'Улицы',
-                                                      'object_app': 'references',
-                                                      'object_model': 'street'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_ADDRESS,
-                                            defaults={'object_name': 'Адреса',
-                                                      'object_app': 'references',
-                                                      'object_model': 'address'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_PHONE,
-                                            defaults={'object_name': 'Номера телефонов',
-                                                      'object_app': 'references',
-                                                      'object_model': 'phone'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_SUBDIVISION,
-                                            defaults={'object_name': 'Подразделения',
-                                                      'object_app': 'references',
-                                                      'object_model': 'subdivision'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_NOTICE,
-                                            defaults={'object_name': 'Извещения',
-                                                      'object_app': 'references',
-                                                      'object_model': 'notice'})
-        FlexObject.objects.update_or_create(id=OBJ_TYPE_POST_OFFICE,
-                                            defaults={'object_name': 'Извещения',
-                                                      'object_app': 'references',
-                                                      'object_model': 'postcode'})
+        with transaction.atomic():
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_NONE,
+                                                defaults={'object_name': 'Не указано',
+                                                          'object_app': 'none',
+                                                          'object_model': 'none'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_LOCATION,
+                                                defaults={'object_name': 'Населенные пункты',
+                                                          'object_app': 'references',
+                                                          'object_model': 'location'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_STREET,
+                                                defaults={'object_name': 'Улицы',
+                                                          'object_app': 'references',
+                                                          'object_model': 'street'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_ADDRESS,
+                                                defaults={'object_name': 'Адреса',
+                                                          'object_app': 'references',
+                                                          'object_model': 'address'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_PHONE,
+                                                defaults={'object_name': 'Номера телефонов',
+                                                          'object_app': 'references',
+                                                          'object_model': 'phone'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_SUBDIVISION,
+                                                defaults={'object_name': 'Подразделения',
+                                                          'object_app': 'references',
+                                                          'object_model': 'subdivision'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_NOTICE,
+                                                defaults={'object_name': 'Извещения',
+                                                          'object_app': 'references',
+                                                          'object_model': 'notice'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_POST_OFFICE,
+                                                defaults={'object_name': 'Извещения',
+                                                          'object_app': 'references',
+                                                          'object_model': 'postcode'})
+            FlexObject.objects.update_or_create(id=OBJ_TYPE_PHONE_OPERATOR,
+                                                defaults={'object_name': 'Операторы',
+                                                          'object_app': 'references',
+                                                          'object_model': 'phoneoperator'})
 
         _count = FlexObject.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Видов сущностей: {_count}"))
@@ -188,8 +207,6 @@ class Command(BaseCommand):
             FlexType.objects.create(type_code='1', type_name='Мобильный', type_object_id=fo_pk)
             FlexType.objects.create(type_code='2', type_name='Домашний', type_object_id=fo_pk)
             FlexType.objects.create(type_code='3', type_name='Рабочий', type_object_id=fo_pk)
-            FlexType.objects.create(type_code='4', type_name='Внутренний', type_object_id=fo_pk)
-            FlexType.objects.create(type_code='5', type_name='Виртуальный', type_object_id=fo_pk)
 
             fo_pk = OBJ_TYPE_SUBDIVISION
             FlexType.objects.filter(type_object_id=fo_pk).delete()
@@ -246,16 +263,37 @@ class Command(BaseCommand):
             FlexType.objects.create(type_code='26', type_name='РУПС', type_object_id=fo_pk)
             FlexType.objects.create(type_code='27', type_name='Область (для сортировки)',
                                     type_object_id=fo_pk)
-            FlexType.objects.create(type_code='204', type_name='Администрация', type_object_id=fo_pk)
+            FlexType.objects.create(type_code='204', type_name='Администрация',
+                                    type_object_id=fo_pk)
             FlexType.objects.create(type_code='215', type_name='Союзпечать', type_object_id=fo_pk)
             FlexType.objects.create(type_code='216', type_name='Филиал', type_object_id=fo_pk)
             FlexType.objects.create(type_code='283', type_name='Служба', type_object_id=fo_pk)
             FlexType.objects.create(type_code='287', type_name='Мотодоставка', type_object_id=fo_pk)
 
+            fo_pk = OBJ_TYPE_PHONE_OPERATOR
+            FlexType.objects.filter(type_object_id=fo_pk).delete()
+            FlexType.objects.create(type_code='0', type_name='Не указано',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='1', type_name='Виртуальный',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='2', type_name='Внутренний',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='3', type_name='БТК',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='4', type_name='A1',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='5', type_name='MTS',
+                                    type_object_id=fo_pk)
+            FlexType.objects.create(type_code='6', type_name='life :)',
+                                    type_object_id=fo_pk)
+
         _count = FlexType.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Типов сущностей: {_count}"))
 
-        Module.objects.create(name='Доставка ПО', desc='Создание и контроль доставки ПО',
-                              route='deliveries', perm='modules.view_mailing',
-                              icon='fas fa-envelope')
+        with transaction.atomic():
+            Module.objects.create(name='Доставка ПО', desc='Создание и контроль доставки ПО',
+                                  route='deliveries', perm='modules.view_mailing',
+                                  icon='fas fa-envelope')
 
+        _count = FlexType.objects.all().count()
+        self.stdout.write(self.style.SUCCESS(f"Модулей: {_count}"))
