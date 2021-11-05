@@ -1,13 +1,13 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
-from django.core.cache import cache
+from django.contrib.sessions.models import Session
 from django.db import models
-from django.db.models.signals import post_save, pre_delete
-from django.dispatch import receiver
+
 
 from apps.account.gravatar import email_to_gravatar
 from apps.references.models.employee import Employee
 from apps.references.models.subdivision import Subdivision
+from core.fields import CreateDateTimeField
 from extensions.validators import validate_image, validate_size
 
 
@@ -26,23 +26,20 @@ class CustomUser(AbstractUser):
                                validators=[validate_image, validate_size],
                                verbose_name='Аватар')
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
+                                 related_name='users',
                                  verbose_name='Сотрудник')
     subdivision = models.ForeignKey(Subdivision, on_delete=models.SET_NULL, blank=True, null=True,
+                                    related_name='users',
                                     verbose_name='Подразделение')
-    # items = UserManager()
     objects = PersonManager()
 
     class Meta:
-        # default_manager_name = 'items'
         db_table = 'auth_user'
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
 
     @property
     def person_name(self):
-        return self.get_person_name()
-
-    def get_person_name(self):
         if self.employee and self.employee.person:
             return self.employee.person.name_lfm
         else:
@@ -63,12 +60,16 @@ class CustomUser(AbstractUser):
         return self.avatar and self.avatar.storage.exists(self.avatar.name)
 
 
-@receiver(post_save, sender=CustomUser)
-def user_save(sender, instance, created, **kwargs):
-    if not created:
-        cache.delete(f'user_perms_{instance.id}')
+class UserSession(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                             verbose_name='Пользователь')
+    session = models.OneToOneField(Session, on_delete=models.CASCADE,
+                                   verbose_name='Сессия')
+    ipaddress = models.CharField(max_length=15,
+                                 verbose_name='IP адрес')
+    dt_start = CreateDateTimeField
 
-
-@receiver(pre_delete, sender=CustomUser)
-def user_delete(sender, instance, **kwargs):
-    cache.delete(f'user_perms_{instance.id}')
+    class Meta:
+        db_table = 'auth_user_session'
+        verbose_name = 'сеанс пользователя'
+        verbose_name_plural = 'сеансы пользователей'
