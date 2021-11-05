@@ -20,7 +20,8 @@ DATABASES = {
         'HOST': os.environ.get('DATABASE_DEF_HOST'),
         'PORT': int(os.environ.get('DATABASE_DEF_PORT')),
         # Сколько секунд удерживать соединение с БД
-        'CONN_MAX_AGE': 10
+        'CONN_MAX_AGE': 60,
+        'TIME_ZONE': 'Europe/Minsk',
     },
     'ref': {
         'ENGINE': 'extensions.oracle',
