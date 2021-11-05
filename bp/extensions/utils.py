@@ -19,3 +19,12 @@ def get_fml(last_name, first_name=None, middle_name=None) -> str:
             if middle_name:
                 result += middle_name[0].upper() + '. ' + last_name.capitalize()
     return result
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
