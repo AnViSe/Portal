@@ -9,7 +9,7 @@ DATABASES = {
         'USER': os.environ.get('DATABASE_DEF_USER'),
         'PASSWORD': os.environ.get('DATABASE_DEF_PASS'),
         'HOST': os.environ.get('DATABASE_DEF_HOST'),
-        'PORT': 1521,
+        'PORT': int(os.environ.get('DATABASE_DEF_PORT')),
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10,
         'OPTIONS': {
@@ -22,7 +22,7 @@ DATABASES = {
         'USER': os.environ.get('DATABASE_REf_USER'),
         'PASSWORD': os.environ.get('DATABASE_REF_PASS'),
         'HOST': os.environ.get('DATABASE_REF_HOST'),
-        'PORT': 1521,
+        'PORT': int(os.environ.get('DATABASE_REF_PORT')),
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10
     },
@@ -32,7 +32,7 @@ DATABASES = {
         'USER': os.environ.get('DATABASE_NSI_USER'),
         'PASSWORD': os.environ.get('DATABASE_NSI_PASS'),
         'HOST': os.environ.get('DATABASE_NSI_HOST'),
-        'PORT': 1521,
+        'PORT': int(os.environ.get('DATABASE_NSI_PORT')),
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10
     },
@@ -42,7 +42,7 @@ DATABASES = {
         'USER': os.environ.get('DATABASE_PTKS_USER'),
         'PASSWORD': os.environ.get('DATABASE_PTKS_PASS'),
         'HOST': os.environ.get('DATABASE_PTKS_HOST'),
-        'PORT': 1521,
+        'PORT': int(os.environ.get('DATABASE_PTKS_PORT')),
         # Сколько секунд удерживать соединение с БД
         'CONN_MAX_AGE': 10
     },
@@ -66,7 +66,15 @@ CACHES = {
             'PASSWORD': os.environ.get('REDIS_PASS'),
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
-    }
+    },
+    'session': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.environ.get('REDIS_LOCATION') + '/3',
+        'OPTIONS': {
+            'PASSWORD': os.environ.get('REDIS_PASS'),
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [

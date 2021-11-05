@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'maintenancemode',
     'crispy_forms',
 
-    'core',
+    'core.apps.CoreConfig',
     'apps.welcome',
     'apps.home',
     'apps.account',
@@ -155,6 +155,14 @@ SELECT2_CSS = ('/static/css/select2/select2.css',
 SELECT2_JS = ('/static/js/select2/select2.full.js',)
 SELECT2_I18N_PATH = '/static/js/select2/i18n'
 # SELECT2_I18N_AVAILABLE_LANGUAGES = ('ru',)
+
+# Настройки сессий
+SESSION_CACHE_ALIAS = 'session'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+# Длительность сеанса
+SESSION_COOKIE_AGE = 24 * 60 * 60
+# Удалять сеанс при закрытии браузера
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Укажите используемый метод входа ("username" | "email" | "username_email")
 ACCOUNT_AUTHENTICATION_METHOD = "username"
