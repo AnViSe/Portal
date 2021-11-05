@@ -15,8 +15,9 @@ class Building(BaseRefModel):
     name_bld_full = models.CharField(max_length=200, db_index=True, editable=False,
                                      verbose_name='Полный адрес здания')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null=True,
-                                 verbose_name='Населенный пункт')
+                                 verbose_name='Населенный пункт', related_name='buildings')
     street = models.ForeignKey(Street, on_delete=models.SET_NULL, blank=True, null=True,
+                               related_name='buildings',
                                verbose_name='Улица')
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True,
                                    verbose_name='Широта')

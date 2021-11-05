@@ -21,11 +21,13 @@ class PostOffice(BaseRefModel, MPTTModel):
                                  verbose_name='Наименование')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_POST_OFFICE},
+                                   related_name='+',
                                    verbose_name='Тип')
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True,
+                                related_name='postoffices',
                                 verbose_name='Адрес')
     phones = models.ManyToManyField(Phone, through='PostPhones',
-                                    related_name='post_offices',
+                                    related_name='postoffices+',
                                     verbose_name='Телефоны')
     schedule_post = models.CharField(max_length=200, blank=True, null=True,
                                      verbose_name='График работы')
@@ -67,6 +69,7 @@ class PostPhones(models.Model):
                               verbose_name='Телефон')
     phone_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_PHONE},
+                                   related_name='+',
                                    verbose_name='Тип')
     phone_desc = models.CharField(max_length=100, blank=True, null=True,
                                   verbose_name='Примечание')

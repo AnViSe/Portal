@@ -32,6 +32,7 @@ def remove_other_sessions(sender, user, request, **kwargs):
     # create a link from the user to the current session (for later removal)
     UserSession.objects.get_or_create(
         user=user,
+        subdivision=user.subdivision,
         session=Session.objects.get(pk=request.session.session_key),
         ipaddress=get_client_ip(request),
     )

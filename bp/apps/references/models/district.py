@@ -9,8 +9,10 @@ class District(BaseRefModel):
     """Район"""
 
     code = CodeField(unique=True)
-    name_dst = models.CharField(max_length=60, db_index=True, verbose_name='Наименование')
+    name_dst = models.CharField(max_length=60, db_index=True,
+                                verbose_name='Наименование')
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, blank=True, null=True,
+                               related_name='districts',
                                verbose_name='Область')
 
     class Meta(BaseRefModel.Meta):

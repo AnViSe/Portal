@@ -14,6 +14,7 @@ class Address(BaseRefModel):
     name_adds_full = models.CharField(max_length=255, db_index=True, editable=False,
                                       verbose_name='Полный адрес')
     building = models.ForeignKey(Building, on_delete=models.SET_NULL, blank=True, null=True,
+                                 related_name='addresses',
                                  verbose_name='Здание')
 
     class Meta(BaseRefModel.Meta):

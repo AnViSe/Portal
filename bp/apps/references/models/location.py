@@ -17,9 +17,11 @@ class Location(BaseRefModel):
     name_lct_full = models.CharField(max_length=150, db_index=True, editable=False,
                                      verbose_name='Наименование полное')
     district = models.ForeignKey(District, on_delete=models.SET_NULL, blank=True, null=True,
+                                 related_name='locations',
                                  verbose_name='Район')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_LOCATION},
+                                   related_name='+',
                                    verbose_name='Тип')
     streets = models.ManyToManyField(Street, through='LocationStreets',
                                      related_name='streets',
@@ -61,6 +63,8 @@ class LocationStreets(models.Model):
                                  verbose_name='Населенный пункт')
     street = models.ForeignKey(Street, on_delete=models.CASCADE,
                                verbose_name='Улица')
+    street_desc = models.CharField(max_length=100, blank=True, null=True,
+                                   verbose_name='Примечание')
 
     class Meta:
         app_label = 'references'
@@ -68,5 +72,3 @@ class LocationStreets(models.Model):
         unique_together = ['location', 'street']
         verbose_name = 'Улица населенного пункта'
         verbose_name_plural = 'Улицы населенных пунктов'
-        ordering = ['id']
-

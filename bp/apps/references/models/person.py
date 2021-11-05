@@ -29,7 +29,7 @@ class Person(BaseRefModel):
                                     related_name='persons',
                                     verbose_name='Телефоны')
     addresses = models.ManyToManyField(Address, through='PersonAddresses',
-                                       related_name='persons',
+                                       related_name='addresses',
                                        verbose_name='Адреса')
 
     class Meta(BaseRefModel.Meta):

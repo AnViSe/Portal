@@ -62,12 +62,17 @@ class CustomUser(AbstractUser):
 
 class UserSession(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                             related_name='sessions',
                              verbose_name='Пользователь')
     session = models.OneToOneField(Session, on_delete=models.CASCADE,
                                    verbose_name='Сессия')
+    subdivision = models.ForeignKey(Subdivision, on_delete=models.SET_NULL,
+                                    blank=True, null=True,
+                                    related_name='+',
+                                    verbose_name='Подразделение')
     ipaddress = models.CharField(max_length=15,
                                  verbose_name='IP адрес')
-    dt_start = CreateDateTimeField
+    dt_start = CreateDateTimeField()
 
     class Meta:
         db_table = 'auth_user_session'

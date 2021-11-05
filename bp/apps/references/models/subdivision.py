@@ -21,22 +21,23 @@ class Subdivision(BaseRefModel, MPTTModel):
                                     verbose_name='Наименование полное')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                    limit_choices_to={'type_object_id': OBJ_TYPE_SUBDIVISION},
-                                   # related_name='model_type',
+                                   related_name='+',
                                    verbose_name='Тип')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null=True,
+                                 related_name='subdivisions',
                                  verbose_name='Населенный пункт')
     chief = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
-                              related_name='chief',
+                              related_name='chief+',
                               verbose_name='Руководитель')
     sub_chief = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
-                                  related_name='sub_chief',
+                                  related_name='sub_chief+',
                                   verbose_name='Заместитель руководителя')
     booker = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True,
-                               related_name='booker',
+                               related_name='booker+',
                                verbose_name='Бухгалтер')
     notice_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
                                     limit_choices_to={'type_object_id': OBJ_TYPE_NOTICE},
-                                    related_name='notice_type',
+                                    related_name='+',
                                     verbose_name='Тип генерации извещений')
     code_ext = models.CharField(max_length=15, blank=True, null=True,
                                 verbose_name='Внешний код')

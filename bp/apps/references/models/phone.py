@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.references.models.base import BaseRefModel, FlexType
-from core.fields import OBJ_TYPE_PHONE
+from core.fields import OBJ_TYPE_PHONE_OPERATOR
 
 
 class Phone(BaseRefModel):
@@ -10,8 +10,9 @@ class Phone(BaseRefModel):
     phone_number = models.CharField(max_length=15, db_index=True,
                                     verbose_name='Номер телефона')
     model_type = models.ForeignKey(FlexType, on_delete=models.SET_NULL, blank=True, null=True,
-                                   limit_choices_to={'type_object_id': OBJ_TYPE_PHONE},
-                                   verbose_name='Тип')
+                                   limit_choices_to={'type_object_id': OBJ_TYPE_PHONE_OPERATOR},
+                                   related_name='+',
+                                   verbose_name='Оператор')
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_phone'
