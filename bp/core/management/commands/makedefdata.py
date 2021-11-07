@@ -280,11 +280,11 @@ class Command(BaseCommand):
                                     type_object_id=fo_pk)
             FlexType.objects.create(type_code='3', type_name='БТК',
                                     type_object_id=fo_pk)
-            FlexType.objects.create(type_code='4', type_name='A1',
+            FlexType.objects.create(type_code='4', type_name='A1', type_value='mobile',
                                     type_object_id=fo_pk)
-            FlexType.objects.create(type_code='5', type_name='MTS',
+            FlexType.objects.create(type_code='5', type_name='MTS', type_value='mobile',
                                     type_object_id=fo_pk)
-            FlexType.objects.create(type_code='6', type_name='life :)',
+            FlexType.objects.create(type_code='6', type_name='life :)', type_value='mobile',
                                     type_object_id=fo_pk)
 
         _count = FlexType.objects.all().count()
@@ -292,7 +292,7 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             Module.objects.create(name='Доставка ПО', desc='Создание и контроль доставки ПО',
-                                  route='deliveries', perm='modules.view_mailing',
+                                  route='mailings', perm='modules.view_mailing',
                                   icon='fas fa-envelope')
 
         _count = FlexType.objects.all().count()
