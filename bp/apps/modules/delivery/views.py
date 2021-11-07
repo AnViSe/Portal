@@ -51,3 +51,7 @@ class MailingCreate(PermissionRequiredMixin, generic.CreateView):
         context = super().get_context_data(**kwargs)
         context['obj_name'] = Mailing._meta.verbose_name
         return context
+
+    def form_valid(self, form):
+        form.instance.subdivision = self.request.user.subdivision
+        return super().form_valid(form)
