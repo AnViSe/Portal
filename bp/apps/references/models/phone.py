@@ -4,6 +4,11 @@ from apps.references.models.base import BaseRefModel, FlexType
 from core.fields import OBJ_TYPE_PHONE_OPERATOR
 
 
+class MobileManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().select_related('model_type').filter(model_type__type_value='mobile')
+
+
 class Phone(BaseRefModel):
     """Телефон"""
 
@@ -13,6 +18,8 @@ class Phone(BaseRefModel):
                                    limit_choices_to={'type_object_id': OBJ_TYPE_PHONE_OPERATOR},
                                    related_name='+',
                                    verbose_name='Оператор')
+    objects = models.Manager()
+    mobiles = MobileManager()
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_phone'
