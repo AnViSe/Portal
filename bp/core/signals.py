@@ -13,7 +13,6 @@ from extensions.utils import get_client_ip
 def user_save(sender, instance, created, **kwargs):
     if not created:
         cache.delete(f'perms_user_{instance.id}')
-        print('Изменение пользователя')
 
 
 @receiver(pre_delete, sender=CustomUser)
