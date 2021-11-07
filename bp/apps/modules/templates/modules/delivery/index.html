@@ -1,1 +1,36 @@
-{% extends 'modules/index.html' %}
+{% extends 'modules/base.html' %}
+
+{% load static cache %}
+
+{% block stylesheet %}
+{{ block.super }}
+{% include 'inc/_stylesheet_dt.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <table id="ref-table" width="100%"
+           class="table table-hover table-sm no-footer"
+           data-ajax="{% url route_list_api %}?format=datatables">
+        <thead>
+        <tr>
+            {% for field in fields_list %}
+            <th data-data="{{ field.data }}" data-name="{% firstof field.name field.data %}">{{ field.title }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% include 'inc/_scripts_dt.html' %}
+<script type="text/javascript">
+$(document).ready(function(){
+var dt_language = "{% static 'js/dt/Russian.json' %}"
+prepareDataTableServerSideActionsRow(dt_language);
+});
+
+</script>
+{% endblock scripts %}
