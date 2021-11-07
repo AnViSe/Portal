@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from ast import literal_eval
 from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 
@@ -8,7 +9,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-DEBUG = str(os.environ.get('DEBUG', 'False')) == 'True'
+DEBUG = literal_eval(os.environ.get('DEBUG', 'True'))
 
 # Application definition
 PROJECT_NAME = os.environ.get('PROJECT_NAME')
