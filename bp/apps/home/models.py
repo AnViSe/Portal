@@ -32,7 +32,7 @@ class Menu(MPTTModel):
         verbose_name_plural = 'пункты меню'
 
     class MPTTMeta:
-        order_insertion_by = ['id']
+        order_insertion_by = ['-id']
 
     def __str__(self):
         return self.title
