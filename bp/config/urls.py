@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/v1/', include('config.urls_api_v1')),
     path('refs/', include('apps.references.urls')),
     path('modules/', include('apps.modules.urls')),
+    path('chat/', include('apps.chat.urls')),
 ]
 
 if settings.DEBUG:
