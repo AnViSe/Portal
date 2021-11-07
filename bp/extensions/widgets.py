@@ -12,6 +12,7 @@ from apps.references.models.district import District
 from apps.references.models.employee import Employee
 from apps.references.models.location import Location
 from apps.references.models.person import Person
+from apps.references.models.phone import Phone
 from apps.references.models.postoffice import PostOffice
 from apps.references.models.region import Region
 from apps.references.models.street import Street
@@ -150,6 +151,13 @@ class PersonWidget(BaseSelect2Widget):
     empty_label = '-- Выберите персону --'
     search_fields = ('name_lfm__icontains',)
     queryset = Person.objects.all().order_by('name_lfm')
+
+
+class PhoneWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите номер телефона --'
+    search_fields = ('phone_number__icontains',)
+    # queryset = Phone.objects.all().order_by('phone_number')
+    queryset = Phone.mobiles.all().order_by('phone_number')
 
 
 class PostOfficeWidget(BaseSelect2Widget):
