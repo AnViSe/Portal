@@ -53,6 +53,7 @@ def pip_install(package=None):
         production_env()
         with prefix(env.venv_activate):
             run(f'pip3 install {package}')
+            run('deactivate')
     else:
         raise ValueError('Укажите имя пакета')
 
@@ -64,6 +65,7 @@ def pip_update(package=None):
         production_env()
         with prefix(env.venv_activate):
             run(f'pip3 install -U {package}')
+            run('deactivate')
     else:
         raise ValueError('Укажите имя пакета')
 
@@ -75,16 +77,24 @@ def pip_uninstall(package=None):
         production_env()
         with prefix(env.venv_activate):
             run(f'pip3 uninstall {package}')
+            run('deactivate')
     else:
         raise ValueError('Укажите имя пакета')
 
 
 @task
-def git_update(reload=True):
-    """Обновление репозитория с перезагрузкой gunicorn"""
+def git_update(reload=True, migrate=False):
+    """Обновление репозитория
+     Выполнение миграций
+     Перезагрузка gunicorn"""
     production_env()
     with cd(env.portal_root):
         run('git pull')
-        if reload:
-            sudo('systemctl daemon-reload')
-            sudo('systemctl restart gunicorn')
+    if migrate:
+        with cd(env.project_root):
+            with prefix(env.venv_activate):
+                run('python3 manage.py migrate')
+                run('deactivate')
+    if reload:
+        sudo('systemctl daemon-reload')
+        sudo('systemctl restart gunicorn')
