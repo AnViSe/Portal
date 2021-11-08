@@ -76,6 +76,33 @@ class BaseSelect2Widget(s2forms.ModelSelect2Widget):
         )
 
 
+class BaseSelect2AppendWidget(s2forms.ModelSelect2Widget):
+
+    template_name = 'widgets/select2-append.html'
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.attrs = {"style": "width: 70%"}
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        base_attrs = super().build_attrs(base_attrs, extra_attrs)
+        base_attrs.update(
+            {
+                "append": {'link': '#', 'label': 'Label', 'img': 'far fa-square-plus'},
+                "data-minimum-input-length": 0,
+                "data-minimum-results-for-search": 25,
+                "data-placeholder": self.empty_label,
+                "data-theme": "bootstrap4",
+                "data-ajax--delay": 250,
+             })
+        return base_attrs
+
+    @property
+    def media(self):
+        return forms.Media(
+        )
+
+
 class BaseSelect2MultipleWidget(s2forms.HeavySelect2MultipleWidget):
 
     def __init__(self, **kwargs):
@@ -118,6 +145,12 @@ class AddressWidget(BaseSelect2Widget):
 
 
 class BuildingWidget(BaseSelect2Widget):
+    empty_label = '-- Выберите здание --'
+    search_fields = ('name_bld_full__icontains',)
+    queryset = Building.objects.all().order_by('name_bld_full')
+
+
+class BuildingAppendWidget(BaseSelect2AppendWidget):
     empty_label = '-- Выберите здание --'
     search_fields = ('name_bld_full__icontains',)
     queryset = Building.objects.all().order_by('name_bld_full')
