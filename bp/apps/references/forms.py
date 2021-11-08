@@ -16,7 +16,7 @@ from apps.references.models.postoffice import PostOffice
 from apps.references.models.region import Region
 from apps.references.models.street import Street
 from apps.references.models.subdivision import Subdivision
-from extensions.widgets import AddressWidget, BuildingWidget, CountryWidget, DistrictWidget, \
+from core.widgets import AddressWidget, BuildingWidget, CountryWidget, DistrictWidget, \
     EmployeeWidget, LocationWidget, \
     PersonWidget, \
     PostOfficeWidget, RegionWidget, StreetModelMultipleWidget, StreetWidget, \

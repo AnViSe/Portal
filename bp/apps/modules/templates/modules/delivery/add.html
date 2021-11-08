@@ -1,0 +1,32 @@
+{% extends 'modules/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block stylesheet %}
+{{ block.super }}
+{% include 'references/_select2_style.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mt-1">Создание объекта: {{ obj_name }}</h4>
+        <div class="card-tools">
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default btn-sm">
+                <i class="far fa-list-alt"></i>
+                Список
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        {% crispy form %}
+    </div>
+    <div class="card-footer">
+        Подвал
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% include 'references/_select2_scripts.html' %}
+{% endblock %}

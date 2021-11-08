@@ -12,7 +12,7 @@ from apps.modules.delivery.serializers import MailingSerializer
 class MailingViewSet(viewsets.ModelViewSet):
     """Список почтовых отправлений"""
 
-    queryset = Mailing.objects.all()
+    queryset = Mailing.objects.select_related('person', 'address', 'phone').all()
     serializer_class = MailingSerializer
 
 

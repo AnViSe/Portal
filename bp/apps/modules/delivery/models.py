@@ -40,7 +40,7 @@ class Mailing(models.Model):
         fields_list = [
             {'data': 'id', 'title': 'ID'},
             {'data': 'barcode', 'title': 'Штрихкод'},
-            {'data': 'person', 'person.name_lfm' 'title': 'Получатель'},
+            {'data': 'person', 'name': 'person.name_lfm', 'title': 'Получатель'},
             {'data': 'address', 'name': 'address.name_adds_full', 'title': 'Адрес доставки'},
             {'data': 'phone', 'name': 'phone.phone_number', 'title': 'Телефон'},
             {'data': 'notice_number', 'title': 'Извещение'},

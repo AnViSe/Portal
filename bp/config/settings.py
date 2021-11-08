@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'maintenancemode',
     'crispy_forms',
 
-    'core.apps.CoreConfig',
+    'core',
     'apps.welcome',
     'apps.home',
     'apps.account',
