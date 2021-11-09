@@ -1,3 +1,6 @@
+import string
+
+
 def get_lfm(last_name, first_name=None, middle_name=None) -> str:
     """Из фаМиЛИя иМя ОтчЕство возвращает Фамилия И.О."""
     result = ''
@@ -28,3 +31,18 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+def clear_barcode(barcode):
+    CHAR_LAT = 'QWERTYUIOPASDFGHJKLZXCVBNM'
+    CHAR_RUS = 'ЙЦУКЕНГШЩЗФЫВАПРОЛДЯЧСМИТЬ'
+    result = ''
+    for char in str(barcode).upper():
+        if str(char).isdigit() or str(char) in string.ascii_uppercase:
+            result += char
+        else:
+            i = CHAR_RUS.find(char)
+            if i >= 0:
+                result += CHAR_LAT[i]
+
+    return result
