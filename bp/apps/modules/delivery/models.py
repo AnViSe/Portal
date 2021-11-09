@@ -27,6 +27,8 @@ class Mailing(models.Model):
                                                 verbose_name='№ извещения')
     dt_cr = CreateDateTimeField()
     dt_up = UpdateDateTimeField()
+    status = models.PositiveSmallIntegerField(default=1, editable=False,
+                                              verbose_name='Статус')
 
     class Meta:
         app_label = 'delivery'
