@@ -10,7 +10,7 @@
             <a href="{% url 'home' %}" class="nav-link">Главная</a>
         </li>
 
-        {% if 'modules.view_module' in perms %}
+        {% if user.subdivision and 'modules.view_module' in perms %}
         <li class="nav-item d-none d-sm-inline-block">
             <a href="{% url 'modules' %}" class="nav-link">Модули</a>
         </li>
