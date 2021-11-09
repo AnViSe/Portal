@@ -6,6 +6,7 @@ from faker import Faker
 
 from apps.references.models.phone import Phone
 from apps.references.models.postoffice import PostOffice
+from apps.references.models.subdivision import Subdivision
 from config import settings
 from apps.references.models.person import Person
 from apps.references.models.employee import Employee
@@ -41,9 +42,11 @@ class Command(BaseCommand):
 
     def append_employees(self, count):
         faker = Faker([settings.LANGUAGE_CODE])
+        sb_max = Subdivision.objects.count()
         with transaction.atomic():
             for p in Person.objects.all():
-                Employee.objects.create(tab_num=faker.unique.random_int(10, 99999), person=p)
+                Employee.objects.create(tab_num=faker.unique.random_int(10, 99999), person=p,
+                                        subdivision_id=faker.unique.random_int(1, sb_max - 1))
         count = Employee.objects.all().count()
         return count
 
