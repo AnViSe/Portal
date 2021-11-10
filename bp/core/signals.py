@@ -1,4 +1,4 @@
-# import logging
+import logging
 
 from allauth.account.signals import user_logged_in, user_signed_up
 from django.contrib.auth.models import Group
@@ -10,7 +10,7 @@ from django.dispatch import receiver
 from apps.account.models import CustomUser, UserSession
 from extensions.utils import get_client_ip
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 @receiver(post_save, sender=CustomUser)
@@ -26,7 +26,7 @@ def user_delete(sender, instance, **kwargs):
 
 @receiver(user_logged_in)
 def remove_other_sessions(sender, user, request, **kwargs):
-    # logging.error(f'Вход пользователя: {user.username}')
+    logger.warning(f'Вход пользователя: {user.username}')
     # Удаляем другие сессии
     Session.objects.filter(usersession__user=user).delete()
 
@@ -45,6 +45,7 @@ def remove_other_sessions(sender, user, request, **kwargs):
 @receiver(user_signed_up)
 def append_to_def_group(sender, user, request, **kwargs):
     """При регистрации пользователя добавляем его в группу 1 (Обычный пользователь)"""
+    logger.warning(f'Регистрация пользователя: {user.username}')
     try:
         group = Group.objects.get(pk=1)
         user.groups.add(group)
