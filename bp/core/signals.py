@@ -1,3 +1,5 @@
+# import logging
+
 from allauth.account.signals import user_logged_in, user_signed_up
 from django.contrib.auth.models import Group
 from django.contrib.sessions.models import Session
@@ -7,6 +9,8 @@ from django.dispatch import receiver
 
 from apps.account.models import CustomUser, UserSession
 from extensions.utils import get_client_ip
+
+# logger = logging.getLogger(__name__)
 
 
 @receiver(post_save, sender=CustomUser)
@@ -22,6 +26,7 @@ def user_delete(sender, instance, **kwargs):
 
 @receiver(user_logged_in)
 def remove_other_sessions(sender, user, request, **kwargs):
+    # logging.error(f'Вход пользователя: {user.username}')
     # Удаляем другие сессии
     Session.objects.filter(usersession__user=user).delete()
 
