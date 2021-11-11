@@ -16,7 +16,7 @@ class MailingViewSet(viewsets.ModelViewSet):
     serializer_class = MailingSerializer
 
 
-class MailingView(PermissionRequiredMixin, ListView):
+class MailingList(PermissionRequiredMixin, ListView):
 
     permission_required = 'references.view_mailing'
 
@@ -55,3 +55,22 @@ class MailingCreate(PermissionRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.subdivision = self.request.user.subdivision
         return super().form_valid(form)
+
+
+class MailingEdit(PermissionRequiredMixin, generic.UpdateView):
+    """Изменение отправления"""
+
+    permission_required = 'references.change_mailing'
+
+    template_name = 'modules/delivery/edit.html'
+
+    model = Mailing
+    form_class = MailingForm
+
+    success_url = reverse_lazy(model.Params.route_list)
+
+
+class MailingView(generic.DetailView):
+    """Просмотр отправления"""
+
+    model = Mailing
