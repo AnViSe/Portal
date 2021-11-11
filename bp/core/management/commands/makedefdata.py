@@ -295,5 +295,5 @@ class Command(BaseCommand):
                                   route='mailings', perm='modules.view_mailing',
                                   icon='fas fa-envelope')
 
-        _count = FlexType.objects.all().count()
+        _count = Module.objects.all().count()
         self.stdout.write(self.style.SUCCESS(f"Модулей: {_count}"))
