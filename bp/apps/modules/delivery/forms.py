@@ -4,6 +4,7 @@ from django import forms
 
 from apps.modules.delivery.models import Mailing
 from core.widgets import AddressWidget, PersonWidget, PhoneAppendWidget, PhoneWidget
+from extensions.utils import clear_barcode
 
 
 class MailingForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class MailingForm(forms.ModelForm):
             'barcode': forms.TextInput(attrs={'autofocus': True}),
             'person': PersonWidget,
             'address': AddressWidget,
-            'phone':  PhoneAppendWidget,
+            'phone': PhoneAppendWidget,
         }
 
     def __init__(self, *args, **kwargs):
@@ -31,3 +32,7 @@ class MailingForm(forms.ModelForm):
             ),
             Submit('submit', 'Сохранить')
         )
+
+    def clean_barcode(self):
+        bc = clear_barcode(self.cleaned_data['barcode'])
+        return bc
