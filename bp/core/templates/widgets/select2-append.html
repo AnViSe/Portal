@@ -7,7 +7,9 @@
 {% include "django/forms/widgets/select.html" %}
 {% if widget.attrs.append %}
 <div class="input-group-append">
-    <a href="{{ widget.attrs.append.link }}" class="btn btn-success" type="submit"><i class="{{ widget.attrs.append.img }}"></i></a>
+    <a href="{{ widget.attrs.append.link }}" class="btn btn-success" type="submit" tabindex="-1">
+        <i class="{{ widget.attrs.append.img }}"></i>
+    </a>
 </div>
 {% endif %}
 </div>
