@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Row, Column, Submit
 from django import forms
 
 from apps.modules.delivery.models import Mailing
-from core.widgets import AddressWidget, PersonWidget, PhoneWidget
+from core.widgets import AddressWidget, PersonWidget, PhoneAppendWidget, PhoneWidget
 
 
 class MailingForm(forms.ModelForm):
@@ -14,7 +14,7 @@ class MailingForm(forms.ModelForm):
             'barcode': forms.TextInput(attrs={'autofocus': True}),
             'person': PersonWidget,
             'address': AddressWidget,
-            'phone':  PhoneWidget,
+            'phone':  PhoneAppendWidget,
         }
 
     def __init__(self, *args, **kwargs):
@@ -22,12 +22,12 @@ class MailingForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column('barcode', css_class='form-group col-md-4 mb-0'),
-                Column('person', css_class='form-group col-md-8 mb-0'),
+                Column('barcode', css_class='form-group col-md-3 mb-0'),
+                Column('phone', css_class='form-group col-md-3 mb-0'),
+                Column('person', css_class='form-group col-md-6 mb-0'),
             ),
             Row(
-                Column('address', css_class='form-group col-md-8 mb-0'),
-                Column('phone', css_class='form-group col-md-4 mb-0'),
+                Column('address', css_class='form-group col-md-12 mb-0'),
             ),
             Submit('submit', 'Сохранить')
         )
