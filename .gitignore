@@ -136,3 +136,5 @@ dmypy.json
 #00??_*.py
 /bp/cache/
 /bp/select2/
+/bp/session/
+/bp/logging/
