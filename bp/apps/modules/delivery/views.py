@@ -24,11 +24,14 @@ class MailingList(PermissionRequiredMixin, ListView):
     template_name = 'modules/delivery/index.html'
 
     # context_object_name = 'mails_list'
+    action_field = {'data': '_', 'title': 'Операции'}
 
     def update_context_data(self, context):
         result = context
         result['route_list_api'] = self.model.Params.route_list_api
         result['fields_list'] = self.model.Params.fields_list
+        if self.action_field not in result['fields_list']:
+            result['fields_list'].append(self.action_field)
         return result
 
     def get_context_data(self, *, object_list=None, **kwargs):
