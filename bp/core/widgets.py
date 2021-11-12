@@ -193,6 +193,13 @@ class PhoneWidget(BaseSelect2Widget):
     queryset = Phone.mobiles.all().order_by('phone_number')
 
 
+class PhoneAppendWidget(BaseSelect2AppendWidget):
+    empty_label = '-- Выберите номер телефона --'
+    search_fields = ('phone_number__icontains',)
+    # queryset = Phone.objects.all().order_by('phone_number')
+    queryset = Phone.mobiles.all().order_by('phone_number')
+
+
 class PostOfficeWidget(BaseSelect2Widget):
     empty_label = '-- Выберите почтовый код --'
     search_fields = ('name_post__icontains',)
