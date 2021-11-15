@@ -25,11 +25,11 @@ class District(BaseRefModel):
         route_list = 'districts'
         route_list_api = 'district-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'name_dst', 'title': 'Наименование'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'name_dst', 'name': 'name_dst', 'title': 'Наименование'},
             {'data': 'region', 'name': 'region.name_rgn', 'title': 'Область'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

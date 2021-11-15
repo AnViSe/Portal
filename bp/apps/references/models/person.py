@@ -42,12 +42,12 @@ class Person(BaseRefModel):
         route_list = 'persons'
         route_list_api = 'person-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'last_name', 'title': 'Фамилия'},
-            {'data': 'first_name', 'title': 'Имя'},
-            {'data': 'middle_name', 'title': 'Отчество'},
-            {'data': 'pers_num', 'title': 'Личный номер'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'last_name', 'name': 'last_name', 'title': 'Фамилия'},
+            {'data': 'first_name', 'name': 'first_name', 'title': 'Имя'},
+            {'data': 'middle_name', 'name': 'middle_name', 'title': 'Отчество'},
+            {'data': 'pers_num', 'name': 'pers_num', 'title': 'Личный номер'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

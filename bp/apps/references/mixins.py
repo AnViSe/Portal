@@ -6,8 +6,8 @@ class RefTableMixin(object):
     # url_list = ''
     # field_list = []
     template_name = 'references/ref_list.html'
-    status_field = {'data': 'status', 'title': 'Статус', 'width': 100}
-    action_field = {'data': '_', 'title': 'Операции'}
+    status_field = {'data': 'status', 'name': 'status', 'title': 'Статус', 'width': 100}
+    action_field = {'data': '_', 'name': '_', 'title': 'Операции'}
 
     # def get_url(self, model=None):
     #     if model:
@@ -61,7 +61,7 @@ class RefDetailViewMixin(object):
 
 class RefListViewMixin(object):
     template_name = 'references/ref_list.html'
-    action_field = {'data': '_', 'title': 'Операции'}
+    action_field = {'data': '_', 'name': '_', 'title': 'Операции'}
 
     def update_context_data(self, context):
         result = context

@@ -6,6 +6,11 @@ from apps.references.models.street import Street
 from core.fields import CodeField, OBJ_TYPE_LOCATION
 
 
+class StreetsManager(models.Manager):
+    def get_queryset(self):
+        return Location.streets_set.filter(location=4)
+
+
 class Location(BaseRefModel):
     """Населенный пункт"""
 
@@ -24,8 +29,11 @@ class Location(BaseRefModel):
                                    related_name='+',
                                    verbose_name='Тип')
     streets = models.ManyToManyField(Street, through='LocationStreets',
-                                     related_name='streets',
+                                     # related_name='streets',
                                      verbose_name='Улицы')
+
+    objects = models.Manager
+    loc_streets = StreetsManager
 
     class Meta(BaseRefModel.Meta):
         db_table = 'ref_location'
@@ -37,14 +45,14 @@ class Location(BaseRefModel):
         route_list = 'locations'
         route_list_api = 'location-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'soato', 'title': 'СОАТО'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'soato', 'name': 'soato', 'title': 'СОАТО'},
             # {'data': 'model_type', 'name': 'model_type.', 'title': 'Тип'},
             # {'data': 'name_lct', 'title': 'Наименование'},
-            {'data': 'name_lct_full', 'title': 'Наименование полное'},
+            {'data': 'name_lct_full', 'name': 'name_lct_full', 'title': 'Наименование полное'},
             {'data': 'district', 'name': 'district.name_dst', 'title': 'Район'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):
@@ -72,3 +80,6 @@ class LocationStreets(models.Model):
         unique_together = ['location', 'street']
         verbose_name = 'Улица населенного пункта'
         verbose_name_plural = 'Улицы населенных пунктов'
+
+    def __str__(self):
+        return self.street.name_str_full

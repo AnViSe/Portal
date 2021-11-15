@@ -27,12 +27,12 @@ class Street(BaseRefModel):
         route_list = 'streets'
         route_list_api = 'street-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
             # {'data': 'model_type', 'title': 'Тип'},
             # {'data': 'name_str', 'title': 'Наименование'},
-            {'data': 'name_str_full', 'title': 'Наименование полное'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'name_str_full', 'name': 'name_str_full', 'title': 'Наименование полное'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

@@ -25,11 +25,11 @@ class Region(BaseRefModel):
         route_list = 'regions'
         route_list_api = 'region-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'name_rgn', 'title': 'Наименование'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'name_rgn', 'name': 'name_rgn', 'title': 'Наименование'},
             {'data': 'country', 'name': 'country.name_cnt', 'title': 'Страна'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

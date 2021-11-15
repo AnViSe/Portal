@@ -10,7 +10,7 @@ from apps.references.models.building import Building
 from apps.references.models.country import Country
 from apps.references.models.district import District
 from apps.references.models.employee import Employee
-from apps.references.models.location import Location
+from apps.references.models.location import Location, LocationStreets
 from apps.references.models.person import Person
 from apps.references.models.phone import Phone
 from apps.references.models.postoffice import PostOffice
@@ -46,8 +46,10 @@ class BaseSelect2Widget(s2forms.ModelSelect2Widget):
     def __init__(self, **kwargs):
         super().__init__(kwargs)
         self.attrs = {"style": "width: 100%"}
+        print(self.dependent_fields)
 
     def build_attrs(self, base_attrs, extra_attrs=None):
+        # print(self.dependent_fields)
         base_attrs = super().build_attrs(base_attrs, extra_attrs)
         base_attrs.update(
             {
@@ -214,9 +216,12 @@ class RegionWidget(BaseSelect2Widget):
 
 class StreetWidget(BaseSelect2Widget):
     empty_label = '-- Выберите улицу --'
-    search_fields = ('name_str_full__icontains',)
-    # queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
-    queryset = Street.objects.all().order_by('name_str_full')
+    # model = Street
+    search_fields = ('street__name_str_full__icontains',)
+    queryset = LocationStreets.objects.select_related('street').all().order_by('street__name_str_full')
+    dependent_fields = {'location': 'location'}
+    # queryset = Location.streets_set.all()
+    # queryset = Street.locationstreets.all()
 
 
 class StreetMultipleWidget(BaseSelect2MultipleWidget):

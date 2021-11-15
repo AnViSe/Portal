@@ -31,10 +31,10 @@ class Phone(BaseRefModel):
         route_list = 'phones'
         route_list_api = 'phone-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'phone_number', 'title': 'Номер телефона'},
-            {'data': 'model_type', 'title': 'Тип номера'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'phone_number', 'name': 'phone_number', 'title': 'Номер телефона'},
+            {'data': 'model_type', 'name': 'model_type', 'title': 'Тип номера'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

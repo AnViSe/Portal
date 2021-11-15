@@ -14,7 +14,7 @@
     <thead>
     <tr>
         {% for field in fields_list %}
-        <th data-data="{{ field.data }}" data-name="{% firstof field.name field.data %}">{{ field.title }}</th>
+        <th data-data="{{ field.data }}" data-name="{{ field.name }}">{{ field.title }}</th>
         {% endfor %}
     </tr>
     </thead>

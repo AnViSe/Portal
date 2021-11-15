@@ -53,7 +53,7 @@ class BuildingForm(forms.ModelForm):
         widgets = {
             'code': forms.TextInput(attrs={'autofocus': True}),
             'location': LocationWidget,
-            'street': StreetWidget,  # (dependent_fields={'location': 'location'}),
+            'street': StreetWidget,
         }
 
     def __init__(self, *args, **kwargs):

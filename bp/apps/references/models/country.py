@@ -25,12 +25,12 @@ class Country(BaseRefModel):
         route_list = 'countries'
         route_list_api = 'country-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'name_cnt', 'title': 'Наименование'},
-            {'data': 'alpha2', 'title': 'Код 2'},
-            {'data': 'alpha3', 'title': 'Код 3'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'name_cnt', 'name': 'name_cnt', 'title': 'Наименование'},
+            {'data': 'alpha2', 'name': 'alpha2', 'title': 'Код 2'},
+            {'data': 'alpha3', 'name': 'alpha3', 'title': 'Код 3'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

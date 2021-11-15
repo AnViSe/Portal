@@ -40,12 +40,12 @@ class Mailing(models.Model):
         route_list = 'mailings'
         route_list_api = 'mailing-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'barcode', 'title': 'Штрихкод'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'barcode', 'name': 'barcode', 'title': 'Штрихкод'},
             {'data': 'person', 'name': 'person.name_lfm', 'title': 'Получатель'},
             {'data': 'address', 'name': 'address.name_adds_full', 'title': 'Адрес доставки'},
             {'data': 'phone', 'name': 'phone.phone_number', 'title': 'Телефон'},
-            {'data': 'notice_number', 'title': 'Извещение'},
+            {'data': 'notice_number', 'name': 'notice_number', 'title': 'Извещение'},
             # {'data': 'status', 'title': 'Статус'},
         ]
 

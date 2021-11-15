@@ -46,14 +46,14 @@ class PostOffice(BaseRefModel, MPTTModel):
         route_list = 'postoffices'
         route_list_api = 'postoffice-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
             # {'data': 'code', 'title': 'Код'},
-            {'data': 'zipcode', 'title': 'Индекс'},
-            {'data': 'name_post', 'title': 'Наименование'},
+            {'data': 'zipcode', 'name': 'zipcode', 'title': 'Индекс'},
+            {'data': 'name_post', 'name': 'name_post', 'title': 'Наименование'},
             {'data': 'model_type', 'name': 'model_type.type_name', 'title': 'Тип'},
             {'data': 'parent', 'name': 'parent.name_post', 'title': 'Родитель'},
             {'data': 'address', 'name': 'address.name_adds_full', 'title': 'Адрес'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

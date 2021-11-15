@@ -34,12 +34,12 @@ class Building(BaseRefModel):
         route_list = 'buildings'
         route_list_api = 'building-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'name_bld_full', 'title': 'Здание'},
-            {'data': 'latitude', 'title': 'Широта'},
-            {'data': 'longitude', 'title': 'Долгота'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'name_bld_full', 'name': 'name_bld_full', 'title': 'Здание'},
+            {'data': 'latitude', 'name': 'latitude', 'title': 'Широта'},
+            {'data': 'longitude', 'name': 'longitude', 'title': 'Долгота'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

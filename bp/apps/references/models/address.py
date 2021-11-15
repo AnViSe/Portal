@@ -27,10 +27,10 @@ class Address(BaseRefModel):
         route_list = 'addresses'
         route_list_api = 'address-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'name_adds_full', 'title': 'Адрес'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'name_adds_full', 'name': 'name_adds_full', 'title': 'Адрес'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):

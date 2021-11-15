@@ -54,11 +54,11 @@ class Subdivision(BaseRefModel, MPTTModel):
         route_list = 'subdivisions'
         route_list_api = 'subdivision-list'
         fields_list = [
-            {'data': 'id', 'title': 'ID'},
-            {'data': 'code', 'title': 'Код'},
-            {'data': 'name_sd', 'title': 'Наименование'},
+            {'data': 'id', 'name': 'id', 'title': 'ID'},
+            {'data': 'code', 'name': 'code', 'title': 'Код'},
+            {'data': 'name_sd', 'name': 'name_sd', 'title': 'Наименование'},
             {'data': 'parent', 'name': 'parent.name_sd', 'title': 'Родитель'},
-            {'data': 'status', 'title': 'Статус'},
+            {'data': 'status', 'name': 'status', 'title': 'Статус'},
         ]
 
     def __str__(self):
