@@ -1,4 +1,4 @@
-import logging
+# import logging
 import os
 from pathlib import Path
 from ast import literal_eval
@@ -150,27 +150,27 @@ LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': str(BASE_DIR.joinpath('logging'))+'/log.log',
-        },
-    },
-    'loggers': {
-        'mailings': {
-            'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
-        'django': {
-            'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': str(BASE_DIR.joinpath('logging'))+'/log.log',
+#         },
+#     },
+#     'loggers': {
+#         'mailings': {
+#             'handlers': ['file'],
+#             'level': 'WARNING',
+#             'propagate': True,
+#         },
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'WARNING',
+#             'propagate': True,
+#         },
         # '': {
         #     'handlers': ['file'],
         #     'level': 'DEBUG',
@@ -181,8 +181,8 @@ LOGGING = {
         #     'level': 'DEBUG',
         #     'propagate': True,
         # },
-    },
-}
+#     },
+# }
 
 
 # Tell select2 which cache configuration to use:
