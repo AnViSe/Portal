@@ -46,7 +46,7 @@ class BaseSelect2Widget(s2forms.ModelSelect2Widget):
     def __init__(self, **kwargs):
         super().__init__(kwargs)
         self.attrs = {"style": "width: 100%"}
-        print(self.dependent_fields)
+        # print(self.dependent_fields)
 
     def build_attrs(self, base_attrs, extra_attrs=None):
         # print(self.dependent_fields)
