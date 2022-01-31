@@ -18,7 +18,7 @@ class MailingViewSet(viewsets.ModelViewSet):
 
 class MailingList(PermissionRequiredMixin, ListView):
 
-    permission_required = 'references.view_mailing'
+    permission_required = 'delivery.view_mailing'
 
     model = Mailing
     template_name = 'modules/delivery/index.html'
@@ -42,7 +42,7 @@ class MailingList(PermissionRequiredMixin, ListView):
 class MailingCreate(PermissionRequiredMixin, generic.CreateView):
     """Создание почтового отправления"""
 
-    permission_required = 'references.add_mailing'
+    permission_required = 'delivery.add_mailing'
 
     template_name = 'modules/delivery/add.html'
 
@@ -63,7 +63,7 @@ class MailingCreate(PermissionRequiredMixin, generic.CreateView):
 class MailingEdit(PermissionRequiredMixin, generic.UpdateView):
     """Изменение отправления"""
 
-    permission_required = 'references.change_mailing'
+    permission_required = 'delivery.change_mailing'
 
     template_name = 'modules/delivery/edit.html'
 
